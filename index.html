@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="google" content="notranslate">
+<title>Utila Eats</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none;}
+.hide-scrollbar::-webkit-scrollbar{display:none}
+.hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+
+/* COLOR SCHEMES */
+.grad-home { background: linear-gradient(135deg, #0d9488 0%, #115e59 100%); } /* Teal */
+.grad-eat { background: linear-gradient(135deg, #0891b2 0%, #0d9488 100%); } /* Cyan/Teal */
+.grad-ride { background: linear-gradient(135deg, #0891b2 0%, #0d9488 100%); } /* Cyan/Teal */
+.grad-explore { background: linear-gradient(135deg, #16a34a 0%, #047857 100%); } /* Green */
+.grad-dive { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); } /* Blue */
+.grad-selfcare { background: linear-gradient(135deg, #ec4899 0%, #be123c 100%); } /* Pink */
+.grad-night { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); } /* Midnight */
+
+.glass-panel{background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.5);box-shadow:0 -4px 20px rgba(0,0,0,0.1)}
+.heart-btn{transition:all 0.2s ease}.heart-btn:active{transform:scale(1.3)}
+.grid-btn { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.grid-btn:active { transform: scale(0.98); }
+.coming-soon { filter: grayscale(100%); opacity: 0.7; cursor: not-allowed; position: relative; }
+.coming-soon::after { content: attr(data-label); position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-size: 10px; font-weight: bold; color: #444; background: rgba(255,255,255,0.8); padding: 2px 0; }
+
+/* MODAL STACKING: Menu (60) > Detail (50) > Content (40) */
+#specialsModal, #eventsModal, #detailModal { backdrop-filter: blur(5px); z-index: 50; }
+#imageModal { backdrop-filter: blur(5px); z-index: 60; } 
+
+.status-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 20;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: white;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.driver-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.driver-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.modal-img-full { width: 100%; height: auto; object-fit: contain; display: block; }
+
+/* Animations */
+@keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-content-anim { animation: scaleIn 0.2s ease-out; }
+
+/* Solar Gold Button */
+@keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 10px rgba(251, 191, 36, 0.5); } 50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.8); } }
+.btn-solar {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); 
+    color: #78350f;
+    animation: pulse-glow 3s infinite;
+}
+
+/* Split Screen BG for Charter */
+.split-bg {
+    background-repeat: no-repeat;
+    background-size: 50% 100%;
+    background-position: left center, right center;
+}
+</style>
+</head>
+<body class="notranslate pb-40 transition-colors duration-500">
+
+<div id="home-view" class="min-h-screen flex flex-col relative z-10">
+    <div class="grad-home text-white rounded-b-[40px] shadow-xl pb-10 pt-8 px-6 mb-6">
+        <div class="w-full max-w-5xl mx-auto flex justify-between mb-6">
+            <div class="flex flex-col items-start gap-1 w-2/3">
+                <h1 class="text-3xl font-bold tracking-wide drop-shadow-md leading-none whitespace-nowrap">
+                    UTILA EATS <span class="text-2xl ml-1">&#127796;</span>
+                </h1>
+                <p id="subtitle-home" class="text-teal-100 text-sm opacity-90 font-medium italic mb-3">The island's directory</p>
+                <button onclick="goToApp('explore-list', 'emergency')" class="w-fit bg-red-600 hover:bg-red-700 text-white text-[10px] md:text-xs font-bold py-2 px-3 rounded-lg shadow-md border border-red-400 transition flex items-center gap-2 animate-pulse hover:animate-none whitespace-nowrap mt-auto">
+                    <i class="fa-solid fa-kit-medical"></i> <span id="btn-emergency-home">EMERGENCY SERVICES</span>
+                </button>
+            </div>
+            <div class="flex flex-col items-end gap-2 w-1/3">
+                <div class="flex gap-2">
+                    <button onclick="shareApp()" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition backdrop-blur-sm"><i class="fa-solid fa-share-nodes text-xs"></i></button>
+                    <button onclick="showInfo()" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition backdrop-blur-sm"><i class="fa-solid fa-info text-xs"></i></button>
+                </div>
+                <div class="flex items-center bg-black/20 rounded-lg p-1 backdrop-blur-sm border border-white/10 mt-auto">
+                    <button onclick="setLanguage('en')" id="btn-lang-en" class="px-3 py-1 text-[10px] rounded transition text-white/70 hover:text-white uppercase font-bold tracking-wider">English</button>
+                    <div class="w-px h-3 bg-white/20 mx-1"></div>
+                    <button onclick="setLanguage('es')" id="btn-lang-es" class="px-3 py-1 text-[10px] rounded transition text-white/70 hover:text-white uppercase font-bold tracking-wider">Espa&ntilde;ol</button>
+                </div>
+            </div>
+        </div>
+        <p id="prompt-home" class="text-center text-teal-50 text-sm opacity-90 font-medium tracking-wide mt-2">What would you like to do?</p>
+    </div>
+
+    <div class="px-6 grid grid-cols-2 md:grid-cols-4 gap-4 -mt-14 w-full max-w-5xl mx-auto">
+        <button onclick="goToApp('eat')" class="grid-btn bg-white aspect-square md:aspect-auto md:h-40 rounded-2xl shadow-lg flex flex-col items-center justify-center gap-3 p-4 border border-cyan-50 text-cyan-800 hover:bg-cyan-50">
+            <div class="w-14 h-14 rounded-full bg-cyan-100 flex items-center justify-center text-2xl shadow-inner text-cyan-600"><i class="fa-solid fa-burger"></i></div>
+            <span id="btn-restaurants" class="font-bold text-sm tracking-wide">Restaurants</span>
+        </button>
+        <button onclick="goToApp('ride')" class="grid-btn bg-white aspect-square md:aspect-auto md:h-40 rounded-2xl shadow-lg flex flex-col items-center justify-center gap-3 p-4 border border-cyan-50 text-cyan-800 hover:bg-cyan-50">
+            <div class="w-14 h-14 rounded-full bg-cyan-100 flex items-center justify-center text-2xl shadow-inner text-cyan-600"><i class="fa-solid fa-motorcycle"></i></div>
+            <span id="btn-delivery" class="font-bold text-sm tracking-wide">Delivery/Rides</span>
+        </button>
+        <button onclick="goToApp('explore')" id="btn-explore" class="grid-btn bg-white aspect-square md:aspect-auto md:h-40 rounded-2xl shadow-lg flex flex-col items-center justify-center gap-3 p-4 border border-green-50 text-green-800 hover:bg-green-50">
+            <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center text-2xl shadow-inner text-green-600"><i class="fa-solid fa-map-location-dot"></i></div>
+            <span class="font-bold text-sm tracking-wide">Explore Utila</span>
+        </button>
+        <button onclick="goToApp('nightlife')" id="btn-nightlife" class="grid-btn bg-white aspect-square md:aspect-auto md:h-40 rounded-2xl shadow-lg flex flex-col items-center justify-center gap-3 p-4 border border-purple-50 text-purple-800 hover:bg-purple-50">
+            <div class="w-14 h-14 rounded-full bg-purple-100 flex items-center justify-center text-2xl shadow-inner text-purple-600"><i class="fa-solid fa-martini-glass-citrus"></i></div>
+            <span class="font-bold text-sm tracking-wide">Night Life</span>
+        </button>
+    </div>
+    
+    <div class="mt-auto p-6 text-center text-xs text-gray-400">
+        <p>&copy; 2025 Utila Eats</p>
+        <p id="last-updated" class="mt-1 opacity-60 text-[10px]">Last Updated Feb 14, 2026</p>
+    </div>
+</div>
+
+<div id="explore-menu-view" class="hidden min-h-screen flex-col">
+    <div class="grad-explore text-white shadow-md sticky top-0 z-40 pb-4 pt-4">
+        <div class="px-4 flex flex-col gap-3 mb-2 w-full max-w-5xl mx-auto">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="goHome()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition backdrop-blur-sm"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2 id="explore-title-main" class="text-lg font-bold">Explore Utila</h2>
+                </div>
+                <div class="flex items-center bg-black/20 rounded-lg p-1 backdrop-blur-sm border border-white/10">
+                    <button onclick="setLanguage('en')" id="btn-lang-en-exp" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">EN</button>
+                    <div class="w-px h-3 bg-white/20 mx-1"></div>
+                    <button onclick="setLanguage('es')" id="btn-lang-es-exp" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">ES</button>
+                </div>
+            </div>
+            <a href="https://www.instagram.com/whatsup_utila?igsh=MTBlZTB3bDlhZHJwbg==" target="_blank" class="btn-solar w-full py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transform hover:scale-[1.02] transition">
+                <i class="fa-brands fa-instagram text-lg"></i> <span id="btn-daily-activities">See Daily Activities Here!</span>
+            </a>
+        </div>
+    </div>
+    <div class="p-6 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-5xl mx-auto" id="explore-grid"></div>
+</div>
+
+<div id="dive-menu-view" class="hidden min-h-screen flex-col bg-blue-50">
+    <div class="grad-dive text-white shadow-md sticky top-0 z-40 pb-4 pt-4">
+        <div class="px-4 flex items-center justify-between mb-2 w-full max-w-5xl mx-auto">
+            <div class="flex items-center gap-4">
+                <button onclick="goHome()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition backdrop-blur-sm"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2 id="dive-title-main" class="text-lg font-bold">Dive Shops</h2>
+            </div>
+            <div class="flex items-center bg-black/20 rounded-lg p-1 backdrop-blur-sm border border-white/10">
+                <button onclick="setLanguage('en')" id="btn-lang-en-dive" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">EN</button>
+                <div class="w-px h-3 bg-white/20 mx-1"></div>
+                <button onclick="setLanguage('es')" id="btn-lang-es-dive" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">ES</button>
+            </div>
+        </div>
+    </div>
+    <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-5xl mx-auto" id="dive-grid"></div>
+</div>
+
+<div id="selfcare-menu-view" class="hidden min-h-screen flex-col bg-pink-50">
+    <div class="grad-selfcare text-white shadow-md sticky top-0 z-40 pb-4 pt-4">
+        <div class="px-4 flex items-center justify-between mb-2 w-full max-w-5xl mx-auto">
+            <div class="flex items-center gap-4">
+                <button onclick="goHome()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/20 transition backdrop-blur-sm"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2 id="selfcare-title-main" class="text-lg font-bold">Self-Care</h2>
+            </div>
+            <div class="flex items-center bg-black/20 rounded-lg p-1 backdrop-blur-sm border border-white/10">
+                <button onclick="setLanguage('en')" id="btn-lang-en-sc" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">EN</button>
+                <div class="w-px h-3 bg-white/20 mx-1"></div>
+                <button onclick="setLanguage('es')" id="btn-lang-es-sc" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">ES</button>
+            </div>
+        </div>
+    </div>
+    <div class="p-6 grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-5xl mx-auto" id="selfcare-grid"></div>
+</div>
+
+<div id="nightlife-view" class="hidden min-h-screen flex-col bg-slate-900 transition-colors duration-500">
+    <div class="grad-night text-white shadow-lg sticky top-0 z-40 pb-4 pt-4 border-b border-white/5">
+        <div class="px-4 flex items-center justify-between mb-2 w-full max-w-5xl mx-auto">
+            <div class="flex items-center gap-4">
+                <button onclick="goHome()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition backdrop-blur-sm border border-white/10"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2 id="nightlife-title" class="text-lg font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">Night Life</h2>
+            </div>
+            <div class="flex items-center bg-black/40 rounded-lg p-1 backdrop-blur-sm border border-white/10">
+                <button onclick="setLanguage('en')" id="btn-lang-en-nl" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">EN</button>
+                <div class="w-px h-3 bg-white/20 mx-1"></div>
+                <button onclick="setLanguage('es')" id="btn-lang-es-nl" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">ES</button>
+            </div>
+        </div>
+        <p id="nl-helper" class="px-4 text-center text-xs text-white/60 font-medium italic mt-1">Click a day of the week to see what's happening and where!</p>
+    </div>
+    <div class="p-6 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-5xl mx-auto" id="nightlife-grid"></div>
+</div>
+<div id="app-view" class="hidden min-h-screen flex-col">
+    <div id="app-header" class="grad-eat text-white shadow-md sticky top-0 z-40 pb-2 transition-colors duration-300">
+        <div class="px-4 py-3 flex items-center justify-between w-full max-w-5xl mx-auto">
+            <div class="flex items-center gap-3">
+                <button onclick="goHome()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition backdrop-blur-sm"><i class="fa-solid fa-arrow-left"></i></button>
+                <div id="list-title" class="text-lg font-bold text-white flex items-center gap-2"></div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="flex items-center bg-black/20 rounded-lg p-1 backdrop-blur-sm border border-white/10">
+                    <button onclick="setLanguage('en')" id="btn-lang-en-app" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">EN</button>
+                    <div class="w-px h-3 bg-white/20 mx-1"></div>
+                    <button onclick="setLanguage('es')" id="btn-lang-es-app" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">ES</button>
+                </div>
+                <button id="favFilterBtn" onclick="toggleShowFavorites()" class="hidden w-8 h-8 rounded-xl border border-white/30 bg-white/20 text-white flex items-center justify-center hover:bg-white/30 transition shadow-sm backdrop-blur-sm"><i id="favFilterIcon" class="fa-regular fa-heart"></i></button>
+            </div>
+        </div>
+
+        <div id="search-wrapper" class="transition-all duration-300 overflow-hidden max-h-32 opacity-100">
+            <div class="px-4 pb-2 w-full max-w-5xl mx-auto">
+                <div id="search-container" class="relative w-full">
+                    <input type="text" id="searchInput" placeholder="Find..." class="w-full pl-9 pr-9 py-2 rounded-xl text-gray-700 bg-white/95 focus:outline-none focus:ring-2 focus:ring-teal-300 shadow-inner text-sm transition-all">
+                    <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
+                    <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-2.5 text-gray-400 hover:text-red-500 transition">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                </div>
+                
+                <div id="donate-panel" class="hidden w-full mt-1">
+                    <p class="text-[10px] text-center text-teal-50 mb-1.5 font-medium tracking-wide opacity-90" id="donate-label">Support local conservation efforts:</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="https://www.gofundme.com/f/save-the-swamper-cleaning-nesting-sites-project-on-utila?attribution_id=sl:12692db8-57ed-47d4-baf0-0948104b53bf&lang=en_US&ts=1766161252&utm_campaign=fp_sharesheet&utm_content=amp17_tc&utm_medium=customer&utm_source=copy_link&fbclid=PAT01DUAO1L0BzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAafDXNhzuz9b9apyrckyILzalxn7yC98dA0EiPiP3L5W0QYqJVfG7DeTgS-vaw" target="_blank" class="bg-teal-700/50 hover:bg-teal-600/50 border border-teal-400/30 text-white rounded-lg py-2 px-1 flex flex-col items-center justify-center text-center transition gap-1 shadow-sm">
+                            <i class="fa-solid fa-paw text-sm"></i>
+                            <span id="btn-swamper-label" class="text-[10px] font-bold leading-tight">Save the Swamper!</span>
+                        </a>
+                        <a href="https://www.batcon.org/our-work/endangered-species-interventions/bhc/?fbclid=IwdGRjcAO1MWpjbGNrA7UxOGV4dG4DYWVtAjExAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHvosy_cNXy-wsimgW2AwY8ixws6yayckdpf09YldX8aFPyzTtCAHVWo4AwSK_aem_rV7vZMxJqG0O4I59ia2rZA" target="_blank" class="bg-teal-700/50 hover:bg-teal-600/50 border border-teal-400/30 text-white rounded-lg py-2 px-1 flex flex-col items-center justify-center text-center transition gap-1 shadow-sm">
+                            <i class="fa-solid fa-mountain-sun text-sm"></i>
+                            <span id="btn-cave-label" class="text-[10px] font-bold leading-tight">Save Brandon Hill Cave!</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="filter-container" class="flex overflow-x-auto space-x-2 px-4 pb-1 hide-scrollbar hidden w-full max-w-5xl mx-auto"></div>
+    </div>
+
+    <div id="content-area" class="w-full max-w-5xl mx-auto px-4 mt-4 min-h-[60vh] pb-40 transition-all">
+        <div id="restaurant-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 hidden"></div>
+        <div id="driver-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 hidden"></div>
+        <div id="explore-list" class="grid grid-cols-2 md:grid-cols-3 gap-3 hidden"></div>
+        <div id="emergency-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 hidden"></div>
+        
+        <div id="empty-state" class="hidden text-center mt-20 px-10 opacity-60 col-span-full">
+            <i class="fa-solid fa-heart-crack text-4xl text-gray-400 mb-3"></i>
+            <p id="empty-msg" class="text-gray-500">No results found.</p>
+            <button id="btn-show-all" onclick="resetFilters()" class="mt-4 text-teal-600 font-bold text-sm underline">Show All</button>
+        </div>
+    </div>
+</div>
+
+<div class="fixed bottom-4 left-4 right-4 z-50 w-full max-w-5xl mx-auto pointer-events-none">
+    <div class="glass-panel rounded-2xl p-2 flex flex-col md:flex-row gap-2 max-w-md md:max-w-none md:w-auto md:inline-flex pointer-events-auto mx-auto md:mx-0">
+        <button onclick="donate()" class="w-full md:w-auto bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold py-2.5 px-4 rounded-xl transition shadow-sm text-xs flex items-center justify-center gap-2 whitespace-nowrap"><i class="fa-solid fa-utensils"></i> <span id="btn-donate">Like this app? Buy me a baleada!</span></button>
+        <a href="https://forms.gle/2vkrS7RwbLcQWPBb9" target="_blank" class="w-full md:w-auto bg-white hover:bg-gray-50 text-gray-600 font-bold py-2.5 px-4 rounded-xl transition shadow-sm text-xs flex items-center justify-center gap-2 border border-gray-200 whitespace-nowrap"><i class="fa-solid fa-comment-dots"></i> <span id="btn-suggest">Suggestion Box</span></a>
+    </div>
+</div>
+
+<div id="imageModal" class="fixed inset-0 hidden flex items-center justify-center p-0 md:p-4" onclick="if(event.target === this) closeModal()">
+    <div class="bg-black/50 md:bg-white w-full h-full md:h-auto md:max-w-4xl md:rounded-2xl overflow-hidden shadow-2xl flex flex-col md:max-h-[90vh]">
+        <div class="absolute top-0 left-0 w-full z-10 bg-black/50 md:bg-gray-50 px-4 py-3 border-b border-white/10 md:border-gray-200 flex justify-between items-center backdrop-blur-md md:backdrop-filter-none">
+            <h3 id="modalTitle" class="font-bold text-white md:text-gray-800 text-sm">Menu</h3>
+            <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-white/20 md:bg-gray-200 text-white md:text-gray-600 flex items-center justify-center hover:bg-white/40 md:hover:bg-red-100 hover:text-white md:hover:text-red-500 transition"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="flex-1 overflow-auto bg-black md:bg-gray-100 relative flex items-center justify-center p-0 md:p-1 pt-14 md:pt-1">
+            <div id="loader" class="absolute inset-0 flex items-center justify-center text-teal-500"><i class="fa-solid fa-spinner fa-spin text-2xl"></i></div>
+            <img id="modalImage" onload="document.getElementById('loader').classList.add('hidden')" src="" class="modal-img-full shadow-sm rounded-md">
+            <button id="prevBtn" onclick="changeImage(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 w-10 h-10 rounded-full shadow-lg flex items-center justify-center hidden hover:bg-white"><i class="fa-solid fa-chevron-left"></i></button>
+            <button id="nextBtn" onclick="changeImage(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 w-10 h-10 rounded-full shadow-lg flex items-center justify-center hidden hover:bg-white"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div id="modalFooter" class="bg-black/80 md:bg-white px-4 py-2 text-center text-xs text-white/70 md:text-gray-500 border-t border-white/10 md:border-gray-200 absolute bottom-0 w-full md:static"></div>
+    </div>
+</div>
+
+<div id="specialsModal" class="fixed inset-0 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeSpecials()">
+    <div class="bg-white w-full max-w-md rounded-2xl overflow-hidden shadow-2xl animate-[scaleIn_0.2s_ease-out]">
+        <div class="bg-teal-600 px-4 py-4 flex justify-between items-center">
+            <h3 id="specialsTitle" class="font-bold text-white text-lg">Weekly Specials</h3>
+            <button onclick="closeSpecials()" class="text-white hover:text-teal-200 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+        <div id="specialsContent" class="p-6 text-sm text-gray-700 space-y-3 max-h-[60vh] overflow-y-auto"></div>
+    </div>
+</div>
+
+<div id="eventsModal" class="fixed inset-0 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeEvents()">
+    <div class="bg-slate-800 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border border-white/10 animate-[scaleIn_0.2s_ease-out]">
+        <div class="bg-gradient-to-r from-purple-900 to-slate-900 px-4 py-4 flex justify-between items-center border-b border-white/10">
+            <div class="flex flex-col">
+                <h3 id="eventsTitle" class="font-bold text-white text-lg tracking-wide">Monday</h3>
+                <span id="eventsSubtitle" class="text-cyan-400 text-[10px] font-bold uppercase tracking-widest">Night Life</span>
+            </div>
+            <button onclick="closeEvents()" class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="eventsContent" class="p-4 bg-slate-800/50 max-h-[60vh] overflow-y-auto flex flex-col gap-3"></div>
+    </div>
+</div>
+
+<div id="detailModal" class="fixed inset-0 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeDetail()">
+    <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-[scaleIn_0.2s_ease-out]">
+        <div id="detailContent" class="overflow-y-auto"></div>
+        <button onclick="closeDetail()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 text-center border-t border-gray-200 text-lg">Close</button>
+    </div>
+</div>
+<script>
+/* --- 1. TRANSLATION ENGINE --- */
+let currentLang = localStorage.getItem('utilaEatsLang') || 'en';
+
+/* UNICODE SAFE TRANSLATIONS */
+const translations = {
+    en: {
+        subtitle: "The island's directory",
+        prompt: "What would you like to do?",
+        emergencyBtn: "EMERGENCY SERVICES",
+        restaurants: "Restaurants",
+        delivery: "Delivery/Rides",
+        explore: "Explore Utila",
+        nightlife: "Night Life",
+        comingSoon: "Coming Soon",
+        showAll: "Show All",
+        openNow: "Open Now",
+        filterDelivery: "Delivery",
+        donate: "Like this app? Buy me a baleada!",
+        suggest: "Suggestion Box",
+        searchPlaceholder: "Find...",
+        emptyFav: "You haven't saved any favorites yet!",
+        emptySearch: "No results found.",
+        emptyList: "No places found.",
+        viewMenu: "View Menu",
+        askMenu: "Ask for Menu",
+        dailyMenu: "Check Facebook for Daily Menu",
+        specials: "Weekly Specials",
+        viewServices: "View Services",
+        bookNow: "Book Now",
+        fareList: "Fare List",
+        ride: "Ride",
+        deliv: "Delivery",
+        fareSub: "Prices based on location (*prices as of 2024)",
+        menuTitle: "Menu",
+        specialsTitle: "Weekly Specials",
+        page: "Page",
+        swipe: "Swipe or Zoom to view",
+        inPerson: "In Person",
+        tapToView: "Tap for details", 
+        dailyActivities: "See Daily Activities Here!",
+        schedule: "Schedule",
+        statusOpen: "OPEN",
+        statusClosed: "CLOSED",
+        statusAvailable: "AVAILABLE",
+        statusUnavailable: "UNAVAILABLE",
+        catEco: "Eco & Culture",
+        catFitness: "Fitness",
+        catTours: "Charters & Tours",
+        catEmergency: "Emergency Services",
+        catDive: "Dive Shops",
+        catRentals: "Rentals",
+        catSelfCare: "Self-Care",
+        catArts: "Arts",
+        subPadi: "PADI",
+        subPadi5: "PADI 5 Star Instructor Development Center",
+        subSsi: "SSI",
+        subSdi: "SDI",
+        subFree: "Freedive",
+        subCharter: "Private/Small Group Charter",
+        subHair: "Hair",
+        subMassage: "Massages",
+        subNails: "Nails",
+        underConst: "Under Construction",
+        exploreTitle: "Explore Utila",
+        diveTitle: "Dive Shops",
+        scTitle: "Self-Care",
+        emergencyNotice: "**Please use all numbers responsibly**",
+        donateTitle: "Donate to local causes",
+        saveSwamper: "Save the Swamper!",
+        saveCave: "Save Brandon Hill Cave!",
+        supportLocal: "Support local conservation efforts:",
+        nlTitle: "Night Life",
+        mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday",
+        noEvents: "No specific events listed today. Go explore!",
+        directions: "Directions",
+        shareMsg: "Check out Utila Eats - The island's directory!",
+        shareFail: "Link copied to clipboard!",
+        clickDay: "Click a day of the week to see what's happening and where!",
+        nightSuffix: "Night",
+        nightPrefix: "" 
+    },
+    es: {
+        subtitle: "El directorio de la isla",
+        prompt: "\u00BFQu\u00E9 te gustar\u00EDa hacer?",
+        emergencyBtn: "SERVICIOS DE EMERGENCIA",
+        restaurants: "Restaurantes",
+        delivery: "Env\u00EDos/Transporte",
+        explore: "Explorar Utila",
+        nightlife: "Vida Nocturna",
+        comingSoon: "Pr\u00F3ximamente",
+        showAll: "Mostrar Todos",
+        openNow: "Abierto Ahora",
+        filterDelivery: "A Domicilio",
+        donate: "\u00BFTe gusta la app? \u00A1Inv\u00EDtame una baleada!",
+        suggest: "Buz\u00F3n de Sugerencias",
+        searchPlaceholder: "Buscar...",
+        emptyFav: "\u00A1No has guardado favoritos a\u00FAn!",
+        emptySearch: "No se encontraron resultados.",
+        emptyList: "No se encontraron lugares.",
+        viewMenu: "Ver Men\u00FA",
+        askMenu: "Pedir Men\u00FA",
+        dailyMenu: "Ver Facebook para Men\u00FA del D\u00EDa",
+        specials: "Especiales Semanales",
+        viewServices: "Ver Servicios",
+        bookNow: "Reservar",
+        fareList: "Tarifas",
+        ride: "Transporte",
+        deliv: "Mandaditos",
+        fareSub: "Precios basados en ubicaci\u00F3n (*precios de 2024)",
+        menuTitle: "Men\u00FA",
+        specialsTitle: "Especiales Semanales",
+        page: "P\u00E1gina",
+        swipe: "Desliza o acerca para ver",
+        inPerson: "En Persona",
+        tapToView: "Toca para detalles",
+        dailyActivities: "\u00A1Mira las actividades diarias aqu\u00ED!",
+        schedule: "Horario",
+        statusOpen: "ABIERTO",
+        statusClosed: "CERRADO",
+        statusAvailable: "DISPONIBLE",
+        statusUnavailable: "NO DISPONIBLE",
+        catEco: "Eco y Cultura",
+        catFitness: "Gimnasios y Deportes",
+        catTours: "Charters y Tours",
+        catEmergency: "Servicios de Emergencia",
+        catDive: "Centros de Buceo",
+        catRentals: "Alquileres",
+        catSelfCare: "Cuidado Personal",
+        catArts: "Arte",
+        subPadi: "PADI",
+        subPadi5: "PADI 5 Star Instructor Development Center",
+        subSsi: "SSI",
+        subSdi: "SDI",
+        subFree: "Apnea / Freedive",
+        subCharter: "Charter Privado / Grupos Peque\u00F1os",
+        subHair: "Cabello",
+        subMassage: "Masajes",
+        subNails: "U\u00F1as",
+        underConst: "Pr\u00F3ximamente",
+        exploreTitle: "Explorar Utila",
+        diveTitle: "Centros de Buceo",
+        scTitle: "Cuidado Personal",
+        emergencyNotice: "**Por favor use los n\u00FAmeros responsablemente**",
+        donateTitle: "Donar a causas locales",
+        saveSwamper: "\u00A1Salva al Swamper!",
+        saveCave: "\u00A1Salva la Cueva Brandon Hill!",
+        supportLocal: "Apoya los esfuerzos de conservaci\u00F3n:",
+        nlTitle: "Vida Nocturna",
+        mon: "Lunes", tue: "Martes", wed: "Mi\u00E9rcoles", thu: "Jueves", fri: "Viernes", sat: "S\u00E1bado", sun: "Domingo",
+        noEvents: "No hay eventos listados hoy. \u00A1Sal a explorar!",
+        directions: "C\u00F3mo llegar",
+        shareMsg: "\u00A1Mira Utila Eats - El directorio de la isla!",
+        shareFail: "\u00A1Enlace copiado!",
+        clickDay: "\u00A1Haz clic en un d\u00EDa para ver qu\u00E9 est\u00E1 pasando y d\u00F3nde!",
+        nightSuffix: "",
+        nightPrefix: "Noche de "
+    }
+};
+
+const tagMap = {
+    "Seafood": "Mariscos", "Burgers": "Hamburguesas", "Pasta": "Pasta", "Salad": "Ensalada", "Wings": "Alitas",
+    "Ocean-View": "Vista al Mar", "Beach Bar": "Bar de Playa", "Tacos": "Tacos", "Chicken": "Pollo", 
+    "Breakfast": "Desayuno", "Cafe": "Caf\u00E9", "Pizza": "Pizza", 
+    "Argentinian": "Argentino", "Mediterranean": "Mediterr\u00E1neo", "Colombian": "Colombiano", 
+    "BBQ": "Barbacoa", "Sushi": "Sushi", "Ramen": "Ramen", "Fusion": "Fusi\u00F3n", "Chinese": "Chino",
+    "Grocery": "Supermercado", "Mexican": "Mexicano", "Thai": "Tailand\u00E9s", "Vegan": "Vegano", 
+    "Sweets & Treats": "Postres", "Steak": "Carnes", "Steakhouse": "Asados", "Sandwiches": "S\u00E1ndwiches",
+    "Tea": "T\u00E9", "Curry": "Curry", "Brewery": "Cervecer\u00EDa", "Ice cream": "Helados", "Chocolate": "Chocolate",
+    "Baleadas": "Baleadas", "Pastelitos": "Pastelitos", "Burritos": "Burritos", "Brunch": "Brunch",
+    "Baked Goods": "Panader\u00EDa", "Home Care": "Cuidado en el Hogar", "Physical Rehab": "Rehabilitaci\u00F3n F\u00EDsica", "Spa": "Spa",
+    "Delivery": "A Domicilio"
+};
+
+/* --- 2. DATA LISTS --- */
+const drivers = [
+    {number: "1", name: "Adonis", phone: "+504 8840-0769", hours: {en: "Daily 6am - 10pm", es: "Diario 6am - 10pm"}},
+    {number: "3", name: "Jossel", phone: "+504 3226-7825", hours: {en: "Daily 6:10am - 8:30pm", es: "Diario 6:10am - 8:30pm"}},
+    {number: "6", name: "Jose", phone: "+504 9969-4178", hours: {en: "Contact for hours", es: "Contactar por horario"}},
+    {number: "7", name: "Chover", phone: "+504 9584-9082", hours: {en: "Contact for hours", es: "Contactar por horario"}},
+    {number: "8", name: "Chaparro", phone: "+504 9586-3089", hours: {en: "Contact for hours", es: "Contactar por horario"}},
+    {number: "12", name: "Cristian", phone: "+504 8775-5017", hours: {en: "Daily 8am - 8pm", es: "Diario 8am - 8pm"}},
+    {number: "15", name: "Dany", phone: "+504 8982-9627", hours: {en: "Contact for hours", es: "Contactar por horario"}},
+    {number: "17", name: "Alejandro", phone: "+504 8745-3403", hours: {en: "Daily 6am - 10pm", es: "Diario 6am - 10pm"}},
+    {number: "19", name: "Kelvin", phone: "+504 9211-8591", hours: {en: "Daily 6am - 10pm", es: "Diario 6am - 10pm"}},
+    {number: "20", name: "Henry", phone: "+504 9407-8899", hours: {en: "Daily 6am - 12am", es: "Diario 6am - 12am"}},
+    {number: "21", name: "Alex", phone: "+504 3291-6482", hours: {en: "Daily 6am - 8pm", es: "Diario 6am - 8pm"}},
+    {number: "22", name: "Eddy", phone: "+504 3259-9358", hours: {en: "24/7", es: "24/7"}},
+    {number: "30", name: "Alfredo", phone: "+504 8792-9512", hours: {en: "Daily 6am - 8pm", es: "Diario 6am - 8pm"}},
+    {number: "31", name: "Elmer", phone: "+504 9603-1928", hours: {en: "Daily 6am - 11:30pm", es: "Diario 6am - 11:30pm"}}
+];
+
+const db=[
+{name:"1104",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908917/Screenshot_20251216-110451_xve6i9.png",contact:"+504 3150-2260",hours:{en:"Tue-Sun 11am - 9:45pm",es:"Mar-Dom 11am - 9:45pm"},loc:"https://maps.app.goo.gl/U1rpGMYq4zxkbvpK9",tags:"Seafood, Burgers, Pasta, Salad, Wings",menu:"ASK", instagram:"https://www.instagram.com/casablancayrestaurante1104?igsh=NjF4ZGU1ZzhuMGFx",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766000944/IMG-20251217-WA0004_gqpupz.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766000944/IMG-20251217-WA0005_bhiybe.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766000945/IMG-20251217-WA0006_nmuk4s.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766000949/IMG-20251217-WA0007_ih0cnu.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766000950/IMG-20250508-WA0006_dztpwd.jpg"]},
+{name: "ABC Bakery",img: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766210896/Screenshot_20251220-000746_khonp9.png",contact: "", hours: {en: "Mon-Sat 7am - 8pm", es: "Lun-S\u00E1b 7am - 8pm"},loc: "https://maps.app.goo.gl/Y1j3e7rW6XTD9nyP9",tags: "Baked Goods, Breakfast",menu: "ASK",menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766210678/Screenshot_20251220-000406_ckm84k.png"]},
+{name:"Bando Beach",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908893/Screenshot_20251216-110725_gnlrwc.png",contact:"+504 9315-0239",hours:{en:"Thu-Mon 10am - 10pm",es:"Jue-Lun 10am - 10pm"},loc:"https://maps.app.goo.gl/6Bneu2PmV1pcdJGS8",tags:"Ocean-View, Beach Bar, Burgers, Tacos, Chicken, Seafood",menu:"DAILY", facebook: "https://www.facebook.com/share/17KPGndULh/", instagram: "https://www.instagram.com/bando_beach?igsh=cjM0N3hyMHRldWN6",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766153528/received_1548479379733929_tft3wh.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766122397/Screenshot_20251218-174018_a2c3nc.png"],
+specialsImage: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766153526/received_33456352650644753_qzcso0.jpg"},
+{name:"Blue Bayou Bar",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765910778/Screenshot_20251216-124525_lodwec.png",contact:"", facebook: "https://www.facebook.com/share/186usNPwGP/",hours:{en:"Daily 2pm - 8pm",es:"Diario 2pm - 8pm"},loc:"https://maps.app.goo.gl/QRAepLAxskWCJNgJ9",tags:"Ocean-View, Beach Bar",menu:"DAILY",
+customMenu: {en: "See Facebook for weekly menu", es: "Ver Facebook para el men\u00FA semanal"},
+specials: {"Tuesday": {en: "Made from scratch Sandwiches", es: "S\u00E1ndwiches hechos en casa"}}},
+{name:"The Captain: Pizza & Pasta",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908892/Screenshot_20251216-111312_rlonqz.png",contact:"+504 3273-2384",hours:{en:"Wed-Mon 11am - 2:30pm, Wed-Mon 6pm - 9pm",es:"Mi\u00E9-Lun 11am - 2:30pm, Mi\u00E9-Lun 6pm - 9pm"},loc:"https://maps.app.goo.gl/a5oJpRdTCiBWPo8o6",tags:"Pizza, Pasta",menu:"ASK", facebook: "https://www.facebook.com/share/17TgHfNtrG/", instagram: "https://www.instagram.com/thecaptainpizzaandpasta?igsh=M3RpcnhycW1zd2ho"},
+{name:"Captain Willis Bistro",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766074956/Screenshot_20251218-102031_phiwn8.png",contact:"+504 9481-2787",hours:{en:"Mon-Tue 12pm - 2:30pm, Mon-Tue 6pm - 9pm, Thu-Sun 12pm - 2:30pm, Thu-Sun 6pm - 9pm",es:"Lun-Mar 12pm - 2:30pm, Jue-Dom 6pm - 9pm"},loc:"https://maps.app.goo.gl/KNUYpbYvbXrCQ9ig7",tags:"Pasta, Chicken, Seafood",menu:"ASK", facebook: "https://www.facebook.com/share/1HYbC8NRoM/", instagram: "https://www.instagram.com/captainwillisbistro?igsh=MTZ0bWp0end6cG1udw=="},
+{name:"Carlotha's Place",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908884/Screenshot_20251216-111519_zxxl7d.png",contact:"",hours:{en:"Daily 9am - 8pm",es:"Diario 9am - 8pm"},loc:"https://maps.app.goo.gl/mDD2ApsSGcRyyvRr6",tags:"",menu:"DAILY"},
+{name:"Che Pancho",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908876/Screenshot_20251216-111359_b8bj3l.png",contact:"+504 3367-8892",hours:{en:"Mon-Wed 5pm - 10pm, Fri-Sat 5pm - 10pm",es:"Lun-Mi\u00E9 5pm - 10pm, Vie-S\u00E1b 5pm - 10pm"},loc:"https://maps.app.goo.gl/NeEuHZUvqUcMPdDY9",tags:"Argentinian, Chicken, Pasta, Seafood",menu:"ASK", facebook: "https://www.facebook.com/share/1P8FqAi9Xc/", instagram: "https://www.instagram.com/chepanchoutila?igsh=MWc5cG1qYm8zYzM2bA==",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0027_on8zya.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0028_yjouzt.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073780/IMG-20251217-WA0029_nhtljw.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073780/IMG-20251217-WA0030_hvgcfz.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073774/IMG-20251217-WA0031_vyemz6.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073781/IMG-20251217-WA0033_d2bidz.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073780/IMG-20251217-WA0034_zllhpy.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073783/IMG-20251217-WA0032_ukr6nl.jpg"]},
+{name: "Chloe's Breads",img: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766210094/Screenshot_20251219-235336_j1hdb0.png",contact: "", instagram: "https://www.instagram.com/chloesbreads",hours: {en: "Place an order on Instagram", es: "Haz tu pedido en Instagram"},loc: null,tags: "Baked Goods, Sweets & Treats",menu: "DAILY", facebook: "https://www.facebook.com/share/17mugaCziU/",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766210092/Screenshot_20251219-235305_bdirhz.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766210293/Screenshot_20251219-235751_gbynis.png"]},
+{name:"Daisy's Cafe",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908915/Screenshot_20251216-113048_zwbjr4.png",contact:"", facebook: "https://www.facebook.com/share/17ZE4VZ77j/",hours:{en:"Fri-Wed 12pm - 6pm",es:"Vie-Mi\u00E9 12pm - 6pm"},loc:"https://maps.app.goo.gl/uGJASf3EW9pHEzyEA",tags:"Ocean-View, Mediterranean, Pizza, Cafe, Delivery",menu:"ASK", customMenu: {en: "Check social media pages for daily/weekly specials menu!", es: "\u00A1Revisa las redes sociales para el men\u00FA de especiales!"}, instagram: "https://www.instagram.com/daisycafeutila?igsh=ZXc3eDVhdHZmeHpz"},
+{name:"The Dive - South Shore",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908878/Screenshot_20251216-113135_ormptm.png",contact:"+1 813-625-1648",hours:{en:"Mon-Wed 11am - 5pm",es:"Lun-Mi\u00E9 11am - 5pm"},loc:"https://maps.app.goo.gl/V4C16bBcUXmhWWn18",tags:"Ocean-View, Burgers, Chicken, Seafood, Beach Bar",menu:"ASK", facebook: "https://www.facebook.com/share/1Cgz4jeqqC/", instagram: "https://www.instagram.com/the_dive_bar_utila?igsh=dDk3bHRqanptdXlx"},
+{name:"Dockside Eatery",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908898/Screenshot_20251216-120435_glpy2h.png",contact:"https://www.instagram.com/dockside_eatery_utila_?igsh=MTBseGQwNjY1N25tbw==",hours:{en:"Daily 5pm - 8:30pm",es:"Diario 5pm - 8:30pm"},loc:"https://maps.app.goo.gl/JBGEVJnAenQkXxag7",tags:"Ocean-View",menu:"ASK", facebook: "https://www.facebook.com/share/17qoqCCDxY/"},
+{name:"Driftwood Bar & Lounge",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908909/Screenshot_20251216-113227_fafbi5.png",contact:"+504 9575-6383",hours:{en:"Thu-Tue 7am - 9pm",es:"Jue-Mar 7am - 9pm"},loc:"https://maps.app.goo.gl/o2G4VK8v2hnnEPck6",tags:"Seafood, Breakfast",menu:"ASK", facebook: "https://www.facebook.com/share/1297582522/", instagram: "https://www.instagram.com/driftwoodutila?igsh=dXpsOWszaDJocWFs"},
+{name:"Edo's Place",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908901/Screenshot_20251216-113351_jyymjw.png",contact:"+504 8774-7980",hours:{en:"Thu-Tue 11am - 8:45pm",es:"Jue-Mar 11am - 8:45pm"},loc:"https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9",tags:"Ocean-View, Burgers, Chicken, Seafood, Wings, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/1Bgds1hYHN/", instagram: "https://www.instagram.com/edosplaceutila?igsh=MXF3bTR6bDFmNTc0Zg==",
+menuImages: {en: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804106/Screenshot_20260130-141050_wyufqu.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804104/Screenshot_20260130-141132_jsyg2x.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804108/Screenshot_20260130-141147_t3a9oy.png"], es: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804111/Screenshot_20260130-141331_p8yfwk.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804111/Screenshot_20260130-141348_m0ftzv.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804113/Screenshot_20260130-141402_bglmyp.png"]}},
+{name:"El Castillo",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908876/Screenshot_20251216-113445_kqvxm4.png",contact:"+504 3361-3491",hours:{en:"Fri-Sat 1pm - 7:30pm",es:"Vie-S\u00E1b 1pm - 7:30pm"},loc:"https://maps.app.goo.gl/nD9iTgWrCADvdJ927",tags:"",menu:"DAILY", facebook: "https://www.facebook.com/share/18CbAxwdGS/", instagram: "https://www.instagram.com/elcastilloresturante?igsh=c2RnYmU1MHlmcndv"},
+{name:"El Parcero",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908866/Screenshot_20251216-115240_qajvaf.png",contact:"+504 3323 0686",hours:{en:"Wed-Mon 11am - 9pm",es:"Mi\u00E9-Lun 11am - 9pm"},loc:"https://maps.app.goo.gl/MKuL7yEeXjZRWxUY9",tags:"Burgers, Chicken, Seafood, Pasta, Colombian",menu:"ASK", facebook: "https://www.facebook.com/share/1D3nSbrPBt/", instagram: "https://www.instagram.com/el_parcero1104?igsh=MzR3cTk2M2M2djZw"},
+{name:"Elsa's Kitchen",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908913/Screenshot_20251216-113606_ifsvuq.png",contact:"+504 9698-1051",hours:{en:"Wed-Mon 11am - 9:30pm",es:"Mi\u00E9-Lun 11am - 9:30pm"},loc:"https://maps.app.goo.gl/P4o9gY7TQWgJmQeE6",tags:"Pizza, Burgers, Chicken, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/1a2TrPJFeu/"},
+{name:"Empanikas",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260211-WA0022_din6oc.jpg",whatsapp:"+505 8423-6867",hours:{en:"Place an order on WhatsApp!",es:"Haz tu pedido en WhatsApp!"},loc:"",tags:"Pastelitos, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/1AzNTTDzkL/",
+menuImages: {en: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260211-WA0022_din6oc.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087365/IMG-20260211-WA0023_z0f7ir.jpg"], es: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087364/IMG-20260211-WA0021_rhfk62.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087365/IMG-20260211-WA0023_z0f7ir.jpg"]}},
+{name:"Eva's Cafe",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765910475/Screenshot_20251216-124034_i25kww.png",contact:"+504 8913-0044",hours:{en:"Daily 6:30am - 2pm, Daily 4:30pm - 9pm",es:"Diario 6:30am - 2pm, Diario 4:30pm - 9pm"}, openHours:{en: "Daily 6:30am - 9pm"}, loc:"https://maps.app.goo.gl/h5RM7eqRoiqLPfE97",tags:"Pizza, Burgers, Chicken, Pasta, BBQ, Cafe, Breakfast, Delivery",menu:"DAILY", facebook: "https://www.facebook.com/share/17sju5B1FF/", instagram: "https://www.instagram.com/evascafeatmangoinn?igsh=dGtla2E2cWJoYXo4",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073765/IMG-20251217-WA0015_zykikt.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073766/IMG-20251217-WA0016_d1pvaa.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073765/IMG-20251217-WA0017_x3kfc8.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073766/IMG-20251217-WA0018_czgu5e.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073767/IMG-20251217-WA0019_wjp41z.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0020_qllkfz.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073767/IMG-20251217-WA0021_pcb8be.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073772/IMG-20251217-WA0022_fstsj0.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0023_s7muce.jpg"]},
+{name:"G's Bistro",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765994200/Screenshot_20251217-115545_awcbis.png",contact:"+504 3192-7488",hours:{en:"Thu-Tue 8am - 8pm",es:"Jue-Mar 8am - 8pm"},loc:"https://maps.app.goo.gl/Yssuf666bpoAaFpb6",tags:"Cafe, Breakfast",menu:"ASK", instagram: "https://www.instagram.com/gsbistro_utila?igsh=MW8xcDM5a3Bib2Rlag=="},
+{name:"Gaga's Grab'N'Go",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908901/Screenshot_20251216-113839_qbgsua.png",contact:"+504 3211-3317",hours:{en:"Mon-Sat 9am - 10pm",es:"Lun-S\u00E1b 9am - 10pm"},loc:"https://maps.app.goo.gl/F8nwdADJFCGEZu9UA",tags:"Chicken, Burgers, Baleadas, Breakfast, Delivery",menu:"ASK", customMenu: {en: "Check social media pages for daily/weekly specials menu!", es: "\u00A1Revisa las redes sociales para el men\u00FA de especiales!"}, facebook: "https://www.facebook.com/share/1BDZEuQbMZ/", instagram: "https://www.instagram.com/gagas_grabngo?igsh=N211ZXlrc3ZvMXE4"},
+{name:"The Hacienda Cantina - South Shore",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766093976/Screenshot_20251218-153843_lumtbd.png",contact:"", facebook: "https://www.facebook.com/share/17emgGEKFj/",hours:{en:"Tue-Sat 12pm - 8pm",es:"Mar-S\u00E1b 12pm - 8pm"},loc:"https://maps.app.goo.gl/AmH1agPbHhQryFUy7",tags:"Mexican, Ocean-View",menu:"ASK", instagram: "https://www.instagram.com/the_hacienda_utila?igsh=MW00a2l0a3Z0cWJqbg==",
+menuImages:["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766093460/Messenger_creation_C3C5BBA5-B557-4A24-BF8A-95AE3EF9F4A4_ssnm6d.jpg"]},
+{name:"Holy Guacamole",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908873/Screenshot_20251216-114004_vjg6e0.png",contact:"+504 3260-5721",hours:{en:"Thu-Tue 7:30am - 2pm, Thu-Tue 5:30pm - 10pm",es:"Jue-Mar 7:30am - 2pm, Jue-Mar 5:30pm - 10pm"},loc:"https://maps.app.goo.gl/gXmhHgwMhfbthrJm6",tags:"Mexican, Breakfast",menu:"DAILY", facebook: "https://www.facebook.com/share/17wNVdeWRN/", instagram: "https://www.instagram.com/holyguacamoleutila?igsh=a3N6YTZ3Y3BzYjFl",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996595/HOLYG_page_02_a2dft2.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996606/HOLYG_page_03_u7bsnj.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996614/HOLYG_page_04_ubo3pq.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996599/HOLYG_page_05_tlfs56.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996607/HOLYG_page_06_qbbwrp.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996603/HOLYG_page_07_lvlv8i.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996608/HOLYG_page_08_wzf6ea.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996610/HOLYG_page_09_dghvjd.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996611/HOLYG_page_10_xnqjcb.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996616/HOLYG_page_11_fa8ram.png"]},
+{name:"Huffy's",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908905/Screenshot_20251216-114033_sfcuzn.png",contact:"+504 9581-7096",hours:{en:"Tue-Sun 12pm - 9pm",es:"Mar-Dom 12pm - 9pm"},loc:"https://maps.app.goo.gl/DYGgAh8svtrSGAJ99",tags:"Ocean-View, Beach Bar, Cafe",menu:"ASK", facebook: "https://www.facebook.com/share/19VcvkmD7m/", instagram: "https://www.instagram.com/huffyutila?igsh=MTJ1czFpeTVvYWg4Ng=="},
+{name:"Josie's Cafe",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073786/IMG-20251217-WA0037_n8jq1u.jpg",contact:"+504 9905-8183",hours:{en:"Mon-Sat 6:15am - 2pm",es:"Lun-S\u00E1b 6:15am - 2pm"},loc:"https://maps.app.goo.gl/Z32Vvx3psceyrGwZ8",tags:"Breakfast, Brunch, Ocean-View, Cafe, Sweets & Treats",menu:"DAILY", customMenu: {en: "Check social media pages for daily/weekly specials menu!", es: "\u00A1Revisa las redes sociales para el men\u00FA de especiales!"}, instagram: "https://www.instagram.com/josiescafeutila?igsh=MWFmcG5sNm9najl3Zg=="},
+{name:"La Casita",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908876/Screenshot_20251216-114310_t11fwa.png",contact:"",hours:{en:"Wed-Mon 8am - 9pm",es:"Mi\u00E9-Lun 8am - 9pm"},loc:"https://maps.app.goo.gl/qtDdnfvKHq4yxAoP8",tags:"Baleadas, Burgers, Chicken, Breakfast",menu:"DAILY"},
+{name:"Local & Gringa",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908895/Screenshot_20251216-114444_r4ctqm.png",contact:"+504 3155-8112",hours:{en:"Tue-Sun 7:30am - 3:30pm",es:"Mar-Dom 7:30am - 3:30pm"},loc:"https://maps.app.goo.gl/shPmrkyswTVTCZfg9",tags:"Pastelitos, Burritos, Chicken, Burgers, Breakfast, Delivery",menu:"DAILY", customMenu: {en: "Check social media pages for daily/weekly specials menu!", es: "\u00A1Revisa las redes sociales para el men\u00FA de especiales!"}, facebook: "https://www.facebook.com/share/1K6KDUBk7z/", instagram: "https://www.instagram.com/localgringautila?igsh=eDFlNjRmb2Fqc3Mx"},
+{name:"Mama Rosa",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908893/Screenshot_20251216-114517_rlf93y.png",contact:"+504 9685-8057",hours:{en:"Daily 8am - 3pm, Daily 6pm - 10pm",es:"Diario 8am - 3pm, Diario 6pm - 10pm"},loc:"https://maps.app.goo.gl/8yEqTe2JdZuLRPrU9",tags:"Burritos, Pastelitos, Baleadas, Burgers, Chicken, Breakfast",menu:"ASK"},
+{name:"Mama's Tacos",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766156794/Screenshot_20251219-090525_m48et5.png",contact:"", facebook: "https://www.facebook.com/share/16aGFL7Xd3/",hours:{en:"Thu-Sat 6pm - 12am",es:"Jue-S\u00E1b 6pm - 12am"},loc:"https://maps.app.goo.gl/owJ9rdAYwCifXZXc7",tags:"Tacos, Ocean-View",menu:"DAILY"},
+{name:"Mango Tango",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908892/Screenshot_20251216-114702_dkgsox.png",contact:"+504 3211 9469",hours:{en:"Wed-Sat 11am - 8:45pm, Sun 11am - 2pm",es:"Mi\u00E9-S\u00E1b 11am - 8:45pm, Dom 11am - 2pm"},loc:"https://maps.app.goo.gl/5m1PT9ym43veMU4K7",tags:"Seafood, Pasta, Steak, Ocean-View, Brunch",menu:"ASK", facebook: "https://www.facebook.com/share/1CA4UKg2Qb/", instagram: "https://www.instagram.com/mangotangoutila?igsh=MXd0ZDlkcHJkc2hyZg==",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769803716/IMG-20260130-WA0008_qxq3oe.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769803717/IMG-20260130-WA0009_ywccrr.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769803719/IMG-20260130-WA0010_qndliy.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769803722/IMG-20260130-WA0014_apgpoi.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769803715/IMG-20260130-WA0011_bza2ij.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769803714/IMG-20260130-WA0007_mtvsga.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769803720/IMG-20260130-WA0012_pk7zhb.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769803720/IMG-20260130-WA0013_hrautc.jpg"]},
+{name:"Mario's Place",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908872/Screenshot_20251216-114804_oomk19.png",contact:"",hours:{en:"Fri 10am - 5pm, Sat 5pm - 11pm, Sun-Thu 10am - 10pm",es:"Vie 10am - 5pm, S\u00E1b 5pm - 11pm, Dom-Jue 10am - 10pm"},loc:"https://maps.app.goo.gl/rjPYYdwz4M4WfUjR7",tags:"Burgers, Chicken, Seafood, Pasta, Ocean-View",menu:"DAILY"},
+{name:"Merlin's Wok",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908891/Screenshot_20251216-114854_lx3oqs.png",contact:"+504 8932 6636",hours:{en:"Thu-Sat 5pm - 10pm",es:"Jue-S\u00E1b 5pm - 10pm"},loc:"https://maps.app.goo.gl/TxN793Q7JLr5W5y26",tags:"Chinese",menu:"ASK",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073774/IMG-20251217-WA0024_e1pbfl.jpg"]},
+{name:"Mermaids",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908917/Screenshot_20251216-114922_c8x1gl.png",contact:"+504 9728 2623",hours:{en:"Sun-Fri 8am - 9pm",es:"Dom-Vie 8am - 9pm"},loc:"https://maps.app.goo.gl/raXbojGHtqbg1WXm9",tags:"Pizza, Chicken, Fusion, Grocery, Breakfast, Delivery",menu:"DAILY"},
+{name:"Mister Buddha",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908889/Screenshot_20251216-114954_oxbzjt.png",contact:"+504 8874 8153",hours:{en:"Fri-Mon 4:30pm - 10pm, Tue 4:30pm - 12am",es:"Vie-Lun 4:30pm - 10pm, Mar 4:30pm - 12am"},loc:"https://maps.app.goo.gl/cX1LJ3VAQEXE4fB26",tags:"Sushi, Ramen, Fusion, Ocean-View, Steakhouse, Steak, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/18BHzaU46p/", instagram: "https://www.instagram.com/mrbuddhautila?igsh=NW92NHJmYTBjcGpz",
+menuImages: {en: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087364/IMG-20260209-WA0016_lxcgdu.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087375/IMG-20260209-WA0017_m2rcb2.jpg"], es: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087375/IMG-20260209-WA0019_p3gqpl.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087374/IMG-20260209-WA0018_qix7bo.jpg"]},
+specialsImage: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770059376/Screenshot_20260201-144347_r7ggqg.png"},
+{name:"Munchie's Cafe",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908868/Screenshot_20251216-115026_qfiicr.png",contact:"+504 9603 0745",hours:{en:"Daily 8am - 9pm",es:"Diario 8am - 9pm"},loc:"https://maps.app.goo.gl/bPH7zoxQvxyYvx4F9",tags:"Breakfast, Brunch, Cafe, Pasta, Chicken, Burgers",menu:"ASK", facebook: "https://www.facebook.com/share/1SYzo5gG7k/", instagram: "https://www.instagram.com/munchiesbistrocafe1104?igsh=MW4xa2JyMm1qZjBjNQ==",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766088748/Utila_Munchies_page_02_mkbcm3.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766088751/Utila_Munchies_page_03_emw2nj.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766088746/Utila_Munchies_page_04_stfgst.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766088749/Utila_Munchies_page_05_qgqtm0.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766088748/Utila_Munchies_page_06_jqvoz0.png"]},
+{name:"Nautical Restaurant & Bar",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766154675/Screenshot_20251219-083050_ocbr7o.png",contact:"+504 3210-9957",hours:{en:"Tue-Sun 11:30am - 9pm",es:"Mar-Dom 11:30am - 9pm"},loc:"https://maps.app.goo.gl/VwXkoj6SBsQ4XnYq6",tags:"Seafood, Ocean-View, Chicken, Pasta, Burgers",menu:"ASK", instagram: "https://www.instagram.com/nauticalutila?igsh=MTlmdDVlenQxdzh2bQ==",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766126446/Screenshot_20251219-003431_xfa5zr.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766126446/Screenshot_20251219-003519_h6hpum.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766126446/Screenshot_20251219-003552_osntsj.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766126448/Screenshot_20251219-003625_lzfrw9.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766126447/Screenshot_20251219-003647_yuwmzx.png"]},
+{name:"Neptunes",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908914/Screenshot_20251216-115101_mu24vv.png",contact:"+504 9512 8095",hours:{en:"Daily 9:30am - 5:15pm",es:"Diario 9:30am - 5:15pm"},loc:"https://maps.app.goo.gl/kWRSB83egkGMZ93Z9",tags:"Beach Bar, Burgers, Seafood, Chicken, Wings, Ocean-View",menu:"ASK", facebook: "https://www.facebook.com/share/1CPck399kT/", instagram: "https://www.instagram.com/neptunesatcbv?igsh=amRlMDJqNjRoNzNp",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996613/Neptunes_Menu_page_02_nrvfgj.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996615/Neptunes_Menu_page_03_ku7h4p.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996615/Neptunes_Menu_page_04_goglkc.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996614/Neptunes_Menu_page_05_sap7iv.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996616/Neptunes_Menu_page_06_aewswf.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996617/Neptunes_Menu_page_07_w1ubyx.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996620/Neptunes_Menu_page_08_hsiqil.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996620/Neptunes_Menu_page_09_uf1bqa.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996620/Neptunes_Menu_page_10_w7kj5z.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996623/Neptunes_Menu_page_11_hp5hun.png"]},
+{name:"Odyssey Mexican Grill",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908885/Screenshot_20251216-115203_lg6sy7.png",contact:"+1 806 451 7580",hours:{en:"Thu-Tue 6:30am - 8pm",es:"Jue-Mar 6:30am - 8pm"},loc:"https://maps.app.goo.gl/trYMeTWUHKi4GMQb7",tags:"Mexican, Ocean-View, Breakfast",menu:"ASK", facebook: "https://www.facebook.com/share/1MRLd6eB1m/", instagram: "https://www.instagram.com/theodysseymexicangrill?igsh=YmI1NHp4cW0wb2dj",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260212-WA0022_uvjxzx.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260212-WA0020_pals5o.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260212-WA0019_lq9qvs.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260212-WA0023_lipfzr.jpg"]},
+{name:"The Pelican",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908911/Screenshot_20251216-115311_e1ofu4.png",contact:"+504 3375 4298",hours:{en:"Mon-Thu 11am - 1pm, Mon-Thu 5:30pm - 8:30pm",es:"Lun-Jue 11am - 1pm, Lun-Jue 5:30pm - 8:30pm"},loc:"https://maps.app.goo.gl/hW5ZRmvddZ1GPjSPA",tags:"Thai, Fusion",menu:"DAILY", customMenu: {en: "Text for Daily Specials", es: "Texto para especiales del d\u00EDa"}, facebook: "https://www.facebook.com/share/17praCVPDm/", instagram: "https://www.instagram.com/the_pelican_utila_bayisland?igsh=MTc3OWwxOW5tdXd3eA=="},
+{name:"Pink Flamingo",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908912/Screenshot_20251216-115357_rnccwa.png",contact:"",hours:{en:"Fri-Tue 8am - 2pm",es:"Vie-Mar 8am - 2pm"},loc:"https://maps.app.goo.gl/aoPGEEP79W2XzVDj8",tags:"Breakfast, Ocean-View, Vegan, Cafe",menu:"DAILY", instagram: "https://www.instagram.com/pinkflamingoutila?igsh=ZWd1ZDExOGNrZ3N2",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770066755/PXL_20260131_194835948_w3v2ql.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770066757/PXL_20260131_194848499_lz30uk.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770066755/PXL_20260131_194910249_rux2wm.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770066753/PXL_20260131_194901950_sdgphm.jpg"]},
+{name:"Pizza Nut",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908914/Screenshot_20251216-111006_efg4ry.png",contact:"+504 9969 6360",hours:{en:"Daily 5pm - 9pm",es:"Diario 5pm - 9pm"},loc:"https://maps.app.goo.gl/sTk2xmFicD7yGdH86",tags:"Pizza",menu:"ASK", 
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765995749/PXL_20251216_224529048.MP_jckz1f.jpg"]},
+{name:"The Point Pool Bar",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908914/Screenshot_20251216-115543_yuxmtz.png",contact:"+504 3241-2520",hours:{en:"Wed-Sun 12pm - 9pm",es:"Mi\u00E9-Dom 12pm - 9pm"},loc:"https://maps.app.goo.gl/amoYT5WJabLWHFpV6",tags:"Ocean-View, Pizza, Burgers, Chicken",menu:"DAILY", facebook: "https://www.facebook.com/share/18EfuCSeD8/", instagram: "https://www.instagram.com/the_point_pool_bar?igsh=NXZvaXF2ZWQ0ajBq"},
+{name:"Pollos Maria",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766068117/Screenshot_20251218-082626_uhmaew.png",contact:"+504 9692-0841",hours:{en:"Daily 10am - 10pm",es:"Diario 10am - 10pm"},loc:"https://maps.app.goo.gl/pg69QdtGeM3vgSqS9",tags:"Baleadas, Chicken",menu:"ASK",
+menuImages:["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766068116/Screenshot_20251218-082701_yxwbdg.png", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766068118/Screenshot_20251218-082719_idehbd.png"]},
+{name:"Quest Utila",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766155360/Screenshot_20251219-084140_qgiebw.png",contact:"+504 9888-8864",hours:{en:"Tue-Wed 10am - 8pm, Fri-Sun 10am - 8pm",es:"Mar-Mi\u00E9 10am - 8pm, Vie-Dom 10am - 8pm"},loc:"https://maps.app.goo.gl/FSxZDiuF1XbgfDMj8",tags:"Sweets & Treats",menu:"ASK", facebook: "https://www.facebook.com/share/15WeBteHWF6/", instagram: "https://www.instagram.com/questutila?igsh=MTZ3bzkwODNtaDFzcw==",
+specials: {"Saturday": "Game Night 6pm", "Sunday": "Werewolf (Twice a month)"}},
+{name:"RJ's Bar & Grill",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770059641/received_2039573543272611_ux2ong.jpg",contact:"+504 3216 4216",hours:{en:"Wed 5:30pm - 10pm, Fri 5:30pm - 10pm, Sun 5:30pm - 10pm",es:"Mi\u00E9 5:30pm - 10pm, Vie 5:30pm - 10pm, Dom 5:30pm - 10pm"},loc:"https://maps.app.goo.gl/dohhvzvYnhTEHrZt6",tags:"BBQ, Seafood, Chicken, Burgers, Steak, Delivery",menu:"ASK", instagram: "https://www.instagram.com/rjs_utila?igsh=dGYzbmN1NXB4anV2", facebook: "https://www.facebook.com/share/17YK1YoMpS/"},
+{name:"Safety Stop at Utila Dive Centre",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908878/Screenshot_20251216-115710_j0aygj.png",contact:"",hours:{en:"Daily 7am - 7pm",es:"Diario 7am - 7pm"},loc:"https://maps.app.goo.gl/6dE42NAw6Wn8Y4q46",tags:"Ocean-View, Chicken, Burgers, Pastelitos",menu:"DAILY"},
+{name:"Shell del Mar",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765909000/Screenshot_20251216-115812_wew8lm.png",contact:"+504 8951 2618",hours:{en:"Daily 7am - 9pm",es:"Diario 7am - 9pm"},loc:"https://maps.app.goo.gl/HCYGrfeyBigSyLZC9",tags:"Ocean-View, Seafood, Burgers, Chicken, Pasta, Breakfast",menu:"ASK",
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073786/IMG-20251217-WA0048_q2fbye.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073786/IMG-20251217-WA0049_fjwngh.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073788/IMG-20251217-WA0050_x6cpkz.jpg"]},
+{name:"The Tea Garden",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908883/Screenshot_20251216-115845_heldz8.png",contact:"+504 9839-7692",hours:{en:"Sun-Mon 6pm - 10pm",es:"Dom-Lun 6pm - 10pm"},loc:"https://maps.app.goo.gl/BoBuhU4c8Rkt9J9C8",tags:"Tea, Curry",menu:"DAILY", facebook: "https://www.facebook.com/share/175wRuLjZT/", instagram: "https://www.instagram.com/the_tea_garden_utila?igsh=a2pqdWV5Nng4Z2I5"},
+{name:"Three Generations",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765917027/FB_IMG_1765916961594_emzfkw.jpg",contact:"", facebook: "https://www.facebook.com/share/17q1XiHy32/",hours:{en:"Tue 11:30am - 2pm, Wed-Sun 8am - 5pm",es:"Mar 11:30am - 2pm, Mi\u00E9-Dom 8am - 5pm"},loc:"https://maps.app.goo.gl/zixV1fNtqvS95kSG7",tags:"Breakfast, Sweets & Treats",menu:"ASK", customMenu:{en: "Check Facebook for Daily Menu", es: "Ver Facebook para el men\u00FA del d\u00EDa"}, instagram: "https://www.instagram.com/three_generations2025?igsh=MTJndjkwdHJtbmdwYQ=="},
+{name:"Trudy's Cafe at Underwater Vision",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908904/Screenshot_20251216-120209_w9rjxb.png",contact:"https://maps.app.goo.gl/rFeK8Pgcy5CQJgeDA",hours:{en:"Daily 7am - 9pm",es:"Diario 7am - 9pm"},loc:"https://maps.app.goo.gl/rFeK8Pgcy5CQJgeDA",tags:"Ocean-View, Burgers, Chicken, Wings, BBQ, Pizza, Fusion, Sushi, Cafe, Breakfast, Beach Bar",menu:"DAILY",
+specials: {"Monday":"Burger & Movie Night", "Tuesday":"Wings Night", "Wednesday":"Full Menu", "Thursday":"Asian Fusion & Trivia Night", "Friday":"Pizza Night", "Saturday":"BBQ Night", "Sunday":"Full Menu"}},
+{name:"Utila Brewing Co.",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908896/Screenshot_20251216-120259_rz5kl3.png",contact:"", instagram: "https://www.instagram.com/utilabrewingco?igsh=enE0b2kxaXZ3NzQy",hours:{en:"Sun-Thu 4:20pm - 12am, Fri-Sat 4:20pm - 2am",es:"Dom-Jue 4:20pm - 12am, Vie-S\u00E1b 4:20pm - 2am"},loc:"https://maps.app.goo.gl/ypykCdtFaezim7Ch7",tags:"Brewery, Pizza",menu:"DAILY"},
+{name:"Utila Chocolate Co.",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908889/Screenshot_20251216-120404_lzbnd3.png",contact:"+504 9713 9804",hours:{en:"Mon-Fri 10am - 4pm, Sat 11am - 3pm",es:"Lun-Vie 10am - 4pm, S\u00E1b 11am - 3pm"},loc:"https://maps.app.goo.gl/WuymSh88ntWFEiz98",tags:"Ice cream, Chocolate, Sweets & Treats",menu:"DAILY", facebook: "https://www.facebook.com/share/17fiSrCqSG/", instagram: "https://www.instagram.com/utilachocolateco?igsh=MTdndzlvenFkcHpnOA=="},
+{name:"Utila Lodge",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908877/Screenshot_20251216-120633_lm4rse.png",contact:"+504 8817 1844",hours:{en:"Daily 6am - 9:30pm",es:"Diario 6am - 9:30pm"},loc:"https://maps.app.goo.gl/3eL6Yk5ULTLHmpMm9",tags:"Burgers, BBQ, Chicken, Wings, Breakfast, Brunch",menu:"DAILY", facebook: "https://www.facebook.com/share/14Ye9DQ2TDu/", instagram: "https://www.instagram.com/utilalodge?igsh=MWNsZzVpcDZqdm84",
+specials: {"Sunday":"Brunch", "Monday":"Wing Night", "Tuesday":"Taco Tuesday", "Thursday":"Smokehouse Thursdays"},
+menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073791/IMG-20251217-WA0055_s0fsrv.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073791/IMG-20251217-WA0053_h6waxx.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766090101/Screenshot_20251218-143203_u7f4lq.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766090139/FB_IMG_1766089970809_xlh30j.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766090139/FB_IMG_1766089960420_ejujxk.jpg"]},
+{name:"What the Fork",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765909002/Screenshot_20251216-120718_vidj19.png",contact:"+504 3259 0204",hours:{en:"Tue-Fri 11am - 3pm, Sat 11am - 2pm",es:"Mar-Vie 11am - 3pm, S\u00E1b 11am - 2pm"},loc:"https://maps.app.goo.gl/VXGUqiVNYkSB51cs5",tags:"Sandwiches, Sweets & Treats",menu:"ASK", facebook: "https://www.facebook.com/share/19vyuFMLZf/", instagram: "https://www.instagram.com/whattheforkutila?igsh=MWRpdTN6N21yNm4zYQ==",
+menuImages:["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766074945/Screenshot_20251218-101947_fgylkx.png"]}];
+
+/* EXPLORE DATA */
+const exploreData = {
+    eco: [
+        {
+            name: "BICA (Bay Islands Conservation Association)", desc: {en: "See Facebook Page for information on Bay Islands conservation news and turtle releases", es: "Ver Facebook para informaci\u00F3n sobre noticias de conservaci\u00F3n y liberaci\u00F3n de tortugas"},
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767995122/Screenshot_20260109-154454_po8iit.png",
+            facebook: "https://www.facebook.com/share/1A4ugPChPQ/",
+            contact: "https://www.bicainc.org/?fbclid=Iwb21leAPOVr1jbGNrA85WtWV4dG4DYWVtAjExAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHqz-C-cT5S4xvUXB4CEOBzDhQyj2XHnn_zr5ZwJiEsviWVldUeyPV5AR3VqE_aem_fHnhSdKfbKG-S2cFi_L4HA",
+            imgMode: "contain"
+        },
+        {
+            name: "True Utila Jungle Tour", desc: {en: "Botanical Walking Tours", es: "Tours bot\u00E1nicos a pie"},
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766130635/Screenshot_20251219-010029_qcaena.png",
+            instagram: "https://www.instagram.com/trueutila", hours: {en: "DM to Schedule", es: "Enviar DM para agendar"}
+        },
+        {
+            name: "Utila Island Clean-ups", desc: {en: "Volunteer Community Cleanup", es: "Voluntariado de limpieza"},
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766130635/Screenshot_20251219-010443_fabfwr.png",
+            instagram: "https://www.instagram.com/utila.island.cleanups", hours: {en: "Check Instagram for Schedule", es: "Ver Instagram para horario"}
+        },
+        {
+            name: "Jasper's Utila Animal Rescue", desc: {en: "Walk Dogs or Play with Kittens", es: "Pasear perros o jugar con gatitos"},
+            location: "https://maps.app.goo.gl/sxeo4rXLZh1YJLRw7",
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766246024/Screenshot_20251220-095258_r0k6i6.png",
+            hours: {en: "Dogs: 6:30am - 8am & 3:30pm - 4:45pm (No PM Sun) | Kittens: Mon-Fri 9am - 3:30pm", es: "Perros: 6:30 - 8am y 3:30 - 4:45pm (No Dom PM) | Gatitos: Lun-Vie 9am - 3:30pm"}
+        },
+        {
+            name: "Kanahau Museum", desc: {en: "Research & Natural History", es: "Investigaci\u00F3n e historia natural"},
+            location: "https://maps.app.goo.gl/eURtcNZNWejjyCbK8",
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766131036/Screenshot_20251219-015339_pio3ea.png",
+            instagram: "https://www.instagram.com/kanahau_utila", hours: {en: "Mon-Fri 9am - 5pm", es: "Lun-Vie 9am - 5pm"}
+        },
+        {
+            name: "Iguana Research Station", desc: {en: "Conservation & Tours", es: "Conservaci\u00F3n y Tours"},
+            location: "https://maps.app.goo.gl/evzk3wHG7EhXeeH68",
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766131224/Screenshot_20251219-015958_l4aa9g.png",
+            whatsapp: "50489490954", hours: {en: "Mon-Fri 8am - 5pm, Sat 8am - 12pm", es: "Lun-Vie 8am - 5pm, S\u00E1b 8am - 12pm"}
+        }
+    ],
+    arts: [
+        {
+            name: "Utila Cinema", desc: {en: "**See Instagram or Facebook for weekly schedule**", es: "**Ver Instagram o Facebook para el horario semanal**"},
+            image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80",
+            instagram: "https://www.instagram.com/utilacinema?igsh=dG92Z25rcnVkdnp0", facebook: "https://www.facebook.com/share/1Jgu3n9Agu/", location: "https://maps.app.goo.gl/HhnGcQZ8URrwgHs69"
+        },
+        {
+            name: "Samar Seaside Studio", 
+            desc: {en: "Handmade Creations and Sustainable Products", es: "Creaciones hechas a mano y productos sostenibles"},
+            hours: {en: "Weekly Market @ Pink Flamingo: Sat 9am - 2pm", es: "Mercado Semanal @ Pink Flamingo: S\u00E1b 9am - 2pm"},
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1768887331/IMG-20260117-WA0018_bvpthv.jpg",
+            location: "https://maps.app.goo.gl/aoPGEEP79W2XzVDj8", 
+            flyer: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1768887331/IMG-20260117-WA0018_bvpthv.jpg",
+            imgMode: "contain"
+        },
+        {
+            name: "Music Lessons (Rodolfo)", desc: {en: "One-on-One Lessons", es: "Clases particulares"},
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766131382/Screenshot_20251219-020218_h8rhgt.png",
+            whatsapp: "50433737562",
+            gallery: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766131382/Screenshot_20251219-020218_h8rhgt.png", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766131383/Screenshot_20251219-020233_cniqgy.png"]
+        },
+        {
+            name: "Lily's Art Studio", desc: {en: "Business Signs, Murals, Commission work & more", es: "R\u00F3tulos, Murales, Encargos y m\u00E1s"},
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766347482/Screenshot_20251220-171206_v9hdmp.png",
+            instagram: "https://www.instagram.com/art_by_lilyy?igsh=cGxrNDQwNDFpZ282", location: "https://maps.app.goo.gl/yZqPC4D38CfGubbG7",
+            hours: {en: "Mon-Sat 1pm - 5pm", es: "Lun-S\u00E1b 1pm - 5pm"}
+        },
+        {
+            name: "Quest Utila", desc: {en: "Library, Books & Games", es: "Biblioteca, libros y juegos"},
+            location: "https://maps.app.goo.gl/evzk3wHG7EhXeeH680",
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766155360/Screenshot_20251219-084140_qgiebw.png",
+            whatsapp: "50498888864"
+        }
+    ],
+    selfcare: {
+        hair: [
+            { name: "Among You Salon", desc: {en: "Beauty Salon", es: "Sal\u00F3n de Belleza"}, facebook: "https://www.facebook.com/share/17iKspZ7TF/", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1768588252/FB_IMG_1768586416766_v5wt4v.jpg", hours: {en: "Contact for Appointments", es: "Contactar para Citas"} },
+            { name: "Cris Beauty Salon", desc: {en: "Beauty Salon", es: "Sal\u00F3n de Belleza"}, contact: "https://www.facebook.com/share/14TGF49fvy1/", hours: {en: "Contact for Booking", es: "Contactar para Reservar"}, image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767648289/Screenshot_20260105-152048_zcciao.png" },
+            { name: "Yossi Salon", desc: {en: "Beauty Salon", es: "Sal\u00F3n de Belleza"}, whatsapp: "50432336963", hours: {en: "Mon-Sat 9am - 7pm", es: "Lun-S\u00E1b 9am - 7pm"}, location: "https://maps.app.goo.gl/aXGwk47m7EoXb5zN6", facebook: "https://www.facebook.com/share/1A9xgV13vE/", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767647450/Screenshot_20260105-150300_t2ubkb.png" }
+        ],
+        massage: [
+            { name: "Sunrise Utila Spa, Home Care & Rehabilitation Center", desc: {en: "Spa, Physical Rehab, Home Care", es: "Spa, Rehabilitaci\u00F3n F\u00EDsica, Cuidado en el Hogar"}, phone: "+504 3361-3491", location: "https://maps.app.goo.gl/nD9iTgWrCADvdJ927", facebook: "https://www.facebook.com/share/1MhteWN3gA/", hours: {en: "Contact for Booking", es: "Contactar para Reservar"}, image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767982796/Screenshot_20260109-121931_tillu1.png", tags: "Spa, Physical Rehab, Home Care" },
+            { name: "Utila Healing Arts Center", desc: {en: "Massage Therapy", es: "Terapia de Masaje"}, whatsapp: "15197312409", hours: {en: "Contact for Booking", es: "Contactar para Reservar"}, image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767645496/Screenshot_20260105-143744_jj90qr.png", flyer: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767645498/Screenshot_20260105-114956_zq7qex.png" }
+        ],
+        nails: [
+            { name: "Vera's Nail Spa", desc: {en: "Nail Spa", es: "Spa de U\u00F1as"}, whatsapp: "50497956781", instagram: "https://www.instagram.com/vera.nailspa", hours: {en: "Contact for Booking", es: "Contactar para Reservar"}, image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767645499/Screenshot_20260105-113200_mrnygt.png" },
+            { name: "Yossi Salon", desc: {en: "Nail Salon", es: "Sal\u00F3n de U\u00F1as"}, whatsapp: "50432336963", hours: {en: "Mon-Sat 9am - 7pm", es: "Lun-S\u00E1b 9am - 7pm"}, location: "https://maps.app.goo.gl/aXGwk47m7EoXb5zN6", facebook: "https://www.facebook.com/share/1A9xgV13vE/", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767647450/Screenshot_20260105-150300_t2ubkb.png" }
+        ]
+    },
+    tours: [
+        {
+            name: "Sunbliss Tours", desc: {en: "Whale Shark & Dolphin Tours, Cayes, Cayos Cochinos, Roat\u00E1n and more...", es: "Tours de Tibur\u00F3n Ballena y Delfines, Cayos, Cayos Cochinos, Roat\u00E1n y m\u00E1s..."},
+            location: "https://maps.app.goo.gl/NVEZNHgiuR4rMEFB7",
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766132405/Screenshot_20251219-021938_ck6hjf.png",
+            whatsapp: "50497031444", hours: {en: "Contact us for more information", es: "Cont\u00E1ctenos para m\u00E1s informaci\u00F3n"}
+        },
+        {
+            name: "Utila Tours & Charters", desc: {en: "Whale Shark & Dolphin Tours, Cayes, Cayos Cochinos, Roat\u00E1n and more...", es: "Tours de Tibur\u00F3n Ballena y Delfines, Cayos, Cayos Cochinos, Roat\u00E1n y m\u00E1s..."},
+            location: "https://maps.app.goo.gl/QRtbV4LBNZrGAsE27",
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766131956/Screenshot_20251219-021114_ivcser.png",
+            whatsapp: "50496472593", hours: {en: "Contact us for more information", es: "Cont\u00E1ctenos para m\u00E1s informaci\u00F3n"}
+        },
+        {
+            name: "Bush's Adventure Tours & Charters", desc: {en: "Whale Shark & Dolphin Tours, Cayes, Cayos Cochinos, Roat\u00E1n and more...", es: "Tours de Tibur\u00F3n Ballena y Delfines, Cayos, Cayos Cochinos, Roat\u00E1n y m\u00E1s..."},
+            location: "https://maps.app.goo.gl/ckzVer7uFVUxceha7",
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766132197/Screenshot_20251219-021608_djbeco.png",
+            whatsapp: "50431457139", hours: {en: "Contact us for more information", es: "Cont\u00E1ctenos para m\u00E1s informaci\u00F3n"}
+        },
+        {
+            name: "Huffy's Tours", desc: {en: "Whale Shark & Dolphin Tours, Cayes, Cayos Cochinos, Roat\u00E1n and more...", es: "Tours de Tibur\u00F3n Ballena y Delfines, Cayos, Cayos Cochinos, Roat\u00E1n y m\u00E1s..."},
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766254680/Screenshot_20251220-121740_dhfr3r.png",
+            facebook: "https://www.facebook.com/share/17avtp47Gh/", hours: {en: "Contact on Facebook for more information", es: "Contactar por Facebook para m\u00E1s informaci\u00F3n"}
+        }
+    ],
+    dive: {
+        padi: [
+            { name: "Alton's Dive Center", desc: {en: "PADI Dive Center", es: "Centro de Buceo PADI"}, contact: "https://diveinutila.com/", whatsapp: "50488804466", location: "https://maps.app.goo.gl/AUq4dggEKoajnvk66", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644926/Screenshot_20260105-133857_r1c8sm.png" },
+            { name: "Coral View Dive Center", desc: {en: "PADI Dive Center", es: "Centro de Buceo PADI"}, contact: "https://coralviewutila.com/", whatsapp: "15513398383", location: "https://maps.app.goo.gl/pia5myBqgAqpx2Yr5", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644923/Screenshot_20260105-134737_qbl6yc.png" },
+            { name: "Leisure Boutique", desc: {en: "PADI Dive Center", es: "Centro de Buceo PADI"}, contact: "https://leisureboutiquedivers.com/", whatsapp: "17036240092", hours: {en: "Contact for Booking", es: "Contactar para Reservar"}, image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644920/Screenshot_20260105-135223_ufvul7.png" },
+            { name: "Paradise Divers", desc: {en: "PADI Dive Center", es: "Centro de Buceo PADI"}, contact: "https://www.paradisediversutila.com/", whatsapp: "50488766424", location: "https://maps.app.goo.gl/uZ8mGcyWEScNsHrb9", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644923/Screenshot_20260105-134330_e4mhm7.png" },
+            { name: "Utila Water Sports", desc: {en: "PADI Dive Center", es: "Centro de Buceo PADI"}, contact: "https://www.utilawatersport.com/", whatsapp: "50431714345", location: "https://maps.app.goo.gl/i3gTD7ToT2ykb5Z59", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644924/Screenshot_20260105-135625_vjhdzj.png" }
+        ],
+        padi5: [
+            { name: "Bay Islands College of Diving", desc: {en: "PADI 5 Star", es: "PADI 5 Estrellas"}, contact: "https://www.dive-utila.com/", whatsapp: "50489492328", location: "https://maps.app.goo.gl/UfAcHPbqUZQsdoNY6", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767645395/Screenshot_20260105-143609_uec3sk.png" },
+            { name: "Underwater Vision", desc: {en: "PADI 5 Star", es: "PADI 5 Estrellas"}, contact: "https://utilascubadiving.com/", whatsapp: "50495848027", location: "https://maps.app.goo.gl/Jguh5oy5kuTqYixV6", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644926/Screenshot_20260105-140231_icmckt.png" },
+            { name: "Utila Dive Centre", desc: {en: "PADI 5 Star", es: "PADI 5 Estrellas"}, contact: "https://utiladivecenter.com/", whatsapp: "16193048740", location: "https://maps.app.goo.gl/pMJGNTsgeBDRGMuM8", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644927/Screenshot_20260105-141013_mkab8t.png" }
+        ],
+        ssi: [
+            { name: "Captain Morgan's Dive Center", desc: {en: "SSI Dive Center", es: "Centro de Buceo SSI"}, contact: "https://www.divingutila.com/", whatsapp: "50432877738", location: "https://maps.app.goo.gl/p6Dru7LHfVHUsREi8", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644925/Screenshot_20260105-141651_jrmj57.png" },
+            { name: "Tank'd Pro Dive Center", desc: {en: "SSI Dive Center", es: "Centro de Buceo SSI"}, contact: "https://prodiveutila.com/", whatsapp: "16673200256", location: "https://maps.app.goo.gl/b2uKdqpzbDTBGh1c9", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644927/Screenshot_20260105-141426_sexjhx.png" }
+        ],
+        sdi: [
+            { name: "Off The Dock Adventures", desc: {en: "SDI Dive Center", es: "Centro de Buceo SDI"}, contact: "https://offthedockadventures.com/", whatsapp: "19546830865", hours: {en: "Contact for Booking", es: "Contactar para Reservar"}, image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644926/Screenshot_20260105-142036_ngfq2b.png" }
+        ],
+        free: [
+            { name: "Freedive Utila", desc: {en: "Freediving", es: "Apnea"}, contact: "https://www.freediveutila.com/", whatsapp: "50495779779", location: "https://maps.app.goo.gl/HUcR56o9c3QNCx5s6", image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644928/Screenshot_20260105-142330_u8cdce.png" }
+        ],
+        charter: [
+            { name: "Leisure Boutique", desc: {en: "Private Charter", es: "Charter Privado"}, contact: "https://leisureboutiquedivers.com/", whatsapp: "17036240092", hours: {en: "Contact for Booking", es: "Contactar para Reservar"}, image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644920/Screenshot_20260105-135223_ufvul7.png" },
+            { name: "Off The Dock Adventures", desc: {en: "Private Charter", es: "Charter Privado"}, contact: "https://offthedockadventures.com/", whatsapp: "19546830865", hours: {en: "Contact for Booking", es: "Contactar para Reservar"}, image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767644926/Screenshot_20260105-142036_ngfq2b.png" }
+        ]
+    },
+    gym: [
+        {
+            name: "Bush's Gym", desc: {en: "Weights & Boxing. Hourly, Daily, Weekly & Monthly passes available.", es: "Pesas y Boxeo. Pases por hora, diario, semanal y mensual disponibles."},
+            location: "https://maps.app.goo.gl/9tSW1goxsacQSmX96",
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766244849/Screenshot_20251220-093346_oekqv9.png",
+            hours: {en: "Mon-Sat 6am - 8pm", es: "Lun-S\u00E1b 6am - 8pm"}
+        },
+        {
+            name: "Utila Yoga & Wellness", desc: {en: "Yoga Classes", es: "Clases de Yoga"},
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766244598/Screenshot_20251220-092920_ze5vcd.png",
+            facebook: "https://www.facebook.com/groups/364816591179105",
+            hours: {en: "Check Facebook Schedule", es: "Ver horario en Facebook"},
+            imgMode: "contain"
+        }
+    ],
+    rentals: [
+        {
+            name: "R&S Rentals", desc: {en: "Motorcycles, 4 Wheelers & Golf Carts", es: "Motos, Cuatrimotos y Carritos de Golf"},
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766243833/Screenshot_20251220-091632_ryh8qa.png",
+            whatsapp: "50433290295", location: "https://maps.app.goo.gl/mDD2ApsSGcRyyvRr62",
+            hours: {en: "Daily 8am - 6pm", es: "Diario 8am - 6pm"}
+        },
+        {
+            name: "Utila Carts", desc: {en: "Golf Carts", es: "Carritos de Golf"},
+            image: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766244093/Screenshot_20251220-092053_x4b1g8.png",
+            contact: "https://utilacarts.com/", location: "https://maps.app.goo.gl/mDD2ApsSGcRyyvRr63",
+            hours: {en: "Daily 8am - 6pm", es: "Diario 8am - 6pm"}
+        }
+    ],
+    emergency: [
+        { type: "section", title: {en:"Medical Services (24/7)", es:"Servicios M\u00E9dicos (24/7)"}, items: [
+            { name: "Centro Salud Medical", desc: "24/7 Medical", phone: "+504 3256 5168", location: "https://maps.app.goo.gl/jc2RhCJymtFebiHa8" },
+            { name: "Utila Medical Center (Medi Centro)", desc: "24/7 Medical", phone: "+504 9711 4955", location: "https://maps.app.goo.gl/dRUnCiYiuNz9pX6b6" }
+        ]},
+        { type: "section", title: {en:"Clinics & Specialized Care", es:"Cl\u00EDnicas y Atenci\u00F3n Especializada"}, items: [
+            { name: "Clinica La Fe", desc: "Dr. Jennifer Menciasm", phone: "+504 9887 1360" },
+            { name: "Hyperbaric Chamber", desc: "Mon-Fri 10am - 12pm, Mon-Fri 2pm - 5pm, Sat 10am - 12pm", phone: "+504 8893 4283", location: "https://maps.app.goo.gl/rmUceSFeQnZXF4JAA" }
+        ]},
+        { type: "section", title: {en:"Fire & Safety", es:"Bomberos y Seguridad"}, items: [
+            { name: "Fire Dept. / Bomberos", desc: "Utila Firefighters", phone: "+504 3207-7961" },
+            { name: "Fire Chief", desc: "Amaru Echeverria", phone: "+504 8797-9582" },
+            { name: "Chief of Operations", desc: "William Matute", phone: "+504 8775-3670" },
+            { name: "Bombero Razo", desc: "Romell Cruz", phone: "+504 9410-3884" }
+        ]},
+        { type: "section", title: {en:"Police / Law Enforcement", es:"Polic\u00EDa"}, items: [
+            { name: "National Police", desc: "Emergency", phone: "+504 3395 9913" },
+            { name: "Municipal Police Chief", desc: "Patrick Flynn", phone: "+504 8998 4995" }
+        ]},
+        { type: "section", title: {en:"Evacuation & Assistance", es:"Evacuaci\u00F3n y Asistencia"}, items: [
+            { name: "Kirstie & Dennie Bush", desc: "Evacuations/Contact", phone: "+504 8921 0045", phone2: "+504 3145 7139" },
+            { name: "Levy Ramon", desc: "Evacuations/Contact", phone: "+504 9647 2593" },
+            { name: "Junior Williams", desc: "Evacuations/Contact", phone: "+504 3343 1528" }
+        ]},
+        { type: "section", title: {en:"Utilities", es:"Servicios P\u00FAblicos"}, items: [
+            { name: "UPCO (Utila Power)", desc: "Power Company", phone: "+504 8828 1644", location: "https://maps.app.goo.gl/US3YPp7WjnsdjcUn8" }
+        ]}
+    ]
+};
+
+const nightLifeData = {
+    "Monday": [
+        { what: "Sunset @ The Pub", where: "The Pub", time: "4:20 PM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        { what: "Movie Night", where: "Underwater Vision", time: "6:30 PM", location: "https://maps.app.goo.gl/rFeK8Pgcy5CQJgeDA" },
+        { what: "Trivia", where: "The Tea Garden", time: "7:00 PM", location: "https://maps.app.goo.gl/BoBuhU4c8Rkt9J9C8" },
+        { what: "Karaoke", where: "Edo's Place", time: "8:00 PM", location: "https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9" },
+        { what: "Karaoke", where: "La Cueva", time: "9:00 PM", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" }
+    ],
+    "Tuesday": [
+        { what: "Sunset @ The Pub", where: "The Pub", time: "4:20 PM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        { what: "The Pub Beats", where: "The Pub", time: "9:00 PM - 12:00 AM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        { what: "Boogie Bomb Nights", where: "Edo's Place", time: "Night", location: "https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9" },
+        { what: "Twisted Tequila Tuesday", where: "La Cueva", time: "Night", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" }
+    ],
+    "Wednesday": [
+        { what: "Sunset @ The Pub", where: "The Pub", time: "4:20 PM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        { what: "Karaoke", where: "Underwater Vision", time: "7:30 PM", location: "https://maps.app.goo.gl/rFeK8Pgcy5CQJgeDA" },
+        { what: "PADI Instructor Graduation", where: "Treetanic", time: "9:00 PM - 2:00 AM", location: "https://maps.app.goo.gl/jW6VVYNqyWh8CDp86", scheduleImg: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1768588289/Screenshot_20260116-122739_tzathn.png" },
+        { what: "Glow in the Dark Beer Pong", where: "La Cueva", time: "Night", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" }
+    ],
+    "Thursday": [
+        { what: "Sunset @ The Pub", where: "The Pub", time: "4:20 PM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        { what: "Trivia", where: "Underwater Vision", time: "7:00 PM", location: "https://maps.app.goo.gl/rFeK8Pgcy5CQJgeDA" },
+        { what: "Girl's Night", where: "La Cueva", time: "Night", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" }
+    ],
+    "Friday": [
+        { what: "Sunset @ The Pub", where: "The Pub", time: "4:20 PM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        { what: "Beer Pong & Friday Night Party", where: "Edo's Place", time: "7:00 PM - 4:00 AM", location: "https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9" },
+        { what: "Hip-Hop Night", where: "La Cueva", time: "Night", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" },
+        { what: "Open Mic", where: "The Pub", time: "Open til 2am", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        { what: "Full Moon Party", where: "Treetanic", time: "Open til 4am", location: "https://maps.app.goo.gl/jW6VVYNqyWh8CDp86", scheduleImg: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1768588288/Screenshot_20260116-122429_qsg4n0.png" }
+    ],
+    "Saturday": [
+        { what: "Sunset @ The Pub", where: "The Pub", time: "4:20 PM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        { what: "BINGO", where: "Edo's Place", time: "5:45 PM", location: "https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9" },
+        { what: "Game Night", where: "Quest Utila", time: "6:00 PM", location: "https://maps.app.goo.gl/FSxZDiuF1XbgfDMj8" },
+        { what: "Jungle Party", where: "The Jungle", time: "Night", location: "https://maps.app.goo.gl/dKVDw7wPWsqHTN5j7", scheduleImg: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1768588307/IMG-20260111-WA0012_eldsuz.jpg" },
+        { what: "Shots Saturday", where: "La Cueva", time: "Night", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" }
+    ],
+    "Sunday": [
+        { what: "Sunset @ The Pub", where: "The Pub", time: "4:20 PM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        { what: "Hog Fry", where: "Edo's Place", time: "12:00 PM", location: "https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9" },
+        { what: "Kids Pool Day", where: "The Point", time: "Day", location: "https://maps.app.goo.gl/amoYT5WJabLWHFpV6" },
+        { what: "Rock n Roll Night", where: "La Cueva", time: "Night", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" }
+    ]
+};
+/* --- 3. NAVIGATION & LOGIC --- */
+let currentMode="eat";
+let activeExploreCategory = "";
+let currentActiveDay = ""; 
+let isModalOpen = false;
+let lastScrollTop = 0;
+
+/* SCROLL & SEARCH UX */
+window.addEventListener('scroll', function() {
+    if(currentMode !== 'eat') return;
+    
+    const st = window.pageYOffset || document.documentElement.scrollTop;
+    const wrapper = document.getElementById('search-wrapper');
+    
+    // 1. Force SHOW if we are near the top
+    if (st < 60) {
+        wrapper.classList.remove('max-h-0', 'opacity-0');
+        wrapper.classList.add('max-h-32', 'opacity-100');
+        lastScrollTop = st;
+        return;
+    }
+
+    // 2. Ignore small movements
+    if (Math.abs(lastScrollTop - st) <= 10) return;
+    
+    if (st > lastScrollTop) {
+        // Scroll Down -> Hide
+        wrapper.classList.remove('max-h-32', 'opacity-100');
+        wrapper.classList.add('max-h-0', 'opacity-0');
+    } else {
+        // Scroll Up -> Show
+        wrapper.classList.remove('max-h-0', 'opacity-0');
+        wrapper.classList.add('max-h-32', 'opacity-100');
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+}, false);
+
+function clearSearch() {
+    document.getElementById('searchInput').value = "";
+    document.getElementById('clearSearchBtn').classList.add('hidden');
+    renderList(activeTag);
+}
+
+/* --- "OPEN NOW" LOGIC ENGINE --- */
+function checkOpenStatus(timeStr) {
+    if(!timeStr) return false;
+    if(timeStr.includes("CLOSED UNTIL")) return false;
+
+    const now = new Date();
+    let day = now.getDay(); // 0=Sun
+    let mins = now.getHours() * 60 + now.getMinutes();
+    
+    // Late night logic (00:00 - 04:00 belongs to previous day)
+    if (mins < 240) { 
+        day = (day === 0) ? 6 : day - 1; 
+        mins += 1440; 
+    }
+
+    let cleanStr = timeStr.toLowerCase();
+    const daysArr = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    const daysMap = { 'sun': 0, 'mon': 1, 'tue': 2, 'wed': 3, 'thu': 4, 'fri': 5, 'sat': 6 };
+    const todayCode = daysArr[day];
+    
+    if (cleanStr.includes(`closed ${todayCode}`)) return false; 
+
+    cleanStr = cleanStr.replace(/daily|from|hours|open\s/g, "").trim();
+    let segments = cleanStr.split(/,/); 
+
+    const parseTime = (tStr) => {
+        if(!tStr) return null;
+        tStr = tStr.trim();
+        if(tStr.includes('midnight') || tStr.includes('12am')) return 24 * 60; 
+        if(tStr.includes('sunset')) return 18 * 60; 
+        if(tStr.includes('24/7')) return 9999;
+        
+        let isPM = tStr.includes('pm');
+        let isAM = tStr.includes('am');
+        let time = tStr.replace(/[a-z]/g, "").trim();
+        let [h, m] = time.split(':').map(Number);
+        if(isNaN(m)) m = 0;
+        
+        if (isPM && h !== 12) h += 12;
+        if (isAM && h === 12) h = 0;
+        
+        return h * 60 + m;
+    };
+
+    let isOpen = false;
+
+    for (let seg of segments) {
+        seg = seg.trim();
+        if(!seg) continue;
+
+        let applicableDays = [];
+        const rangeMatch = seg.match(/([a-z]{3})\s*-\s*([a-z]{3})/);
+        
+        if (rangeMatch) {
+            let start = daysMap[rangeMatch[1]];
+            let end = daysMap[rangeMatch[2]];
+            if (start !== undefined && end !== undefined) {
+                let ptr = start;
+                while (true) { 
+                    applicableDays.push(ptr); 
+                    if (ptr === end) break; 
+                    ptr = (ptr + 1) % 7; 
+                }
+            }
+        } else {
+            let foundDay = false;
+            daysArr.forEach(dStr => { 
+                if (seg.includes(dStr)) {
+                    applicableDays.push(daysMap[dStr]); 
+                    foundDay = true;
+                }
+            });
+            if(!foundDay) applicableDays = [0,1,2,3,4,5,6]; 
+        }
+
+        if (applicableDays.includes(day)) {
+            const timeMatch = seg.match(/(\d{1,2}(?::\d{2})?\s*(?:am|pm|midnight|sunset)?)\s*-\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm|midnight|sunset)?)/);
+            if (timeMatch) {
+                let startMin = parseTime(timeMatch[1]);
+                let endMin = parseTime(timeMatch[2]);
+                if (endMin < startMin) endMin += 1440; 
+                if (mins >= startMin && mins < endMin) isOpen = true; 
+            } else if (seg.includes('24/7')) { 
+                isOpen = true; 
+            }
+        }
+    }
+    return isOpen;
+}
+
+function setLanguage(lang){
+    currentLang = lang;
+    localStorage.setItem('utilaEatsLang', currentLang);
+    updateUIText();
+    if(!document.getElementById('eventsModal').classList.contains('hidden') && currentActiveDay){ openEvents(currentActiveDay); }
+    if(document.getElementById('nightlife-view').classList.contains('flex')){ renderNightLifeGrid(); }
+    if(document.getElementById('explore-menu-view').classList.contains('flex')){ renderExploreGrid(); }
+    if(document.getElementById('dive-menu-view').classList.contains('flex')){ renderDiveGrid(); }
+    if(document.getElementById('selfcare-menu-view').classList.contains('flex')){ renderSelfCareGrid(); }
+    if(currentMode === 'explore-list' && activeExploreCategory){
+         if(activeExploreCategory === 'emergency'){ renderEmergencyBoard(); document.getElementById('list-title').innerHTML = `<i class="fa-solid fa-kit-medical text-white"></i> ${translations[currentLang].catEmergency}`; } 
+         else { renderExploreList(activeExploreCategory); }
+    } else if (currentMode === 'eat' || currentMode === 'ride') {
+         renderList(activeTag);
+         const t = translations[currentLang];
+         const titleEl = document.getElementById('list-title');
+         if(currentMode === 'eat') titleEl.innerHTML = `<i class="fa-solid fa-burger text-white"></i> ${t.restaurants}`;
+         if(currentMode === 'ride') titleEl.innerHTML = `<i class="fa-solid fa-motorcycle text-white"></i> ${t.delivery}`;
+    }
+}
+
+function updateUIText(){
+    const t = translations[currentLang];
+    const setBtnStyle = (id, isActive) => { const el = document.getElementById(id); if(el) { el.className = isActive ? "px-3 py-1 text-[10px] rounded transition bg-white/20 text-white font-bold shadow-sm uppercase tracking-wider" : "px-3 py-1 text-[10px] rounded transition text-white/60 hover:text-white hover:bg-white/10 uppercase font-bold tracking-wider"; } };
+    setBtnStyle('btn-lang-en', currentLang === 'en'); setBtnStyle('btn-lang-es', currentLang === 'es');
+    setBtnStyle('btn-lang-en-app', currentLang === 'en'); setBtnStyle('btn-lang-es-app', currentLang === 'es');
+    // ... (other lang buttons)
+    document.getElementById('subtitle-home').innerText = t.subtitle;
+    document.getElementById('prompt-home').innerText = t.prompt;
+    document.getElementById('btn-emergency-home').innerText = t.emergencyBtn;
+    document.getElementById('btn-restaurants').innerText = t.restaurants;
+    document.getElementById('btn-delivery').innerText = t.delivery;
+    document.getElementById('btn-explore').querySelector('span').innerText = t.explore;
+    document.getElementById('btn-nightlife').querySelector('span').innerText = t.nightlife;
+    document.getElementById('btn-show-all').innerText = t.showAll;
+    document.getElementById('btn-donate').innerText = t.donate;
+    document.getElementById('btn-suggest').innerText = t.suggest;
+    document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+    document.getElementById('modalTitle').innerText = t.menuTitle;
+    document.getElementById('specialsTitle').innerText = t.specialsTitle;
+    document.getElementById('explore-title-main').innerText = t.exploreTitle;
+    document.getElementById('dive-title-main').innerText = t.diveTitle;
+    document.getElementById('selfcare-title-main').innerText = t.scTitle;
+    document.getElementById('nightlife-title').innerText = t.nlTitle;
+    document.getElementById('nl-helper').innerText = t.clickDay;
+    document.getElementById('donate-label').innerText = t.supportLocal;
+    document.getElementById('btn-swamper-label').innerText = t.saveSwamper;
+    document.getElementById('btn-cave-label').innerText = t.saveCave;
+    const dailyBtn = document.getElementById('btn-daily-activities'); if(dailyBtn) dailyBtn.innerText = t.dailyActivities;
+}
+
+function updateAppHeaderColor(colorClass) {
+    const header = document.getElementById('app-header');
+    header.classList.remove('grad-eat', 'grad-ride', 'grad-explore', 'grad-dive', 'grad-selfcare', 'grad-night');
+    header.classList.add(colorClass);
+}
+
+function goToApp(mode, subCategory=""){
+    currentMode = mode; 
+    history.pushState({view: 'app', mode: mode, sub: subCategory}, '', '#'+mode);
+    window.scrollTo(0,0);
+    const views = ['home-view', 'app-view', 'explore-menu-view', 'nightlife-view', 'dive-menu-view', 'selfcare-menu-view'];
+    views.forEach(v => { document.getElementById(v).classList.add('hidden'); document.getElementById(v).classList.remove('flex'); });
+    const app = document.getElementById('app-view');
+    const favBtn = document.getElementById('favFilterBtn');
+    const filterContainer = document.getElementById('filter-container');
+    const searchContainer = document.getElementById('search-container');
+    const searchWrapper = document.getElementById('search-wrapper');
+    const donatePanel = document.getElementById('donate-panel');
+    const title = document.getElementById('list-title');
+    const t = translations[currentLang];
+
+    document.getElementById('empty-state').classList.add('hidden');
+    document.getElementById('restaurant-list').classList.add('hidden');
+    document.getElementById('driver-list').classList.add('hidden');
+    document.getElementById('explore-list').classList.add('hidden');
+    document.getElementById('emergency-list').classList.add('hidden');
+    searchContainer.classList.remove('hidden');
+    if(searchWrapper){ searchWrapper.classList.remove('max-h-0', 'opacity-0'); searchWrapper.classList.add('max-h-32', 'opacity-100'); }
+    donatePanel.classList.add('hidden');
+
+    if(mode === 'eat'){
+        app.classList.remove('hidden'); app.classList.add('flex');
+        updateAppHeaderColor('grad-eat'); 
+        title.innerHTML = `<i class="fa-solid fa-burger text-white"></i> ${t.restaurants}`;
+        filterContainer.classList.remove('hidden'); favBtn.classList.remove('hidden'); 
+        document.getElementById('restaurant-list').classList.remove('hidden');
+        resetFilters(); 
+    } else if(mode === 'ride') {
+        app.classList.remove('hidden'); app.classList.add('flex');
+        updateAppHeaderColor('grad-ride');
+        title.innerHTML = `<i class="fa-solid fa-motorcycle text-white"></i> ${t.delivery}`;
+        filterContainer.classList.add('hidden'); favBtn.classList.add('hidden'); 
+        document.getElementById('driver-list').classList.remove('hidden');
+        renderList("All");
+    } else if(mode === 'explore') {
+        document.getElementById('explore-menu-view').classList.remove('hidden'); document.getElementById('explore-menu-view').classList.add('flex');
+        renderExploreGrid();
+    } else if(mode === 'dive-menu') {
+        document.getElementById('dive-menu-view').classList.remove('hidden'); document.getElementById('dive-menu-view').classList.add('flex');
+        renderDiveGrid();
+    } else if(mode === 'selfcare-menu') {
+        document.getElementById('selfcare-menu-view').classList.remove('hidden'); document.getElementById('selfcare-menu-view').classList.add('flex');
+        renderSelfCareGrid();
+    } else if(mode === 'nightlife') {
+        document.getElementById('nightlife-view').classList.remove('hidden'); document.getElementById('nightlife-view').classList.add('flex');
+        renderNightLifeGrid();
+    } else if(mode === 'explore-list') {
+        app.classList.remove('hidden'); app.classList.add('flex');
+        activeExploreCategory = subCategory; 
+        filterContainer.classList.add('hidden'); favBtn.classList.add('hidden'); 
+        let catTitle = ""; let catIcon = "fa-map-location-dot";
+        if(subCategory === 'eco') { catTitle = t.catEco; catIcon='fa-leaf'; updateAppHeaderColor('grad-explore'); searchContainer.classList.add('hidden'); donatePanel.classList.remove('hidden'); }
+        else if(subCategory === 'tours') { catTitle = t.catTours; catIcon='fa-ship'; updateAppHeaderColor('grad-dive'); }
+        else if(subCategory === 'gym') { catTitle = t.catFitness; catIcon='fa-dumbbell'; updateAppHeaderColor('grad-eat'); }
+        else if(subCategory === 'emergency') { catTitle = t.catEmergency; catIcon='fa-kit-medical'; updateAppHeaderColor('grad-eat'); }
+        else if(subCategory === 'arts') { catTitle = t.catArts; catIcon='fa-palette'; updateAppHeaderColor('grad-selfcare'); }
+        else if(subCategory.startsWith('dive:')) { const sub = subCategory.split(':')[1]; const subMap = { 'padi': t.subPadi, 'padi5': t.subPadi5, 'ssi': t.subSsi, 'sdi': t.subSdi, 'free': t.subFree, 'charter': t.subCharter }; catTitle = subMap[sub] || sub; catIcon = 'fa-mask-ventilator'; updateAppHeaderColor('grad-dive'); }
+        else if(subCategory.startsWith('selfcare:')) { const sub = subCategory.split(':')[1]; const subMap = { 'hair': t.subHair, 'massage': t.subMassage, 'nails': t.subNails }; catTitle = subMap[sub] || sub; catIcon = 'fa-spa'; updateAppHeaderColor('grad-selfcare'); }
+        title.innerHTML = `<i class="fa-solid ${catIcon} text-white"></i> ${catTitle}`;
+        if(subCategory === 'emergency'){ document.getElementById('emergency-list').classList.remove('hidden'); searchContainer.classList.add('hidden'); renderEmergencyBoard(); } 
+        else { document.getElementById('explore-list').classList.remove('hidden'); renderExploreList(subCategory); }
+    }
+}
+
+function goHome(){
+    // IF A MODAL IS OPEN, CLOSE IT FIRST
+    if(isModalOpen) { closeDetail(); closeModal(); closeSpecials(); closeEvents(); return; }
+    
+    // NAVIGATION LOGIC
+    if(history.state && history.state.view === 'app'){
+        // If we are in a sub-view (Dive, Self-care, List), go BACK to the parent menu
+        const sub = history.state.sub || "";
+        if(sub.startsWith('dive:') || sub.startsWith('selfcare:') || history.state.mode === 'explore-list' || history.state.mode === 'dive-menu' || history.state.mode === 'selfcare-menu') { 
+            history.back(); 
+        } else { 
+            // If we are at the top level of the App (Eat/Ride/Explore), go Home
+            forceHomeView(); 
+        }
+    } else if (history.state && (history.state.mode === 'explore' || history.state.mode === 'nightlife')) { 
+        forceHomeView(); 
+    } else { 
+        // Fallback
+        forceHomeView(); 
+    }
+}
+
+window.onpopstate = function(event) { 
+    if(isModalOpen) { document.getElementById('detailModal').classList.add('hidden'); document.getElementById('imageModal').classList.add('hidden'); document.getElementById('specialsModal').classList.add('hidden'); document.getElementById('eventsModal').classList.add('hidden'); isModalOpen = false; return; }
+    if(event.state){
+        currentMode = event.state.mode; 
+        if(event.state.mode === 'explore') { document.getElementById('dive-menu-view').classList.add('hidden'); document.getElementById('dive-menu-view').classList.remove('flex'); document.getElementById('selfcare-menu-view').classList.add('hidden'); document.getElementById('selfcare-menu-view').classList.remove('flex'); document.getElementById('app-view').classList.add('hidden'); document.getElementById('app-view').classList.remove('flex'); document.getElementById('explore-menu-view').classList.remove('hidden'); document.getElementById('explore-menu-view').classList.add('flex'); }
+        else if (event.state.mode === 'dive-menu'){ document.getElementById('app-view').classList.add('hidden'); document.getElementById('app-view').classList.remove('flex'); document.getElementById('explore-menu-view').classList.add('hidden'); document.getElementById('explore-menu-view').classList.remove('flex'); document.getElementById('dive-menu-view').classList.remove('hidden'); document.getElementById('dive-menu-view').classList.add('flex'); }
+        else if (event.state.mode === 'selfcare-menu'){ document.getElementById('app-view').classList.add('hidden'); document.getElementById('app-view').classList.remove('flex'); document.getElementById('explore-menu-view').classList.add('hidden'); document.getElementById('explore-menu-view').classList.remove('flex'); document.getElementById('selfcare-menu-view').classList.remove('hidden'); document.getElementById('selfcare-menu-view').classList.add('flex'); }
+        else if (event.state.mode === 'nightlife') { document.getElementById('app-view').classList.add('hidden'); document.getElementById('app-view').classList.remove('flex'); document.getElementById('nightlife-view').classList.remove('hidden'); document.getElementById('nightlife-view').classList.add('flex'); }
+        else if (event.state.view === 'app') { const app = document.getElementById('app-view'); app.classList.remove('hidden'); app.classList.add('flex'); const sub = event.state.sub || ""; if(currentMode === 'eat') updateAppHeaderColor('grad-eat'); else if(currentMode === 'ride') updateAppHeaderColor('grad-ride'); else if(currentMode === 'explore-list') { if(sub==='eco') updateAppHeaderColor('grad-explore'); else if(sub==='tours' || sub.startsWith('dive:')) updateAppHeaderColor('grad-dive'); else if(sub.startsWith('selfcare:') || sub==='arts') updateAppHeaderColor('grad-selfcare'); else updateAppHeaderColor('grad-eat'); } } else { forceHomeView(); }
+    } else { forceHomeView(); }
+};
+
+function forceHomeView(){
+    currentMode = 'home';
+    ['app-view', 'explore-menu-view', 'nightlife-view', 'dive-menu-view', 'selfcare-menu-view'].forEach(id => { const el = document.getElementById(id); el.classList.add('hidden'); el.classList.remove('flex'); });
+    document.getElementById('home-view').classList.remove('hidden'); document.getElementById('searchInput').value = "";
+}
+
+function findItemByName(name) {
+    let item = db.find(i => i.name === name);
+    if(item) return {...item, type: 'eat'};
+    item = drivers.find(i => i.name === name);
+    if(item) return {...item, type: 'ride'};
+    for(let cat in exploreData){
+        const val = exploreData[cat];
+        if(Array.isArray(val)){ item = val.find(i => i.name === name); if(item) return {...item, type: 'explore'}; } 
+        else if (typeof val === 'object') { for(let sub in val){ if(Array.isArray(val[sub])){ item = val[sub].find(i => i.name === name); if(item) return {...item, type: 'explore'}; } } }
+    }
+    return null;
+}
+
+function openDetail(name) {
+    const item = findItemByName(name);
+    if(!item) return;
+    isModalOpen = true; history.pushState({view: 'modal'}, '', '#detail');
+    const t = translations[currentLang];
+    const content = document.getElementById('detailContent');
+    
+    let statusHTML = '';
+    let hoursText = item.hours ? (typeof item.hours === 'object' ? (item.hours[currentLang] || item.hours['en']) : item.hours) : '';
+    
+    if(item.type === 'eat' || item.type === 'ride'){
+        const hEn = (typeof item.hours === 'object' ? item.hours['en'] : item.hours) || "";
+        let openLogic = item.name.includes("The Captain") ? false : checkOpenStatus(hEn);
+        if(hEn && /\d/.test(hEn) && !item.name.includes("Cinema")){
+             const color = openLogic ? 'text-green-600 bg-green-50' : 'text-red-500 bg-red-50';
+             const text = openLogic ? t.statusOpen : t.statusClosed;
+             statusHTML = `<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold ${color} mb-3 border border-current"><div class="w-2 h-2 rounded-full bg-current animate-pulse"></div>${text}</div>`;
+        }
+    }
+
+    // BUTTON BUILDER LOGIC (Detail View)
+    let mainContactBtn = '';
+    let socialRow = '';
+    let miscBtns = '';
+
+    // 1. Primary Contact (WhatsApp or Phone)
+    const cleanNum = (item.whatsapp || item.contact || item.phone || "").replace(/[^0-9]/g, '');
+    const isWa = item.whatsapp || (item.contact && !item.contact.includes('http') && cleanNum.length > 5);
+    
+    if(item.type === 'ride'){
+         const msgR = currentLang==='es' ? `Hola ${item.name}, te encontr\u00E9 en Utila Eats. \u00BFMe podr\u00EDas llevar?` : `Hi ${item.name}, I found you on Utila Eats. Can I get a ride?`;
+         mainContactBtn = `<a href="https://wa.me/${cleanNum}?text=${encodeURIComponent(msgR)}" target="_blank" class="w-full bg-teal-600 text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-md text-lg hover:bg-teal-700 transition"><i class="fa-solid fa-motorcycle mr-2"></i> ${t.ride}</a>`;
+    } else if (isWa) {
+         let msg = "";
+         if(currentLang === 'es'){msg=`\u00A1Hola! Te encontr\u00E9 en Utila Eats.`;} else {msg=`Hi! I found you on Utila Eats.`;}
+         mainContactBtn = `<a href="https://wa.me/${cleanNum}?text=${encodeURIComponent(msg)}" target="_blank" class="w-full bg-green-500 text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-md text-lg hover:opacity-90 transition"><i class="fa-brands fa-whatsapp mr-2"></i> Chat</a>`;
+    } else if (cleanNum.length > 5) {
+         mainContactBtn = `<a href="tel:+${cleanNum}" target="_blank" class="w-full bg-gray-600 text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-md text-lg hover:opacity-90 transition"><i class="fa-solid fa-phone mr-2"></i> Call</a>`;
+    }
+
+    // 2. Social Row (Facebook / Instagram / Map)
+    let socialBtns = '';
+    if(item.facebook) {
+        socialBtns += `<a href="${item.facebook}" target="_blank" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl flex items-center justify-center shadow-sm text-sm hover:opacity-90 transition"><i class="fa-brands fa-facebook-messenger mr-2 text-lg"></i> FB</a>`;
+    }
+    if(item.instagram) {
+        socialBtns += `<a href="${item.instagram}" target="_blank" class="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-xl flex items-center justify-center shadow-sm text-sm hover:opacity-90 transition"><i class="fa-brands fa-instagram mr-2 text-lg"></i> IG</a>`;
+    }
+    if(item.loc || item.location) {
+        socialBtns += `<a href="${item.loc || item.location}" target="_blank" class="flex-1 bg-blue-50 text-blue-600 border border-blue-200 font-bold py-3 rounded-xl flex items-center justify-center shadow-sm text-sm hover:bg-blue-100 transition"><i class="fa-solid fa-map-location-dot mr-2 text-lg"></i> Map</a>`;
+    }
+    
+    if(socialBtns) {
+        socialRow = `<div class="flex gap-2 mt-2 w-full">${socialBtns}</div>`;
+    }
+
+    // 3. Misc Buttons (Menu, Services - REMOVED closeDetail())
+    const safeName = item.name.replace(/'/g, "\\'");
+    if(item.menuImages) {
+        // NOTE: No closeDetail() here. Menu opens ON TOP.
+        miscBtns += `<button onclick="openMenu('${safeName}')" class="w-full bg-teal-50 text-teal-600 border border-teal-200 font-bold py-4 rounded-xl flex items-center justify-center shadow-sm text-lg hover:bg-teal-100 transition mt-2"><i class="fa-solid fa-book-open mr-2"></i> ${t.viewMenu}</button>`;
+    }
+    if(item.flyer) {
+         // NOTE: No closeDetail() here.
+         miscBtns += `<button onclick="openModal(['${item.flyer}'], '${t.viewServices}')" class="w-full bg-purple-50 text-purple-600 border border-purple-200 font-bold py-4 rounded-xl flex items-center justify-center shadow-sm text-lg hover:bg-purple-100 transition mt-2"><i class="fa-solid fa-hand-sparkles mr-2"></i> ${t.viewServices}</button>`;
+    }
+
+    const imgUrl = item.img || item.image || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80';
+    const imgClass = (item.type === 'explore' || item.imgMode === 'contain') ? 'object-contain bg-white p-2' : 'object-cover';
+
+    content.innerHTML = `
+        <div class="h-64 w-full relative bg-gray-100">
+            <img src="${optimizeUrl(imgUrl)}" class="w-full h-full ${imgClass}">
+            <button onclick="closeDetail()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center backdrop-blur-md"><i class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+        <div class="p-6">
+            ${statusHTML}
+            <h2 class="text-3xl font-bold text-gray-900 mb-2 leading-tight">${item.name}</h2>
+            ${item.tags ? `<div class="flex flex-wrap gap-2 mb-6">${item.tags.split(',').map(tag => `<span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-lg text-sm font-bold border border-gray-200">${currentLang==='es'?(tagMap[tag.trim()]||tag.trim()):tag.trim()}</span>`).join('')}</div>` : ''}
+            
+            ${item.desc ? `<p class="text-gray-600 italic mb-6 text-lg leading-relaxed border-l-4 border-teal-500 pl-4 bg-gray-50 py-2 pr-2 rounded-r-lg">${typeof item.desc === 'object' ? (item.desc[currentLang]||item.desc['en']) : item.desc}</p>` : ''}
+            
+            ${hoursText ? `<div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 mb-6"><h4 class="font-bold text-blue-400 text-xs uppercase tracking-wider mb-2"><i class="fa-regular fa-clock mr-1"></i> Hours</h4><p class="text-xl font-bold text-slate-700 leading-snug">${hoursText}</p></div>` : ''}
+            
+            <div class="flex flex-col mt-4">
+                ${mainContactBtn}
+                ${socialRow}
+                ${miscBtns} 
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('detailModal').classList.remove('hidden');
+}
+
+function closeDetail(){ 
+    if(!document.getElementById('detailModal').classList.contains('hidden')){ history.back(); }
+}
+/* RENDERING ENGINES */
+function getButtonConfig(place){if(!place.contact && !place.whatsapp && !place.phone)return null;let type,url,color,icon,label;
+const cleanNum=(place.whatsapp||place.contact||place.phone||"").replace(/[^0-9]/g,'');
+const isWa = place.whatsapp || (place.contact && !place.contact.includes('http') && cleanNum.length > 5);
+
+if(isWa){
+    type='whatsapp';
+    let msg="";
+    if(currentLang === 'es'){if(place.menuImages){msg=`\u00A1Hola! Te encontr\u00E9 en Utila Eats.`}else{msg=`\u00A1Hola! Te encontr\u00E9 en Utila Eats.`}} 
+    else {if(place.menuImages){msg=`Hi! I found you on Utila Eats.`}else{msg=`Hi! I found you on Utila Eats.`}}
+    url=`https://wa.me/${cleanNum}?text=${encodeURIComponent(msg)}`;color='bg-green-500';icon='fa-brands fa-whatsapp';label='Chat';
+} else if (cleanNum.length > 5 && !place.contact?.includes('http')) {
+    type='phone'; url=`tel:+${cleanNum}`; color='bg-gray-600'; icon='fa-solid fa-phone'; label='Call';
+} else { return null; }
+return{url,color,icon,label,type}}
+
+function renderList(tag="All"){
+    const t = translations[currentLang];
+    const getPlaceholder=(tags)=>{const t=tags.toLowerCase();if(t.includes('pizza'))return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';if(t.includes('burger'))return 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80';if(t.includes('cafe')||t.includes('coffee'))return 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80';return 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80';};
+
+    if(currentMode==="eat"){
+        activeTag=tag;const container=document.getElementById('restaurant-list');const searchVal=document.getElementById('searchInput').value.toLowerCase();const filterContainer=document.getElementById('filter-container');
+        
+        const clearBtn = document.getElementById('clearSearchBtn');
+        if(searchVal.length > 0) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+
+        const allTags=new Set(["All"]);
+        db.forEach(p=>{p.tags.split(',').forEach(rawT=>{const tr = rawT.trim();if(!tr) return;const displayTag = currentLang === 'es' ? (tagMap[tr] || tr) : tr;allTags.add(displayTag);});});
+        
+        // Remove 'Delivery' from sorted tags because we pin it manually
+        const deliveryTag = currentLang === 'es' ? 'A Domicilio' : 'Delivery';
+        if(allTags.has(deliveryTag)) allTags.delete(deliveryTag);
+        
+        const sortedTags=Array.from(allTags).filter(item => item !== "All").sort();
+        const allLabel = t.showAll.includes('Show') ? 'All' : 'Todos';
+        
+        // PINNED FILTERS: All -> Open Now -> Delivery
+        let filterHTML = `<button onclick="renderList('All')" class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition shadow-md ${activeTag==='All'?'bg-teal-600 text-white':'bg-teal-50 text-teal-800 border border-teal-200'}">${allLabel}</button>`;
+        filterHTML += `<button onclick="renderList('OpenNow')" class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition border shadow-sm ${activeTag==='OpenNow'?'bg-green-600 text-white border-green-600':'bg-white text-green-700 border-green-200 hover:bg-green-50'}"><i class="fa-solid fa-clock mr-1"></i>${t.openNow}</button>`;
+        // Delivery Button
+        const delActive = activeTag === 'Delivery' || activeTag === 'A Domicilio';
+        filterHTML += `<button onclick="renderList('${deliveryTag}')" class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition border shadow-sm ${delActive?'bg-teal-600 text-white border-teal-600':'bg-white text-teal-700 border-teal-200 hover:bg-teal-50'}"><i class="fa-solid fa-motorcycle mr-1"></i>${t.filterDelivery}</button>`;
+        
+        filterHTML += sortedTags.map(tg=>`<button onclick="renderList('${tg}')" class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition border shadow-sm ${activeTag===tg?'bg-teal-600 text-white border-teal-600':'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}">${tg}</button>`).join('');
+        filterContainer.innerHTML = filterHTML;
+        
+        container.innerHTML="";let count=0;
+        db.forEach(place=>{
+            let placeTags = place.tags.split(',').map(s=>s.trim());
+            if(currentLang === 'es') placeTags = placeTags.map(pt => tagMap[pt] || pt);
+            
+            const matchTag = activeTag === "All" || activeTag === "OpenNow" || placeTags.includes(activeTag);
+            const matchSearch = !searchVal || place.name.toLowerCase().includes(searchVal) || placeTags.some(pt => pt.toLowerCase().includes(searchVal));
+            const matchFav = !showOnlyFavorites || favorites.includes(place.name);
+            if(!matchTag || !matchSearch || !matchFav) return;
+            
+            const hoursForLogic = place.openHours ? place.openHours['en'] : place.hours['en'];
+            let hasNumbers = /\d/.test(hoursForLogic);
+            let isOpen = hasNumbers ? checkOpenStatus(hoursForLogic) : false;
+            if(place.name.includes("The Captain")){ hasNumbers = true; isOpen = false; }
+            if(activeTag === 'OpenNow' && !isOpen) return;
+
+            let statusBadgeHTML = '';
+            if(hasNumbers){
+                const badgeClass = isOpen ? 'bg-green-600 animate-pulse' : 'bg-gray-600';
+                const badgeText = isOpen ? t.statusOpen : t.statusClosed;
+                const badgeIcon = isOpen ? '<i class="fa-solid fa-circle text-[6px] text-white/80"></i>' : '';
+                statusBadgeHTML = `<div class="status-badge ${badgeClass}">${badgeIcon} ${badgeText}</div>`;
+            }
+            
+            const btnConfig=getButtonConfig(place);
+            const coverImage=place.img?optimizeUrl(place.img, 400):getPlaceholder(place.tags);
+            const isFav=favorites.includes(place.name);
+            const tagsHTML = placeTags.map(tag=>`<span class="text-[10px] bg-teal-50 text-teal-800 px-1.5 py-0.5 rounded-md mr-1 mb-1 inline-block border border-teal-100">${tag}</span>`).join('');
+            
+            // --- BUTTONS ROW LOGIC ---
+            let actionBtnHTML; 
+            if(btnConfig){
+                actionBtnHTML=`<a href="${btnConfig.url}" target="_blank" onclick="event.stopPropagation()" class="w-full ${btnConfig.color} text-white font-bold py-2 rounded-lg flex items-center justify-center shadow-md hover:opacity-90 transition text-sm"><i class="${btnConfig.icon} mr-1.5 text-lg"></i> ${btnConfig.label}</a>`;
+            } else {
+                actionBtnHTML=`<div class="w-full bg-gray-300 text-white font-bold py-2 rounded-lg flex items-center justify-center cursor-not-allowed text-sm"><i class="fa-solid fa-phone-slash mr-1.5"></i> ${t.inPerson}</div>`;
+            }
+            
+            let secondaryBtns = '';
+            if(place.facebook){ secondaryBtns += `<a href="${place.facebook}" target="_blank" onclick="event.stopPropagation()" class="flex-1 bg-blue-100 text-blue-600 font-bold py-2 rounded-lg flex items-center justify-center border border-blue-200 hover:bg-blue-200 shadow-sm transition"><i class="fa-brands fa-facebook-messenger text-lg"></i></a>`; }
+            if(place.instagram){ secondaryBtns += `<a href="${place.instagram}" target="_blank" onclick="event.stopPropagation()" class="flex-1 bg-pink-100 text-pink-600 font-bold py-2 rounded-lg flex items-center justify-center border border-pink-200 hover:bg-pink-200 shadow-sm transition"><i class="fa-brands fa-instagram text-lg"></i></a>`; }
+            if(place.loc && place.loc.includes('http')){ secondaryBtns += `<a href="${place.loc}" target="_blank" onclick="event.stopPropagation()" class="flex-1 bg-gray-100 text-gray-600 font-bold py-2 rounded-lg flex items-center justify-center border border-gray-200 hover:bg-gray-200 shadow-sm transition"><i class="fa-solid fa-map-location-dot text-lg"></i></a>`; }
+            
+            let buttonContainer = `<div class="flex flex-col gap-2 mt-auto">
+                ${actionBtnHTML}
+                ${secondaryBtns ? `<div class="flex gap-2">${secondaryBtns}</div>` : ''}
+            </div>`;
+
+            let menuStatusHTML=''; const safeName = place.name.replace(/'/g, "\\'");
+            if(place.menuImages){
+                menuStatusHTML += `<button onclick="event.stopPropagation(); openMenu('${safeName}')" class="w-full bg-teal-50 hover:bg-teal-100 border-l-4 border-teal-500 p-2 mb-2 rounded-r-md flex items-center justify-between transition group shadow-sm"><div class="flex items-center"><i class="fa-solid fa-book-open text-teal-600 mr-2 text-xs"></i><span class="text-xs font-bold text-teal-800 uppercase tracking-wide">${t.viewMenu}</span></div><i class="fa-solid fa-chevron-right text-teal-400 text-xs group-hover:translate-x-1 transition-transform"></i></button>`;
+            } else if(place.customMenu){
+                let menuTxt = "";if(typeof place.customMenu === 'object'){menuTxt = place.customMenu[currentLang] || place.customMenu['en'];} else {menuTxt = currentLang === 'es' && place.customMenu.includes('Facebook') ? t.dailyMenu : place.customMenu;} 
+                menuStatusHTML += `<div class="bg-amber-50 border-l-2 border-amber-400 p-2 mb-2 rounded-r-md flex items-start"><i class="fa-solid fa-bullhorn text-amber-500 mt-0.5 mr-2 text-xs"></i><div><p class="text-[10px] font-bold text-amber-800 leading-tight">${menuTxt}</p></div></div>`;
+            } else if(place.menu==='DAILY'||place.menu==='ASK'){
+                menuStatusHTML += `<div class="bg-amber-50 border-l-2 border-amber-400 p-2 mb-2 rounded-r-md flex items-start"><i class="fa-solid fa-utensils text-amber-500 mt-0.5 mr-2 text-xs"></i><div><p class="text-[10px] font-bold text-amber-800 uppercase tracking-wide">${t.askMenu}</p></div></div>`;
+            }
+            if(place.specials || place.specialsImage){
+                menuStatusHTML += `<button onclick="event.stopPropagation(); openSpecials('${safeName}')" class="w-full bg-purple-50 hover:bg-purple-100 border-l-4 border-purple-500 p-2 mb-2 rounded-r-md flex items-center justify-between transition group shadow-sm"><div class="flex items-center"><i class="fa-solid fa-calendar-star text-purple-600 mr-2 text-xs"></i><span class="text-xs font-bold text-purple-800 uppercase tracking-wide">${t.specials}</span></div><i class="fa-solid fa-chevron-right text-purple-400 text-xs group-hover:translate-x-1 transition-transform"></i></button>`;
+            }
+            
+            const safeNameFav = place.name.replace(/'/g, "\\'"); 
+            const hoursTxt = place.hours[currentLang] || place.hours['en'];
+            
+            const card=`<div onclick="openDetail('${safeNameFav}')" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative group transition hover:shadow-md cursor-pointer flex flex-col h-full">
+            ${statusBadgeHTML}
+            <button onclick="toggleFavorite('${safeNameFav}', event)" class="heart-btn absolute top-2 right-2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 shadow-sm text-white hover:bg-black/40"><i class="${isFav?'fa-solid text-red-500':'fa-regular'} fa-heart text-lg drop-shadow-md"></i></button>
+            <div class="h-32 overflow-hidden relative shrink-0">
+                <img src="${coverImage}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div class="absolute inset-0 bg-black/0 hover:bg-black/10 transition flex items-center justify-center opacity-0 hover:opacity-100"><span class="text-white text-xs font-bold border border-white px-2 py-1 rounded-full backdrop-blur-md">${t.tapToView}</span></div>
+                <h3 class="absolute bottom-2 left-3 text-white font-bold text-sm leading-tight shadow-sm tracking-wide" style="text-shadow: 0 1px 2px rgba(0,0,0,0.5);">${place.name}</h3>
+            </div>
+            <div class="p-3 flex flex-col flex-1">
+                <div class="flex items-start mb-2 text-[10px] text-gray-500"><i class="fa-regular fa-clock mt-0.5 mr-1.5 text-teal-500"></i><span class="leading-tight line-clamp-2">${hoursTxt}</span></div>
+                <div class="mb-3 flex flex-wrap h-12 overflow-hidden">${tagsHTML}</div>
+                ${menuStatusHTML}
+                ${buttonContainer}
+            </div></div>`;
+            container.innerHTML+=card;count++});
+        
+        const emptyState=document.getElementById('empty-state');const emptyMsg=document.getElementById('empty-msg');
+        if(count===0){
+            emptyState.classList.remove('hidden');
+            if(currentMode === 'eat' && showOnlyFavorites && favorites.length === 0){ emptyMsg.innerText=t.emptyFav; } else if(showOnlyFavorites) { emptyMsg.innerText=t.emptySearch; } else { emptyMsg.innerText=t.emptyList; }
+        } else { emptyState.classList.add('hidden'); }
+    } 
+    else if (currentMode==="ride") {
+        const container=document.getElementById('driver-list');const searchVal=document.getElementById('searchInput').value.toLowerCase();
+        
+        const clearBtn = document.getElementById('clearSearchBtn');
+        if(searchVal.length > 0) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+
+        const fareMapUrl = 'https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765997572/Screenshot_20251217-125220_iw3gvp.png';
+        container.innerHTML=`<div class="col-span-full"><button onclick="openModal('${fareMapUrl}', '${t.fareList}')" class="mb-2 w-full bg-cyan-800 text-cyan-100 p-3 rounded-xl flex items-center justify-between shadow-md hover:bg-cyan-900 transition"><div class="flex items-center gap-3"><i class="fa-solid fa-map-marked-alt text-2xl"></i><div class="text-left"><p class="font-bold text-sm">${t.fareList}</p><p class="text-[10px] opacity-70">${t.fareSub}</p></div></div><i class="fa-solid fa-chevron-right opacity-50"></i></button></div>`;
+        
+        let driverList = drivers.filter(d => {
+            if(searchVal&&!d.name.toLowerCase().includes(searchVal)&&(d.number? !d.number.includes(searchVal) : true)) return false;
+            return true;
+        });
+
+        driverList.sort((a,b) => {
+             const getRank = (d) => {
+                 const hEn = d.hours['en'] || ""; 
+                 const hasNum = /\d/.test(hEn);
+                 if(!hasNum) return 1; 
+                 const open = checkOpenStatus(hEn);
+                 return open ? 0 : 2; 
+             };
+             return getRank(a) - getRank(b);
+        });
+
+        let count=0;
+        driverList.forEach(d=>{
+            const cleanNum=d.phone.replace(/[^0-9]/g,'');
+            let msgRide, msgDel;
+            if(currentLang === 'es'){msgRide = `Hola ${d.name}, te encontr\u00E9 en Utila Eats. \u00BFMe podr\u00EDas llevar?`;msgDel = `Hola ${d.name}, te encontr\u00E9 en Utila Eats. \u00BFHaces mandaditos/env\u00EDos de comida?`;} else {msgRide = `Hi ${d.name}, I found you on Utila Eats. Can I get a ride?`;msgDel = `Hi ${d.name}, I found you on Utila Eats. Are you available to pick up food for me?`;}
+            const rideUrl=`https://wa.me/${cleanNum}?text=${encodeURIComponent(msgRide)}`;const delUrl=`https://wa.me/${cleanNum}?text=${encodeURIComponent(msgDel)}`;
+            const badgeContent = d.number ? `#${d.number}` : '<i class="fa-solid fa-user"></i>'; 
+            const hoursDisplay = d.hours[currentLang] || d.hours['en'];
+            
+            let statusHTML = '';
+            const hEn = d.hours['en'] || "";
+            if(hEn && /\d/.test(hEn)) {
+                const isOpen = checkOpenStatus(hEn);
+                const colorClass = isOpen ? 'text-green-600' : 'text-red-500';
+                const dotClass = isOpen ? 'bg-green-500 animate-pulse' : 'bg-red-500';
+                const statusText = isOpen ? t.statusAvailable : t.statusUnavailable;
+                statusHTML = `<div class="driver-status ${colorClass}"><div class="driver-dot ${dotClass}"></div>${statusText}</div>`;
+            }
+            
+            const safeName = d.name.replace(/'/g, "\\'");
+            // CYAN THEME FOR RIDE
+            const card=`<div onclick="openDetail('${safeName}')" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex items-center justify-between hover:shadow-md transition cursor-pointer">
+            <div class="flex items-center gap-4 flex-1">
+                <div class="w-14 h-14 rounded-full bg-cyan-100 text-cyan-800 flex items-center justify-center text-xl font-bold border-2 border-cyan-200 shadow-sm shrink-0">${badgeContent}</div>
+                <div>
+                    <h3 class="font-bold text-lg text-gray-800 leading-tight">${d.name}</h3>
+                    <div class="text-xs text-cyan-600 font-medium mt-0.5"><i class="fa-regular fa-clock text-[10px] mr-1"></i>${hoursDisplay}</div>
+                    ${statusHTML}
+                </div>
+            </div>
+            <div class="flex flex-col gap-2 w-28 shrink-0"><a href="${rideUrl}" target="_blank" onclick="event.stopPropagation()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-1.5 px-3 rounded-lg text-xs flex items-center justify-center shadow-sm"><i class="fa-solid fa-motorcycle mr-1"></i> ${t.ride}</a><a href="${delUrl}" target="_blank" onclick="event.stopPropagation()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1.5 px-3 rounded-lg text-xs flex items-center justify-center shadow-sm"><i class="fa-solid fa-box mr-1"></i> ${t.deliv}</a></div></div>`;
+            container.innerHTML+=card;count++;
+        });
+        const emptyState=document.getElementById('empty-state');if(count===0){emptyState.classList.remove('hidden');document.getElementById('empty-msg').innerText=t.emptyList}else{emptyState.classList.add('hidden')}
+    }
+}
+
+function renderEmergencyBoard(){
+    const t = translations[currentLang];
+    const container = document.getElementById('emergency-list');
+    container.innerHTML = "";
+    const data = exploreData.emergency || [];
+    data.forEach(item => {
+        if(item.type === 'section'){
+            const secTitle = item.title[currentLang] || item.title['en'];
+            let listItems = "";
+            item.items.forEach(contact => {
+                let btns = "";
+                const clean = contact.phone.replace(/[^0-9]/g, '');
+                btns += `<a href="tel:+${clean}" class="w-10 h-10 rounded-full bg-gray-100 text-gray-700 flex items-center justify-center hover:bg-gray-200 transition border border-gray-200 shadow-sm"><i class="fa-solid fa-phone"></i></a>`;
+                btns += `<a href="https://wa.me/${clean}" target="_blank" class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition shadow-sm ml-2"><i class="fa-brands fa-whatsapp text-lg"></i></a>`;
+                if(contact.phone2){
+                    const clean2 = contact.phone2.replace(/[^0-9]/g, '');
+                    btns += `<a href="tel:+${clean2}" class="w-10 h-10 rounded-full bg-gray-100 text-gray-700 flex items-center justify-center hover:bg-gray-200 transition border border-gray-200 shadow-sm ml-2"><i class="fa-solid fa-phone"></i></a>`;
+                    btns += `<a href="https://wa.me/${clean2}" target="_blank" class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition shadow-sm ml-2"><i class="fa-brands fa-whatsapp text-lg"></i></a>`;
+                }
+                if(contact.location){btns += `<a href="${contact.location}" target="_blank" class="w-10 h-10 rounded-full bg-blue-400 text-white flex items-center justify-center hover:bg-blue-500 transition shadow-sm ml-2"><i class="fa-solid fa-map-location-dot text-lg"></i></a>`;}
+                listItems += `<div class="flex items-center justify-between p-3 border-b border-gray-50 last:border-0"><div><p class="font-bold text-gray-800 text-sm leading-tight">${contact.name}</p><p class="text-[10px] text-gray-500 font-medium">${contact.desc}</p><p class="text-xs text-red-600 font-mono mt-0.5">${contact.phone}</p>${contact.phone2 ? `<p class="text-xs text-red-600 font-mono">${contact.phone2}</p>` : ''}</div><div class="flex gap-1 shrink-0">${btns}</div></div>`;
+            });
+            container.innerHTML += `<div class="bg-white rounded-2xl shadow-sm border border-red-50 overflow-hidden"><div class="bg-red-50/50 px-4 py-2 border-b border-red-100 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div><h3 class="font-bold text-red-800 text-xs uppercase tracking-wide">${secTitle}</h3></div><div>${listItems}</div></div>`;
+        }
+    });
+    container.innerHTML += `<div class="col-span-full text-center mt-4 opacity-60 text-xs font-bold text-red-800">${t.emergencyNotice}</div>`;
+}
+
+function renderExploreGrid(){
+    const t = translations[currentLang];
+    const grid = document.getElementById('explore-grid');
+    const cats = [
+        {id: 'eco', icon: 'fa-leaf', title: t.catEco, color: 'text-green-600', bg: 'bg-green-50', active: true, nested: false},
+        {id: 'arts', icon: 'fa-palette', title: t.catArts, color: 'text-pink-500', bg: 'bg-pink-50', active: true, nested: false},
+        {id: 'selfcare-menu', icon: 'fa-spa', title: t.catSelfCare, color: 'text-pink-500', bg: 'bg-pink-50', active: true, nested: true},
+        {id: 'tours', icon: 'fa-ship', title: t.catTours, color: 'text-blue-500', bg: 'bg-blue-50', active: true, nested: false},
+        {id: 'dive-menu', icon: 'fa-mask-ventilator', title: t.catDive, color: 'text-cyan-600', bg: 'bg-cyan-50', active: true, nested: true}, 
+        {id: 'gym', icon: 'fa-dumbbell', title: t.catFitness, color: 'text-orange-500', bg: 'bg-orange-50', active: true, nested: false},
+        {id: 'rentals', icon: 'fa-key', title: t.catRentals, color: 'text-purple-500', bg: 'bg-purple-50', active: false, nested: false}
+    ];
+    grid.innerHTML = cats.map(c => {
+        if(c.active){
+            const clickAction = c.nested ? `goToApp('${c.id}')` : `goToApp('explore-list', '${c.id}')`;
+            return `<button onclick="${clickAction}" class="bg-white aspect-square rounded-2xl shadow-sm flex flex-col items-center justify-center gap-3 p-4 border border-gray-100 hover:shadow-md transition grid-btn group"><div class="w-12 h-12 rounded-full ${c.bg} flex items-center justify-center text-xl shadow-inner ${c.color} group-hover:scale-110 transition"><i class="fa-solid ${c.icon}"></i></div><span class="font-bold text-xs text-center text-gray-700 leading-tight">${c.title}</span></button>`;
+        } 
+        else {return `<div class="bg-gray-50 aspect-square rounded-2xl flex flex-col items-center justify-center gap-3 p-4 border border-gray-100 opacity-60 cursor-not-allowed coming-soon" data-label="${t.underConst}"><div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-xl shadow-inner text-gray-400"><i class="fa-solid ${c.icon}"></i></div><span class="font-bold text-xs text-center text-gray-400 leading-tight">${c.title}</span></div>`;}
+    }).join('');
+}
+
+function renderDiveGrid(){
+    const t = translations[currentLang];
+    const grid = document.getElementById('dive-grid');
+    const cats = [
+        {id: 'padi', title: t.subPadi, img: 'https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767982216/PADILogoVert4CTrp_kydq0t.jpg'},
+        {id: 'padi5', title: t.subPadi5, img: 'https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767982235/Screenshot_20260106-110514_vjw2kn.png'},
+        {id: 'ssi', title: t.subSsi, img: 'https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767982235/Screenshot_20260106-110601_xiodzs.png'},
+        {id: 'sdi', title: t.subSdi, img: 'https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767982235/Screenshot_20260106-110641_njqeww.png'},
+        {id: 'free', title: t.subFree, img: 'https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767988264/Screenshot_20260105-142330_w8dyht.png'}, 
+        {id: 'charter', title: t.subCharter, split: true}
+    ];
+    grid.innerHTML = cats.map(c => {
+        if(c.split){
+             return `<button onclick="goToApp('explore-list', 'dive:${c.id}')" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative group h-40 w-full hover:shadow-md transition">
+                <div class="w-full h-full split-bg group-hover:scale-105 transition duration-500" style="background-image: url('https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767994888/Screenshot_20260109-150715_w1izgq.png'), url('https://res.cloudinary.com/ddmkjgxt5/image/upload/v1767994889/Screenshot_20260109-150838_fcrbei.png');"></div>
+                <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-2 pt-4">
+                    <span class="text-white font-bold text-xs shadow-black drop-shadow-md">${c.title}</span>
+                </div>
+             </button>`;
+        }
+        if(c.img){
+             return `<button onclick="goToApp('explore-list', 'dive:${c.id}')" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative group h-40 w-full hover:shadow-md transition">
+                <img src="${c.img}" class="w-full h-full object-contain p-2 group-hover:scale-105 transition duration-500">
+                <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-2 pt-4">
+                    <span class="text-white font-bold text-xs shadow-black drop-shadow-md">${c.title}</span>
+                </div>
+             </button>`;
+        }
+        return `<button onclick="goToApp('explore-list', 'dive:${c.id}')" class="bg-white rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 p-4 border border-cyan-100 hover:bg-cyan-50 transition group h-40 w-full hover:shadow-md">
+            <div class="w-14 h-14 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600 shadow-sm text-2xl group-hover:scale-110 transition"><i class="fa-solid ${c.icon || 'fa-water'}"></i></div>
+            <span class="font-bold text-sm text-gray-700 text-center leading-tight">${c.title}</span>
+        </button>`;
+    }).join('');
+}
+
+function renderSelfCareGrid(){
+    const t = translations[currentLang];
+    const grid = document.getElementById('selfcare-grid');
+    const cats = [
+        {id: 'hair', title: t.subHair, icon: 'fa-scissors'},
+        {id: 'massage', title: t.subMassage, icon: 'fa-hands-bubbles'},
+        {id: 'nails', title: t.subNails, icon: 'fa-hand-sparkles'}
+    ];
+    grid.innerHTML = cats.map(c => {
+        return `<button onclick="goToApp('explore-list', 'selfcare:${c.id}')" class="bg-white rounded-2xl shadow-sm flex items-center justify-between p-4 border border-pink-100 hover:bg-pink-50 transition group"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 shadow-sm"><i class="fa-solid ${c.icon}"></i></div><span class="font-bold text-sm text-gray-700">${c.title}</span></div><i class="fa-solid fa-chevron-right text-pink-300 text-xs group-hover:translate-x-1 transition"></i></button>`;
+    }).join('');
+}
+function renderExploreList(category){
+    const container = document.getElementById('explore-list');
+    const t = translations[currentLang];
+    container.innerHTML = "";
+    
+    let items = [];
+    if(category.includes(':')){
+        const parts = category.split(':');
+        const main = parts[0];
+        const sub = parts[1];
+        if(exploreData[main] && exploreData[main][sub]){ items = exploreData[main][sub]; }
+    } else { items = exploreData[category]; }
+
+    if(!items) return;
+    
+    if(category !== 'arts'){
+        items.sort((a,b) => a.name.localeCompare(b.name));
+    }
+
+    items.forEach(item => {
+        const desc = item.desc ? (typeof item.desc === 'object' ? (item.desc[currentLang] || item.desc['en']) : item.desc) : "";
+        let hours = ""; if(item.hours) { hours = typeof item.hours === 'object' ? (item.hours[currentLang] || item.hours['en']) : item.hours; }
+        
+        let buttonsHTML = "";
+        const cleanNum = (item.whatsapp || item.phone || "").replace(/[^0-9]/g, '');
+        
+        if(item.contact && item.contact.includes('http') && !item.contact.includes('maps')){
+             buttonsHTML += `<a href="${item.contact}" target="_blank" onclick="event.stopPropagation()" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md hover:scale-110 transition"><i class="fa-solid fa-globe text-lg"></i></a>`;
+        }
+        if(item.whatsapp){
+            let msg = currentLang==='es' ? 'Hola! Te vi en Utila Eats.' : 'Hi! Found you on Utila Eats.';
+            buttonsHTML += `<a href="https://wa.me/${cleanNum}?text=${encodeURIComponent(msg)}" target="_blank" onclick="event.stopPropagation()" class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow-md hover:scale-110 transition"><i class="fa-brands fa-whatsapp text-xl"></i></a>`;
+        } else if (item.phone) {
+            buttonsHTML += `<a href="tel:+${cleanNum}" onclick="event.stopPropagation()" class="w-10 h-10 rounded-full bg-gray-600 text-white flex items-center justify-center shadow-md hover:scale-110 transition"><i class="fa-solid fa-phone text-lg"></i></a>`;
+        }
+
+        if(item.instagram){buttonsHTML += `<a href="${item.instagram}" target="_blank" onclick="event.stopPropagation()" class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center justify-center shadow-md hover:scale-110 transition"><i class="fa-brands fa-instagram text-xl"></i></a>`;}
+        if(item.facebook){buttonsHTML += `<a href="${item.facebook}" target="_blank" onclick="event.stopPropagation()" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md hover:scale-110 transition"><i class="fa-brands fa-facebook-messenger text-xl"></i></a>`;}
+        if(item.location){buttonsHTML += `<a href="${item.location}" target="_blank" onclick="event.stopPropagation()" class="w-10 h-10 rounded-full bg-blue-400 text-white flex items-center justify-center shadow-md hover:scale-110 transition"><i class="fa-solid fa-map-location-dot text-lg"></i></a>`;}
+        
+        let galleryBtn = "";
+        const safeName = item.name.replace(/'/g, "\\'"); 
+        if(item.gallery){ galleryBtn = `<button onclick='event.stopPropagation(); openModal(${JSON.stringify(item.gallery)}, "${safeName}")' class="absolute top-2 right-2 bg-black/40 text-white text-xs px-2 py-1 rounded-md backdrop-blur-md hover:bg-black/60 transition z-10"><i class="fa-solid fa-images mr-1"></i> Gallery</button>`;}
+        
+        if(item.flyer){ buttonsHTML += `<button onclick="event.stopPropagation(); openModal(['${item.flyer}'], '${t.viewServices}')" class="w-10 h-10 rounded-full bg-purple-500 text-white flex items-center justify-center shadow-md hover:scale-110 transition"><i class="fa-solid fa-hand-sparkles"></i></button>`; }
+
+        const isComingSoon = item.comingSoon === true;
+        const opacityClass = isComingSoon ? 'opacity-60 grayscale cursor-not-allowed' : '';
+        const clickAction = isComingSoon ? '' : `onclick="openDetail('${safeName}')"`;
+        const tapOverlay = isComingSoon ? `<div class="absolute inset-0 flex items-center justify-center z-10"><span class="bg-gray-800 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">COMING SOON</span></div>` : `<div class="absolute inset-0 bg-black/0 hover:bg-black/10 transition flex items-center justify-center opacity-0 hover:opacity-100"><span class="text-white text-xs font-bold border border-white px-2 py-1 rounded-full backdrop-blur-md">${t.tapToView}</span></div>`;
+        
+        const isDiveOrSelfCare = category.startsWith('dive') || category.startsWith('selfcare') || item.imgMode === 'contain';
+        const imgFit = isDiveOrSelfCare ? 'object-contain p-2 bg-white' : 'object-cover';
+
+        const card = `<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition relative group ${opacityClass}">
+            <div ${clickAction} class="h-32 relative bg-gray-100 shrink-0 cursor-pointer">
+                <img src="${optimizeUrl(item.image, 400)}" class="w-full h-full ${imgFit}">
+                ${tapOverlay}
+                ${galleryBtn}
+            </div>
+            <div class="p-3 flex flex-col flex-1">
+                <h3 class="font-bold text-gray-800 text-sm leading-tight mb-1">${item.name}</h3>
+                <p class="text-[10px] text-teal-600 font-bold uppercase tracking-wide mb-2 leading-snug">${desc}</p>
+                ${hours ? `<p class="text-[10px] text-gray-500 mb-2"><i class="fa-regular fa-clock mr-1"></i>${hours}</p>` : ''}
+                <div class="flex flex-wrap gap-2 mt-auto pt-1">${buttonsHTML}</div>
+            </div>
+        </div>`;
+        container.innerHTML += card;
+    });
+}
+
+function renderNightLifeGrid(){
+    const t = translations[currentLang];
+    const grid = document.getElementById('nightlife-grid');
+    const days = [
+        {id: 'Monday', title: t.mon}, {id: 'Tuesday', title: t.tue}, {id: 'Wednesday', title: t.wed},
+        {id: 'Thursday', title: t.thu}, {id: 'Friday', title: t.fri}, {id: 'Saturday', title: t.sat}, {id: 'Sunday', title: t.sun}
+    ];
+    grid.innerHTML = days.map(d => {
+        return `<button onclick="openEvents('${d.id}')" class="bg-slate-800 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-3 p-4 border border-white/5 transition grid-btn relative group hover:shadow-cyan-500/20 hover:border-cyan-500/30"><div class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-2xl text-cyan-400 group-hover:scale-110 transition shadow-inner border border-white/5"><i class="fa-regular fa-calendar"></i></div><span class="font-bold text-xs text-center text-gray-300 leading-tight uppercase tracking-wide group-hover:text-white transition">${d.title}</span></button>`;
+    }).join('');
+}
+
+/* SHARE & UTIL */
+let favorites=JSON.parse(localStorage.getItem('utilaEatsFavs'))||[]; let showOnlyFavorites=false; let activeTag="All";
+let currentImages=[]; let currentImgIndex=0;
+const optimizeUrl = (url, width=800) => { if(!url || !url.includes('cloudinary.com')) return url; return url.replace('/upload/', `/upload/f_auto,q_auto,w_${width}/`); };
+function shareApp(){ const t = translations[currentLang]; if (navigator.share) { navigator.share({title: 'Utila Eats', text: t.shareMsg, url: window.location.href}).catch(console.error); } else { navigator.clipboard.writeText(window.location.href).then(() => { alert(t.shareFail); }); } }
+function donate(){const email="andrew.tolman21@gmail.com";let url=`https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=${email}&item_name=Support+Utila+Eats&currency_code=USD`;window.open(url,'_blank');}
+function toggleFavorite(name,event){if(event)event.stopPropagation(); if(favorites.includes(name)){favorites=favorites.filter(n=>n!==name)}else{favorites.push(name)} localStorage.setItem('utilaEatsFavs',JSON.stringify(favorites)); renderList(activeTag);}
+
+function toggleShowFavorites(){
+    showOnlyFavorites=!showOnlyFavorites; 
+    const btn=document.getElementById('favFilterBtn');
+    const icon=document.getElementById('favFilterIcon'); 
+    if(showOnlyFavorites){
+        btn.classList.remove('bg-white/20','border-white/30');
+        btn.classList.add('bg-red-500','border-red-500');
+        icon.classList.remove('fa-regular');
+        icon.classList.remove('fa-solid');
+    } else {
+        btn.classList.add('bg-white/20','border-white/30');
+        btn.classList.remove('bg-red-500','border-red-500');
+        icon.classList.add('fa-regular');
+        icon.classList.remove('fa-solid');
+    } 
+    renderList(activeTag);
+}
+
+function resetFilters(){
+    showOnlyFavorites=false;
+    activeTag="All";
+    document.getElementById('searchInput').value="";
+    const btn=document.getElementById('favFilterBtn');
+    const icon=document.getElementById('favFilterIcon');
+    if(btn && icon){
+        btn.classList.add('bg-white/20','border-white/30');
+        btn.classList.remove('bg-red-500','border-red-500');
+        icon.classList.add('fa-regular');
+        icon.classList.remove('fa-solid');
+    }
+    renderList("All");
+}
+
+function showInfo(){alert(currentLang==='en' ? 'Utila Eats is a directory connecting you directly to local businesses via WhatsApp. We do not handle payments or delivery.' : 'Utila Eats es un directorio que te conecta directamente con negocios locales v\u00EDa WhatsApp. No procesamos pagos ni env\u00EDos.');}
+
+/* MODAL LOGIC */
+function openMenu(name){ const place = db.find(p => p.name === name); if(place && place.menuImages){ const images = (typeof place.menuImages === 'object' && !Array.isArray(place.menuImages)) ? (place.menuImages[currentLang] || place.menuImages['en']) : place.menuImages; openModal(images, place.name); } }
+function openModal(images, title="Menu"){ 
+    isModalOpen = true; 
+    history.pushState({view: 'modal'}, '', '#image');
+    currentImages = Array.isArray(images) ? images : [images]; currentImgIndex = 0; document.getElementById('modalTitle').innerText = title; updateModalImage(); document.getElementById('imageModal').classList.remove('hidden'); 
+}
+function closeModal(){ 
+    if(!document.getElementById('imageModal').classList.contains('hidden')){ history.back(); }
+}
+function updateModalImage(){ document.getElementById('loader').classList.remove('hidden'); document.getElementById('modalImage').src = optimizeUrl(currentImages[currentImgIndex], 800); const prev = document.getElementById('prevBtn'); const next = document.getElementById('nextBtn'); const t = translations[currentLang]; if(currentImages.length > 1){ prev.classList.remove('hidden'); next.classList.remove('hidden'); document.getElementById('modalFooter').innerText = `${t.page} ${currentImgIndex + 1} / ${currentImages.length}`; } else { prev.classList.add('hidden'); next.classList.add('hidden'); document.getElementById('modalFooter').innerText = t.swipe; } }
+function changeImage(dir){ currentImgIndex += dir; if(currentImgIndex < 0) currentImgIndex = currentImages.length - 1; if(currentImgIndex >= currentImages.length) currentImgIndex = 0; updateModalImage(); }
+
+function openSpecials(name){ 
+    const place = db.find(p => p.name === name); if(!place) return; const t = translations[currentLang]; 
+    if(place.specialsImage){ openModal([place.specialsImage], t.specialsTitle); return; } 
+    if(place.specials){ 
+        isModalOpen = true; history.pushState({view: 'modal'}, '', '#specials');
+        const container = document.getElementById('specialsContent'); container.innerHTML = ""; const dayMap = { "Monday": t.mon, "Tuesday": t.tue, "Wednesday": t.wed, "Thursday": t.thu, "Friday": t.fri, "Saturday": t.sat, "Sunday": t.sun }; const sorter = { "Monday": 1, "Tuesday": 2, "Wednesday": 3, "Thursday": 4, "Friday": 5, "Saturday": 6, "Sunday": 7 }; Object.keys(place.specials).sort((a,b) => sorter[a] - sorter[b]).forEach(day => { const displayDay = dayMap[day] || day; let content = place.specials[day]; if(typeof content === 'object' && content !== null){ content = content[currentLang] || content['en']; } container.innerHTML += `<div class="flex border-b border-gray-100 last:border-0 pb-2 last:pb-0 mb-2 last:mb-0"><span class="w-24 font-bold text-teal-600">${displayDay}</span><span class="flex-1 text-gray-700">${content}</span></div>`; }); document.getElementById('specialsTitle').innerText = t.specialsTitle; document.getElementById('specialsModal').classList.remove('hidden'); 
+    } 
+}
+function closeSpecials(){ 
+    if(!document.getElementById('specialsModal').classList.contains('hidden')){ history.back(); }
+}
+
+function openEvents(dayKey){ 
+    currentActiveDay = dayKey; 
+    isModalOpen = true; history.pushState({view: 'modal'}, '', '#events');
+    const t = translations[currentLang]; const dayKeyMap = { "Monday": "mon", "Tuesday": "tue", "Wednesday": "wed", "Thursday": "thu", "Friday": "fri", "Saturday": "sat", "Sunday": "sun" }; const shortKey = dayKeyMap[dayKey] || "mon"; const displayDay = t[shortKey]; const headerText = currentLang === 'es' ? `${t.nightPrefix}${displayDay}${t.nightSuffix}` : `${displayDay} ${t.nightSuffix}`; document.getElementById('eventsTitle').innerText = headerText; document.getElementById('eventsModal').classList.remove('hidden'); const container = document.getElementById('eventsContent'); container.innerHTML = ""; const dayEvents = nightLifeData[dayKey] || []; if(dayEvents.length === 0){ container.innerHTML = `<div class="text-center py-6 text-gray-400 italic"><i class="fa-solid fa-moon text-3xl mb-2 opacity-50"></i><p>${t.noEvents}</p></div>`; } 
+    else { 
+        dayEvents.forEach(evt => { 
+            let mapBtn = ""; 
+            if(evt.location){ mapBtn = `<a href="${evt.location}" target="_blank" class="w-8 h-8 rounded-full bg-cyan-900/50 text-cyan-400 border border-cyan-500/30 flex items-center justify-center hover:bg-cyan-800 ml-2 shrink-0 transition"><i class="fa-solid fa-map-location-dot"></i></a>`; } 
+            
+            // UPDATED: SCHEDULE BUTTON FOR NIGHTLIFE EVENTS
+            let scheduleBtn = "";
+            if(evt.scheduleImg){
+                scheduleBtn = `<button onclick="openModal(['${evt.scheduleImg}'], '${t.schedule}')" class="bg-purple-600 text-white text-[10px] px-2 py-1 rounded-lg ml-2 hover:bg-purple-500 transition shadow-sm font-bold tracking-wide uppercase">${t.schedule}</button>`;
+            }
+
+            container.innerHTML += `<div class="bg-slate-900/50 p-3 rounded-xl border border-white/10 shadow-sm flex items-center justify-between hover:border-purple-500/50 transition">
+                <div>
+                    <h4 class="font-bold text-white leading-tight text-sm">${evt.what}</h4>
+                    <p class="text-[10px] text-purple-400 font-bold mt-1 uppercase tracking-wide">@ ${evt.where}</p>
+                    <p class="text-[10px] text-gray-400 mt-0.5 font-mono"><i class="fa-regular fa-clock mr-1 text-cyan-500"></i>${evt.time}</p>
+                </div>
+                <div class="flex items-center">
+                    ${scheduleBtn}
+                    ${mapBtn}
+                </div>
+            </div>`; 
+        }); 
+    } 
+}
+function closeEvents(){ 
+    if(!document.getElementById('eventsModal').classList.contains('hidden')){ history.back(); }
+}
+
+// INIT
+document.getElementById('searchInput').addEventListener('keyup',()=>renderList(activeTag));
+updateUIText(); 
+renderList("All");
+</script>
+</body>
+</html>
