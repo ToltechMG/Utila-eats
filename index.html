@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google" content="notranslate">
 <title>Utila Eats</title>
+<meta name="description" content="Utila Eats is a bilingual directory for restaurants, transportation, activities, services, and nightlife on Utila, Honduras.">
+<meta name="theme-color" content="#0d9488">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -83,6 +85,15 @@ body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highl
     background-size: 50% 100%;
     background-position: left center, right center;
 }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
 </style>
 </head>
 <body class="notranslate pb-40 transition-colors duration-500">
@@ -101,8 +112,8 @@ body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highl
             </div>
             <div class="flex flex-col items-end gap-2 w-1/3">
                 <div class="flex gap-2">
-                    <button onclick="shareApp()" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition backdrop-blur-sm"><i class="fa-solid fa-share-nodes text-xs"></i></button>
-                    <button onclick="showInfo()" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition backdrop-blur-sm"><i class="fa-solid fa-info text-xs"></i></button>
+                    <button id="btn-share-home" onclick="shareApp()" aria-label="Share Utila Eats" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition backdrop-blur-sm"><i class="fa-solid fa-share-nodes text-xs"></i></button>
+                    <button id="btn-info-home" onclick="showInfo()" aria-label="About Utila Eats" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition backdrop-blur-sm"><i class="fa-solid fa-info text-xs"></i></button>
                 </div>
                 <div class="flex items-center bg-black/20 rounded-lg p-1 backdrop-blur-sm border border-white/10 mt-auto">
                     <button onclick="setLanguage('en')" id="btn-lang-en" class="px-3 py-1 text-[10px] rounded transition text-white/70 hover:text-white uppercase font-bold tracking-wider">English</button>
@@ -135,7 +146,7 @@ body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highl
     
     <div class="mt-auto p-6 text-center text-xs text-gray-400">
         <p>&copy; 2026 Utila Eats</p>
-        <p id="last-updated" class="mt-1 opacity-60 text-[10px]">Last Updated July 7, 2026</p>
+        <p id="last-updated" class="mt-1 opacity-60 text-[10px]">Last Updated July 27, 2026</p>
     </div>
 </div>
 
@@ -226,7 +237,7 @@ body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highl
                     <div class="w-px h-3 bg-white/20 mx-1"></div>
                     <button onclick="setLanguage('es')" id="btn-lang-es-app" class="px-2 py-1 text-[10px] rounded transition text-white/70 hover:text-white font-bold uppercase">ES</button>
                 </div>
-                <button id="favFilterBtn" onclick="toggleShowFavorites()" class="hidden w-8 h-8 rounded-xl border border-white/30 bg-white/20 text-white flex items-center justify-center hover:bg-white/30 transition shadow-sm backdrop-blur-sm"><i id="favFilterIcon" class="fa-regular fa-heart"></i></button>
+                <button id="favFilterBtn" onclick="toggleShowFavorites()" aria-label="Save as favorite" class="hidden w-8 h-8 rounded-xl border border-white/30 bg-white/20 text-white flex items-center justify-center hover:bg-white/30 transition shadow-sm backdrop-blur-sm"><i id="favFilterIcon" class="fa-regular fa-heart"></i></button>
             </div>
         </div>
 
@@ -235,7 +246,7 @@ body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highl
                 <div id="search-container" class="relative w-full">
                     <input type="text" id="searchInput" placeholder="Find..." class="w-full pl-9 pr-9 py-2 rounded-xl text-gray-700 bg-white/95 focus:outline-none focus:ring-2 focus:ring-teal-300 shadow-inner text-sm transition-all">
                     <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
-                    <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-2.5 text-gray-400 hover:text-red-500 transition">
+                    <button id="clearSearchBtn" onclick="clearSearch()" aria-label="Clear search" class="hidden absolute right-3 top-2.5 text-gray-400 hover:text-red-500 transition">
                         <i class="fa-solid fa-circle-xmark"></i>
                     </button>
                 </div>
@@ -280,7 +291,7 @@ body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highl
     </div>
 </div>
 
-<div id="imageModal" class="fixed inset-0 hidden flex items-center justify-center p-0 md:p-4" onclick="if(event.target === this) closeModal()">
+<div id="imageModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle" class="fixed inset-0 hidden flex items-center justify-center p-0 md:p-4" onclick="if(event.target === this) closeModal()">
     <div class="bg-black/50 md:bg-white w-full h-full md:h-auto md:max-w-4xl md:rounded-2xl overflow-hidden shadow-2xl flex flex-col md:max-h-[90vh]">
         <div class="absolute top-0 left-0 w-full z-10 bg-black/50 md:bg-gray-50 px-4 py-3 border-b border-white/10 md:border-gray-200 flex justify-between items-center backdrop-blur-md md:backdrop-filter-none">
             <h3 id="modalTitle" class="font-bold text-white md:text-gray-800 text-sm">Menu</h3>
@@ -288,7 +299,7 @@ body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highl
         </div>
         <div class="flex-1 overflow-auto bg-black md:bg-gray-100 relative flex items-center justify-center p-0 md:p-1 pt-14 md:pt-1">
             <div id="loader" class="absolute inset-0 flex items-center justify-center text-teal-500"><i class="fa-solid fa-spinner fa-spin text-2xl"></i></div>
-            <img id="modalImage" onload="document.getElementById('loader').classList.add('hidden')" src="" class="modal-img-full shadow-sm rounded-md">
+            <img id="modalImage" onload="document.getElementById('loader').classList.add('hidden')" src="" alt="" class="modal-img-full shadow-sm rounded-md">
             <button id="prevBtn" onclick="changeImage(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 w-10 h-10 rounded-full shadow-lg flex items-center justify-center hidden hover:bg-white"><i class="fa-solid fa-chevron-left"></i></button>
             <button id="nextBtn" onclick="changeImage(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 w-10 h-10 rounded-full shadow-lg flex items-center justify-center hidden hover:bg-white"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
@@ -296,7 +307,7 @@ body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highl
     </div>
 </div>
 
-<div id="specialsModal" class="fixed inset-0 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeSpecials()">
+<div id="specialsModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="specialsTitle" class="fixed inset-0 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeSpecials()">
     <div class="bg-white w-full max-w-md rounded-2xl overflow-hidden shadow-2xl animate-[scaleIn_0.2s_ease-out]">
         <div class="bg-teal-600 px-4 py-4 flex justify-between items-center">
             <h3 id="specialsTitle" class="font-bold text-white text-lg">Weekly Specials</h3>
@@ -306,7 +317,7 @@ body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highl
     </div>
 </div>
 
-<div id="eventsModal" class="fixed inset-0 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeEvents()">
+<div id="eventsModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="eventsTitle" class="fixed inset-0 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeEvents()">
     <div class="bg-slate-800 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border border-white/10 animate-[scaleIn_0.2s_ease-out]">
         <div class="bg-gradient-to-r from-purple-900 to-slate-900 px-4 py-4 flex justify-between items-center border-b border-white/10">
             <div class="flex flex-col">
@@ -319,10 +330,10 @@ body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highl
     </div>
 </div>
 
-<div id="detailModal" class="fixed inset-0 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeDetail()">
+<div id="detailModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="detail-title" class="fixed inset-0 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeDetail()">
     <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-[scaleIn_0.2s_ease-out]">
         <div id="detailContent" class="overflow-y-auto"></div>
-        <button onclick="closeDetail()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 text-center border-t border-gray-200 text-lg">Close</button>
+        <button id="btn-close-detail" onclick="closeDetail()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 text-center border-t border-gray-200 text-lg">Close</button>
     </div>
 </div>
 <script>
@@ -405,7 +416,21 @@ const translations = {
         shareFail: "Link copied to clipboard!",
         clickDay: "Click a day of the week to see what's happening and where!",
         nightSuffix: "Night",
-        nightPrefix: "" 
+        nightPrefix: "",
+        all: "All",
+        close: "Close",
+        call: "Call",
+        chat: "Chat",
+        map: "Map",
+        website: "Website",
+        gallery: "Gallery",
+        lastUpdated: "Last Updated",
+        share: "Share Utila Eats",
+        information: "About Utila Eats",
+        back: "Go back",
+        favorite: "Save as favorite",
+        clearSearch: "Clear search",
+        imageUnavailable: "Image unavailable" 
     },
     es: {
         subtitle: "El directorio de la isla",
@@ -481,7 +506,21 @@ const translations = {
         shareFail: "\u00A1Enlace copiado!",
         clickDay: "\u00A1Haz clic en un d\u00EDa para ver qu\u00E9 est\u00E1 pasando y d\u00F3nde!",
         nightSuffix: "",
-        nightPrefix: "Noche de "
+        nightPrefix: "Noche de ",
+        all: "Todos",
+        close: "Cerrar",
+        call: "Llamar",
+        chat: "Chat",
+        map: "Mapa",
+        website: "Sitio web",
+        gallery: "Galería",
+        lastUpdated: "Última actualización",
+        share: "Compartir Utila Eats",
+        information: "Acerca de Utila Eats",
+        back: "Volver",
+        favorite: "Guardar como favorito",
+        clearSearch: "Borrar búsqueda",
+        imageUnavailable: "Imagen no disponible"
     }
 };
 
@@ -542,7 +581,7 @@ specialsImage: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766153526/re
 customMenu: {en: "See Facebook for weekly menu", es: "Ver Facebook para el men\u00FA semanal"},
 specials: {"Tuesday": {en: "Made from scratch Sandwiches", es: "S\u00E1ndwiches hechos en casa"}}},
 {name:"The Captain: Pizza & Pasta",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908892/Screenshot_20251216-111312_rlonqz.png",contact:"+504 3273-2384",hours:{en:"Wed-Mon 11am - 2:30pm, Wed-Mon 6pm - 9pm",es:"Mi\u00E9-Lun 11am - 2:30pm, Mi\u00E9-Lun 6pm - 9pm"},loc:"https://maps.app.goo.gl/a5oJpRdTCiBWPo8o6",tags:"Pizza, Pasta",menu:"ASK", facebook: "https://www.facebook.com/share/17TgHfNtrG/", instagram: "https://www.instagram.com/thecaptainpizzaandpasta"},
-{name:"Captain Willis Bistro",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766074956/Screenshot_20251218-102031_phiwn8.png",contact:"+504 9481-2787",hours:{en:"Mon-Tue 12pm - 2:30pm, Mon-Tue 6pm - 9pm, Thu-Sun 12pm - 2:30pm, Thu-Sun 6pm - 9pm",es:"Lun-Mar 12pm - 2:30pm, Jue-Dom 6pm - 9pm"},loc:"https://maps.app.goo.gl/KNUYpbYvbXrCQ9ig7",tags:"Pasta, Chicken, Seafood",menu:"ASK", facebook: "https://www.facebook.com/share/1HYbC8NRoM/", instagram: "https://www.instagram.com/captainwillisbistro"},
+{name:"Captain Willis Bistro",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766074956/Screenshot_20251218-102031_phiwn8.png",contact:"+504 9481-2787",hours:{en:"Mon-Tue 12pm - 2:30pm, Mon-Tue 6pm - 9pm, Thu-Sun 12pm - 2:30pm, Thu-Sun 6pm - 9pm",es:"Lun-Mar 12pm - 2:30pm, Lun-Mar 6pm - 9pm, Jue-Dom 12pm - 2:30pm, Jue-Dom 6pm - 9pm"},loc:"https://maps.app.goo.gl/KNUYpbYvbXrCQ9ig7",tags:"Pasta, Chicken, Seafood",menu:"ASK", facebook: "https://www.facebook.com/share/1HYbC8NRoM/", instagram: "https://www.instagram.com/captainwillisbistro"},
 {name:"Carlotha's Place",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908884/Screenshot_20251216-111519_zxxl7d.png",contact:"",hours:{en:"Daily 9am - 8pm",es:"Diario 9am - 8pm"},loc:"https://maps.app.goo.gl/mDD2ApsSGcRyyvRr6",tags:"",menu:"DAILY"},
 {name:"Che Pancho",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908876/Screenshot_20251216-111359_b8bj3l.png",contact:"+504 3367-8892",hours:{en:"Mon-Wed 5pm - 10pm, Fri-Sat 5pm - 10pm",es:"Lun-Mi\u00E9 5pm - 10pm, Vie-S\u00E1b 5pm - 10pm"},loc:"https://maps.app.goo.gl/NeEuHZUvqUcMPdDY9",tags:"Argentinian, Chicken, Pasta, Seafood",menu:"ASK", facebook: "https://www.facebook.com/share/1P8FqAi9Xc/", instagram: "https://www.instagram.com/chepanchoutila",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0027_on8zya.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0028_yjouzt.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073780/IMG-20251217-WA0029_nhtljw.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073780/IMG-20251217-WA0030_hvgcfz.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073774/IMG-20251217-WA0031_vyemz6.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073781/IMG-20251217-WA0033_d2bidz.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073780/IMG-20251217-WA0034_zllhpy.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073783/IMG-20251217-WA0032_ukr6nl.jpg"]},
@@ -609,7 +648,7 @@ menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765995749/PXL_
 {name:"Pollos Maria",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766068117/Screenshot_20251218-082626_uhmaew.png",contact:"+504 9692-0841",hours:{en:"Daily 10am - 10pm",es:"Diario 10am - 10pm"},loc:"https://maps.app.goo.gl/pg69QdtGeM3vgSqS9",tags:"Baleadas, Chicken",menu:"ASK",
 menuImages:["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766068116/Screenshot_20251218-082701_yxwbdg.png", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766068118/Screenshot_20251218-082719_idehbd.png"]},
 {name:"Quest Utila",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766155360/Screenshot_20251219-084140_qgiebw.png",contact:"+504 9888-8864",hours:{en:"Tue-Wed 10am - 8pm, Fri-Sun 10am - 8pm",es:"Mar-Mi\u00E9 10am - 8pm, Vie-Dom 10am - 8pm"},loc:"https://maps.app.goo.gl/FSxZDiuF1XbgfDMj8",tags:"Sweets & Treats",menu:"ASK", facebook: "https://www.facebook.com/share/15WeBteHWF6/", instagram: "https://www.instagram.com/questutila",
-specials: {"Saturday": "Game Night 6pm", "Sunday": "Werewolf (Twice a month)"}},
+specials: {"Saturday": {en: "Game Night 6pm", es: "Noche de juegos 6pm"}, "Sunday": {en: "Werewolf (Twice a month)", es: "Hombre Lobo (Dos veces al mes)"}}},
 {name:"RJ's Bar & Grill",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770059641/received_2039573543272611_ux2ong.jpg",contact:"+504 3216 4216",hours:{en:"Wed 5:30pm - 10pm, Fri 5:30pm - 10pm, Sun 5:30pm - 10pm",es:"Mi\u00E9 5:30pm - 10pm, Vie 5:30pm - 10pm, Dom 5:30pm - 10pm"},loc:"https://maps.app.goo.gl/dohhvzvYnhTEHrZt6",tags:"BBQ, Seafood, Chicken, Burgers, Steak, Delivery",menu:"ASK", instagram: "https://www.instagram.com/rjs_utila", facebook: "https://www.facebook.com/share/17YK1YoMpS/"},
 {name:"Rio Coco Beans Café",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771686747/Screenshot_20260221-084913_qu4irl.png",contact:"",hours:{en:"Mon-Sat 7am - 2pm",es:"Lun-S\u00E1b 7am - 2pm"},loc:"https://maps.app.goo.gl/endvzFVB5zubMwJ3A",tags:"Cafe, Breakfast, Baked Goods, Sweets & Treats",menu:"ASK", instagram: "https://www.instagram.com/riococobeansutila"},
 {name:"Safety Stop at Utila Dive Centre",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908878/Screenshot_20251216-115710_j0aygj.png",contact:"",hours:{en:"Daily 7am - 7pm",es:"Diario 7am - 7pm"},loc:"https://maps.app.goo.gl/6dE42NAw6Wn8Y4q46",tags:"Ocean-View, Chicken, Burgers, Pastelitos",menu:"DAILY"},
@@ -618,12 +657,12 @@ menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073786/IMG-
 {name:"The Tea Garden",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908883/Screenshot_20251216-115845_heldz8.png",contact:"+504 9839-7692",hours:{en:"Sun-Mon 6pm - 10pm",es:"Dom-Lun 6pm - 10pm"},loc:"https://maps.app.goo.gl/BoBuhU4c8Rkt9J9C8",tags:"Tea, Curry",menu:"DAILY", facebook: "https://www.facebook.com/share/175wRuLjZT/", instagram: "https://www.instagram.com/the_tea_garden_utila"},
 {name:"Three Generations",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765917027/FB_IMG_1765916961594_emzfkw.jpg",contact:"", facebook: "https://www.facebook.com/share/17q1XiHy32/",hours:{en:"Tue 11:30am - 2pm, Wed-Sun 8am - 5pm",es:"Mar 11:30am - 2pm, Mi\u00E9-Dom 8am - 5pm"},loc:"https://maps.app.goo.gl/zixV1fNtqvS95kSG7",tags:"Breakfast, Sweets & Treats",menu:"ASK", customMenu:{en: "Check Facebook for Daily Menu", es: "Ver Facebook para el men\u00FA del d\u00EDa"}, instagram: "https://www.instagram.com/three_generations2025"},
 {name:"Trudy's Cafe at Underwater Vision",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908904/Screenshot_20251216-120209_w9rjxb.png",contact:"https://maps.app.goo.gl/rFeK8Pgcy5CQJgeDA",hours:{en:"Daily 7am - 9pm",es:"Diario 7am - 9pm"},loc:"https://maps.app.goo.gl/rFeK8Pgcy5CQJgeDA",tags:"Ocean-View, Burgers, Chicken, Wings, BBQ, Pizza, Fusion, Sushi, Cafe, Breakfast, Beach Bar",menu:"DAILY",
-specials: {"Monday":"Burger & Movie Night", "Tuesday":"Wings Night", "Wednesday":"Full Menu", "Thursday":"Asian Fusion & Trivia Night", "Friday":"Pizza Night", "Saturday":"BBQ Night", "Sunday":"Full Menu"}},
+specials: {"Monday":{en:"Burger & Movie Night",es:"Noche de hamburguesas y película"}, "Tuesday":{en:"Wings Night",es:"Noche de alitas"}, "Wednesday":{en:"Full Menu",es:"Menú completo"}, "Thursday":{en:"Asian Fusion & Trivia Night",es:"Fusión asiática y noche de trivia"}, "Friday":{en:"Pizza Night",es:"Noche de pizza"}, "Saturday":{en:"BBQ Night",es:"Noche de barbacoa"}, "Sunday":{en:"Full Menu",es:"Menú completo"}}},
 {name:"Utila Brewing Co. / The Pub",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908896/Screenshot_20251216-120259_rz5kl3.png",contact:"", instagram: "https://www.instagram.com/utilabrewingco",hours:{en:"Sun-Thu 4:20pm - 12am, Fri-Sat 4:20pm - 2am",es:"Dom-Jue 4:20pm - 12am, Vie-S\u00E1b 4:20pm - 2am"},loc:"https://maps.app.goo.gl/ypykCdtFaezim7Ch7",tags:"Brewery, Pizza",menu:"ASK",
 menuImages: {en: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1774297299/IMG-20260323-WA0010_hzv3hr.jpg"], es: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1774297299/IMG-20260323-WA0009_z3nm2p.jpg"]}},
 {name:"Utila Chocolate Co.",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908889/Screenshot_20251216-120404_lzbnd3.png",contact:"+504 9713 9804",hours:{en:"Mon-Fri 10am - 4pm, Sat 11am - 3pm",es:"Lun-Vie 10am - 4pm, S\u00E1b 11am - 3pm"},loc:"https://maps.app.goo.gl/WuymSh88ntWFEiz98",tags:"Ice cream, Chocolate, Sweets & Treats",menu:"DAILY", facebook: "https://www.facebook.com/share/17fiSrCqSG/", instagram: "https://www.instagram.com/utilachocolateco"},
 {name:"Utila Lodge",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908877/Screenshot_20251216-120633_lm4rse.png",contact:"+504 8817 1844",hours:{en:"Daily 6am - 9:30pm",es:"Diario 6am - 9:30pm"},loc:"https://maps.app.goo.gl/3eL6Yk5ULTLHmpMm9",tags:"Burgers, BBQ, Chicken, Wings, Breakfast, Brunch",menu:"DAILY", facebook: "https://www.facebook.com/share/14Ye9DQ2TDu/", instagram: "https://www.instagram.com/utilalodge",
-specials: {"Sunday":"Brunch", "Monday":"Wing Night", "Tuesday":"Taco Tuesday", "Thursday":"Smokehouse Thursdays"},
+specials: {"Sunday":{en:"Brunch",es:"Brunch"}, "Monday":{en:"Wing Night",es:"Noche de alitas"}, "Tuesday":{en:"Taco Tuesday",es:"Martes de tacos"}, "Thursday":{en:"Smokehouse Thursdays",es:"Jueves de ahumados"}},
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073791/IMG-20251217-WA0055_s0fsrv.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073791/IMG-20251217-WA0053_h6waxx.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766090101/Screenshot_20251218-143203_u7f4lq.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766090139/FB_IMG_1766089970809_xlh30j.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766090139/FB_IMG_1766089960420_ejujxk.jpg"]},
 {name:"What the Fork",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765909002/Screenshot_20251216-120718_vidj19.png",contact:"+504 3259 0204",hours:{en:"Tue-Thu 11am - 8pm, Fri 11am - 3pm, Sat 11am - 3pm",es:"Mar-Jue 11am - 8pm, Vie 11am - 3pm, S\u00E1b 11am - 3pm"},loc:"https://maps.app.goo.gl/VXGUqiVNYkSB51cs5",tags:"Sandwiches, Sweets & Treats",menu:"ASK", facebook: "https://www.facebook.com/share/19vyuFMLZf/", instagram: "https://www.instagram.com/whattheforkutila",
 menuImages:["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766074945/Screenshot_20251218-101947_fgylkx.png"]}];
@@ -874,12 +913,144 @@ const nightLifeData = {
         { what: "Rock n Roll Night", where: "La Cueva", time: "Night", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" }
     ]
 };
+
+/* --- DATA NORMALIZATION & SAFETY --- */
+const APP_VERSION = "2026.07.27-stabilization-1";
+const SITE_LAST_UPDATED = "2026-07-27";
+const UTILA_TIME_ZONE = "America/Tegucigalpa";
+const directoryIndex = new Map();
+
+const slugify = (value) => String(value || "item")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+function registerDirectoryItem(item, proposedId, type, category = "") {
+    let id = item.id || proposedId;
+    let suffix = 2;
+    while (directoryIndex.has(id)) id = `${proposedId}-${suffix++}`;
+    item.id = id;
+    item._directoryType = type;
+    item._directoryCategory = category;
+    directoryIndex.set(id, item);
+}
+
+function initializeDirectoryData() {
+    db.forEach((item, index) => registerDirectoryItem(item, `eat:${slugify(item.name) || index}`, "eat", "restaurants"));
+    drivers.forEach((item, index) => registerDirectoryItem(item, `ride:${item.number || slugify(item.name) || index}`, "ride", "drivers"));
+    Object.entries(exploreData).forEach(([category, value]) => {
+        if (category === "emergency") return;
+        if (Array.isArray(value)) {
+            value.forEach((item, index) => registerDirectoryItem(item, `explore:${category}:${slugify(item.name) || index}`, "explore", category));
+            return;
+        }
+        Object.entries(value || {}).forEach(([subCategory, items]) => {
+            if (!Array.isArray(items)) return;
+            items.forEach((item, index) => registerDirectoryItem(item, `explore:${category}:${subCategory}:${slugify(item.name) || index}`, "explore", `${category}:${subCategory}`));
+        });
+    });
+}
+
+initializeDirectoryData();
+
+const nightlifeSpanish = {
+    "Sunset @ The Pub": "Atardecer @ The Pub",
+    "Movie Night": "Noche de película",
+    "Trivia": "Trivia",
+    "Karaoke": "Karaoke",
+    "The Pub Beats": "Ritmos en The Pub",
+    "Boogie Bomb Nights": "Noches Boogie Bomb",
+    "Twisted Tequila Tuesday": "Martes de tequila Twisted",
+    "PADI Instructor Graduation": "Graduación de instructores PADI",
+    "Glow in the Dark Beer Pong": "Beer pong que brilla en la oscuridad",
+    "Girl's Night": "Noche de chicas",
+    "Pizza and Documentary Night": "Noche de pizza y documental",
+    "Beer Pong & Friday Night Party": "Beer pong y fiesta de viernes",
+    "Hip-Hop Night": "Noche de hip-hop",
+    "Open Mic": "Micrófono abierto",
+    "Full Moon Party": "Fiesta de luna llena",
+    "BINGO": "BINGO",
+    "Game Night": "Noche de juegos",
+    "Jungle Party": "Fiesta en la jungla",
+    "Shots Saturday": "Sábado de shots",
+    "Hog Fry": "Cerdo asado",
+    "Kids Pool Day": "Día de piscina para niños",
+    "Rock n Roll Night": "Noche de rock and roll"
+};
+
+const nightlifeTimeSpanish = {
+    "Night": "Noche",
+    "Day": "Durante el día",
+    "Open til 2am": "Abierto hasta las 2am",
+    "Open til 4am": "Abierto hasta las 4am"
+};
+
+const emergencyDescriptionSpanish = {
+    "24/7 Medical": "Atención médica 24/7",
+    "Mon-Fri 10am - 12pm, Mon-Fri 2pm - 5pm, Sat 10am - 12pm": "Lun-Vie 10am - 12pm, Lun-Vie 2pm - 5pm, Sáb 10am - 12pm",
+    "Emergency": "Emergencia",
+    "Utila Firefighters": "Bomberos de Utila",
+    "Evacuations/Contact": "Evacuaciones/Contacto",
+    "Power Company": "Compañía eléctrica"
+};
+
+const emergencyNameSpanish = {
+    "Hyperbaric Chamber": "Cámara hiperbárica",
+    "Fire Chief": "Jefe de Bomberos",
+    "Chief of Operations": "Jefe de Operaciones",
+    "National Police": "Policía Nacional",
+    "Municipal Police Chief": "Jefe de la Policía Municipal"
+};
+
+const IMAGE_FALLBACK = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#f3f4f6"/>
+  <text x="400" y="250" dominant-baseline="middle" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="30">Utila Eats</text>
+</svg>`);
+
+function handleImageError(img) {
+    if (!img || img.dataset.fallbackApplied === "true") return;
+    img.dataset.fallbackApplied = "true";
+    img.src = IMAGE_FALLBACK;
+}
+
+function localizedValue(value, fallbackMap = null) {
+    if (value && typeof value === "object" && !Array.isArray(value)) return value[currentLang] || value.en || "";
+    if (currentLang === "es" && fallbackMap && fallbackMap[value]) return fallbackMap[value];
+    return value || "";
+}
+
+function validateDirectoryData() {
+    const warnings = [];
+    const seenIds = new Set();
+    directoryIndex.forEach((item, id) => {
+        if (seenIds.has(id)) warnings.push(`Duplicate ID: ${id}`);
+        seenIds.add(id);
+        if (!item.name) warnings.push(`Missing name: ${id}`);
+        if (item.hours && typeof item.hours === "object" && (!item.hours.en || !item.hours.es)) warnings.push(`Missing bilingual hours: ${item.name}`);
+        if (item.desc && typeof item.desc === "object" && (!item.desc.en || !item.desc.es)) warnings.push(`Missing bilingual description: ${item.name}`);
+        [item.img, item.image, item.loc, item.location, item.facebook, item.instagram].filter(Boolean).forEach(url => {
+            if (typeof url === "string" && url.startsWith("http") && !/^https?:\/\//i.test(url)) warnings.push(`Malformed URL for ${item.name}: ${url}`);
+        });
+    });
+    if (warnings.length) console.warn(`[Utila Eats ${APP_VERSION}] Data validation warnings:`, warnings);
+    else console.info(`[Utila Eats ${APP_VERSION}] Data validation passed for ${directoryIndex.size} directory entries.`);
+    return warnings;
+}
+
 /* --- 3. NAVIGATION & LOGIC --- */
 let currentMode="eat";
 let activeExploreCategory = "";
 let currentActiveDay = ""; 
 let isModalOpen = false;
 let lastScrollTop = 0;
+const modalStack = [];
+const modalFocusStack = [];
+let currentDetailId = "";
+let currentSpecialsReference = "";
+let currentMenuReference = "";
 
 /* HELPER: Clean Instagram/Facebook Links to fix mobile app opening */
 const cleanUrl = (url) => {
@@ -930,93 +1101,96 @@ function clearSearch() {
 }
 
 /* --- "OPEN NOW" LOGIC ENGINE --- */
-function checkOpenStatus(timeStr) {
+function getUtilaClock(date = new Date()) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: UTILA_TIME_ZONE,
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        hourCycle: 'h23'
+    }).formatToParts(date);
+    const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+    const daysMap = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+    return {
+        day: daysMap[String(values.weekday || '').toLowerCase()],
+        mins: Number(values.hour) * 60 + Number(values.minute)
+    };
+}
+
+function checkOpenStatus(timeStr, date = new Date()) {
     if(!timeStr) return false;
-    if(timeStr.includes("CLOSED UNTIL")) return false;
+    if(typeof timeStr === 'object' && !Array.isArray(timeStr)) timeStr = timeStr.en || '';
+    if(!timeStr || String(timeStr).toUpperCase().includes('CLOSED UNTIL')) return false;
 
-    const now = new Date();
-    let day = now.getDay(); // 0=Sun
-    let mins = now.getHours() * 60 + now.getMinutes();
-    
-    // Late night logic (00:00 - 04:00 belongs to previous day)
-    if (mins < 240) { 
-        day = (day === 0) ? 6 : day - 1; 
-        mins += 1440; 
-    }
+    const { day, mins } = getUtilaClock(date);
+    if(day === undefined || Number.isNaN(mins)) return false;
 
-    let cleanStr = timeStr.toLowerCase();
+    let cleanStr = String(timeStr).toLowerCase();
     const daysArr = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-    const daysMap = { 'sun': 0, 'mon': 1, 'tue': 2, 'wed': 3, 'thu': 4, 'fri': 5, 'sat': 6 };
+    const daysMap = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
     const todayCode = daysArr[day];
-    
-    if (cleanStr.includes(`closed ${todayCode}`)) return false; 
+    if(cleanStr.includes(`closed ${todayCode}`)) return false;
+    if(cleanStr.includes('24/7')) return true;
 
-    cleanStr = cleanStr.replace(/daily|from|hours|open\s/g, "").trim();
-    let segments = cleanStr.split(/,/); 
+    cleanStr = cleanStr.replace(/daily|from|hours|open\s/g, '').trim();
+    const segments = cleanStr.split(',');
 
-    const parseTime = (tStr) => {
-        if(!tStr) return null;
-        tStr = tStr.trim();
-        if(tStr.includes('midnight') || tStr.includes('12am')) return 24 * 60; 
-        if(tStr.includes('sunset')) return 18 * 60; 
-        if(tStr.includes('24/7')) return 9999;
-        
-        let isPM = tStr.includes('pm');
-        let isAM = tStr.includes('am');
-        let time = tStr.replace(/[a-z]/g, "").trim();
-        let [h, m] = time.split(':').map(Number);
-        if(isNaN(m)) m = 0;
-        
-        if (isPM && h !== 12) h += 12;
-        if (isAM && h === 12) h = 0;
-        
-        return h * 60 + m;
+    const parseTime = (raw) => {
+        if(!raw) return null;
+        const value = raw.trim();
+        if(value.includes('sunset')) return 18 * 60;
+        if(value.includes('midnight')) return 0;
+        const isPM = value.includes('pm');
+        const isAM = value.includes('am');
+        const time = value.replace(/[a-z]/g, '').trim();
+        let [hours, minutes] = time.split(':').map(Number);
+        if(Number.isNaN(hours)) return null;
+        if(!Number.isFinite(minutes)) minutes = 0;
+        if(isPM && hours !== 12) hours += 12;
+        if(isAM && hours === 12) hours = 0;
+        return hours * 60 + minutes;
     };
 
-    let isOpen = false;
-
-    for (let seg of segments) {
-        seg = seg.trim();
-        if(!seg) continue;
-
-        let applicableDays = [];
-        const rangeMatch = seg.match(/([a-z]{3})\s*-\s*([a-z]{3})/);
-        
-        if (rangeMatch) {
-            let start = daysMap[rangeMatch[1]];
-            let end = daysMap[rangeMatch[2]];
-            if (start !== undefined && end !== undefined) {
-                let ptr = start;
-                while (true) { 
-                    applicableDays.push(ptr); 
-                    if (ptr === end) break; 
-                    ptr = (ptr + 1) % 7; 
+    const getApplicableDays = (segment) => {
+        const applicableDays = [];
+        const rangeMatch = segment.match(/([a-z]{3})\s*-\s*([a-z]{3})/);
+        if(rangeMatch) {
+            const start = daysMap[rangeMatch[1]];
+            const end = daysMap[rangeMatch[2]];
+            if(start !== undefined && end !== undefined) {
+                let pointer = start;
+                while(true) {
+                    applicableDays.push(pointer);
+                    if(pointer === end) break;
+                    pointer = (pointer + 1) % 7;
                 }
             }
         } else {
-            let foundDay = false;
-            daysArr.forEach(dStr => { 
-                if (seg.includes(dStr)) {
-                    applicableDays.push(daysMap[dStr]); 
-                    foundDay = true;
-                }
+            daysArr.forEach(code => {
+                if(segment.includes(code)) applicableDays.push(daysMap[code]);
             });
-            if(!foundDay) applicableDays = [0,1,2,3,4,5,6]; 
         }
+        return applicableDays.length ? [...new Set(applicableDays)] : [0,1,2,3,4,5,6];
+    };
 
-        if (applicableDays.includes(day)) {
-            const timeMatch = seg.match(/(\d{1,2}(?::\d{2})?\s*(?:am|pm|midnight|sunset)?)\s*-\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm|midnight|sunset)?)/);
-            if (timeMatch) {
-                let startMin = parseTime(timeMatch[1]);
-                let endMin = parseTime(timeMatch[2]);
-                if (endMin < startMin) endMin += 1440; 
-                if (mins >= startMin && mins < endMin) isOpen = true; 
-            } else if (seg.includes('24/7')) { 
-                isOpen = true; 
-            }
+    for(const rawSegment of segments) {
+        const segment = rawSegment.trim();
+        if(!segment) continue;
+        const applicableDays = getApplicableDays(segment);
+        const timeMatch = segment.match(/(\d{1,2}(?::\d{2})?\s*(?:am|pm|midnight|sunset)?)\s*-\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm|midnight|sunset)?)/);
+        if(!timeMatch) continue;
+        const startMin = parseTime(timeMatch[1]);
+        const endMin = parseTime(timeMatch[2]);
+        if(startMin === null || endMin === null) continue;
+
+        if(endMin > startMin) {
+            if(applicableDays.includes(day) && mins >= startMin && mins < endMin) return true;
+        } else {
+            const previousDay = day === 0 ? 6 : day - 1;
+            if((applicableDays.includes(day) && mins >= startMin) || (applicableDays.includes(previousDay) && mins < endMin)) return true;
         }
     }
-    return isOpen;
+    return false;
 }
 
 function setLanguage(lang){
@@ -1027,7 +1201,10 @@ function setLanguage(lang){
     currentLang = lang;
     localStorage.setItem('utilaEatsLang', currentLang);
     updateUIText();
-    if(!document.getElementById('eventsModal').classList.contains('hidden') && currentActiveDay){ openEvents(currentActiveDay); }
+    if(!document.getElementById('detailModal').classList.contains('hidden') && currentDetailId){ openDetail(currentDetailId, false); }
+    if(!document.getElementById('specialsModal').classList.contains('hidden') && currentSpecialsReference){ openSpecials(currentSpecialsReference, false); }
+    if(!document.getElementById('imageModal').classList.contains('hidden') && currentMenuReference){ openMenu(currentMenuReference, false); }
+    if(!document.getElementById('eventsModal').classList.contains('hidden') && currentActiveDay){ openEvents(currentActiveDay, false); }
     if(document.getElementById('nightlife-view').classList.contains('flex')){ renderNightLifeGrid(); }
     if(document.getElementById('explore-menu-view').classList.contains('flex')){ renderExploreGrid(); }
     if(document.getElementById('dive-menu-view').classList.contains('flex')){ renderDiveGrid(); }
@@ -1046,32 +1223,72 @@ function setLanguage(lang){
 
 function updateUIText(){
     const t = translations[currentLang];
-    const setBtnStyle = (id, isActive) => { const el = document.getElementById(id); if(el) { el.className = isActive ? "px-3 py-1 text-[10px] rounded transition bg-white/20 text-white font-bold shadow-sm uppercase tracking-wider" : "px-3 py-1 text-[10px] rounded transition text-white/60 hover:text-white hover:bg-white/10 uppercase font-bold tracking-wider"; } };
-    setBtnStyle('btn-lang-en', currentLang === 'en'); setBtnStyle('btn-lang-es', currentLang === 'es');
-    setBtnStyle('btn-lang-en-app', currentLang === 'en'); setBtnStyle('btn-lang-es-app', currentLang === 'es');
-    
-    const subtitleEl = document.getElementById('subtitle-home'); if(subtitleEl) subtitleEl.innerText = t.subtitle;
-    const promptEl = document.getElementById('prompt-home'); if(promptEl) promptEl.innerText = t.prompt;
-    const emBtn = document.getElementById('btn-emergency-home'); if(emBtn) emBtn.innerText = t.emergencyBtn;
-    const restBtn = document.getElementById('btn-restaurants'); if(restBtn) restBtn.innerText = t.restaurants;
-    const delBtn = document.getElementById('btn-delivery'); if(delBtn) delBtn.innerText = t.delivery;
+    document.documentElement.lang = currentLang;
+
+    const setBtnStyle = (id, isActive) => {
+        const el = document.getElementById(id);
+        if(!el) return;
+        el.classList.toggle('bg-white/20', isActive);
+        el.classList.toggle('text-white', isActive);
+        el.classList.toggle('shadow-sm', isActive);
+        el.classList.toggle('text-white/60', !isActive);
+        el.setAttribute('aria-pressed', String(isActive));
+    };
+    ['btn-lang-en','btn-lang-en-app','btn-lang-en-exp','btn-lang-en-dive','btn-lang-en-sc','btn-lang-en-nl'].forEach(id => setBtnStyle(id, currentLang === 'en'));
+    ['btn-lang-es','btn-lang-es-app','btn-lang-es-exp','btn-lang-es-dive','btn-lang-es-sc','btn-lang-es-nl'].forEach(id => setBtnStyle(id, currentLang === 'es'));
+
+    const textById = {
+        'subtitle-home': t.subtitle,
+        'prompt-home': t.prompt,
+        'btn-emergency-home': t.emergencyBtn,
+        'btn-restaurants': t.restaurants,
+        'btn-delivery': t.delivery,
+        'btn-show-all': t.showAll,
+        'btn-donate': t.donate,
+        'btn-suggest': t.suggest,
+        'modalTitle': t.menuTitle,
+        'specialsTitle': t.specialsTitle,
+        'explore-title-main': t.exploreTitle,
+        'dive-title-main': t.diveTitle,
+        'selfcare-title-main': t.scTitle,
+        'nightlife-title': t.nlTitle,
+        'eventsSubtitle': t.nlTitle,
+        'nl-helper': t.clickDay,
+        'donate-label': t.supportLocal,
+        'btn-swamper-label': t.saveSwamper,
+        'btn-rescue-label': t.supportJasper,
+        'btn-daily-activities': t.dailyActivities,
+        'btn-close-detail': t.close
+    };
+    Object.entries(textById).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if(el) el.innerText = value;
+    });
+
     const expBtn = document.getElementById('btn-explore'); if(expBtn) expBtn.querySelector('span').innerText = t.explore;
     const nlBtn = document.getElementById('btn-nightlife'); if(nlBtn) nlBtn.querySelector('span').innerText = t.nightlife;
-    const showAllBtn = document.getElementById('btn-show-all'); if(showAllBtn) showAllBtn.innerText = t.showAll;
-    const donBtn = document.getElementById('btn-donate'); if(donBtn) donBtn.innerText = t.donate;
-    const sugBtn = document.getElementById('btn-suggest'); if(sugBtn) sugBtn.innerText = t.suggest;
     const searchInp = document.getElementById('searchInput'); if(searchInp) searchInp.placeholder = t.searchPlaceholder;
-    const modTitle = document.getElementById('modalTitle'); if(modTitle) modTitle.innerText = t.menuTitle;
-    const specTitle = document.getElementById('specialsTitle'); if(specTitle) specTitle.innerText = t.specialsTitle;
-    const expTitle = document.getElementById('explore-title-main'); if(expTitle) expTitle.innerText = t.exploreTitle;
-    const diveTitle = document.getElementById('dive-title-main'); if(diveTitle) diveTitle.innerText = t.diveTitle;
-    const scTitle = document.getElementById('selfcare-title-main'); if(scTitle) scTitle.innerText = t.scTitle;
-    const nlTitleMain = document.getElementById('nightlife-title'); if(nlTitleMain) nlTitleMain.innerText = t.nlTitle;
-    const nlHelper = document.getElementById('nl-helper'); if(nlHelper) nlHelper.innerText = t.clickDay;
-    const donLabel = document.getElementById('donate-label'); if(donLabel) donLabel.innerText = t.supportLocal;
-    const swamperLabel = document.getElementById('btn-swamper-label'); if(swamperLabel) swamperLabel.innerText = t.saveSwamper;
-    const rescueLabel = document.getElementById('btn-rescue-label'); if(rescueLabel) rescueLabel.innerText = t.supportJasper;
-    const dailyBtn = document.getElementById('btn-daily-activities'); if(dailyBtn) dailyBtn.innerText = t.dailyActivities;
+
+    const date = new Date(`${SITE_LAST_UPDATED}T12:00:00Z`);
+    const formattedDate = new Intl.DateTimeFormat(currentLang === 'es' ? 'es-HN' : 'en-US', {
+        year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'
+    }).format(date);
+    const updatedEl = document.getElementById('last-updated');
+    if(updatedEl) updatedEl.innerText = currentLang === 'es' ? `${t.lastUpdated}: ${formattedDate}` : `${t.lastUpdated} ${formattedDate}`;
+
+    const ariaLabels = {
+        'btn-share-home': t.share,
+        'btn-info-home': t.information,
+        'clearSearchBtn': t.clearSearch,
+        'favFilterBtn': t.favorite
+    };
+    Object.entries(ariaLabels).forEach(([id, label]) => {
+        const el = document.getElementById(id);
+        if(el) el.setAttribute('aria-label', label);
+    });
+    document.querySelectorAll('button[onclick="goHome()"]').forEach(button => button.setAttribute('aria-label', t.back));
+    document.querySelectorAll('button[onclick^="close"]').forEach(button => button.setAttribute('aria-label', t.close));
+    if(searchInp) searchInp.setAttribute('aria-label', t.searchPlaceholder);
 }
 
 function updateAppHeaderColor(colorClass) {
@@ -1148,8 +1365,46 @@ function goToApp(mode, subCategory=""){
     }
 }
 
+function showModalLayer(modalId, hash, pushHistory = true) {
+    const modal = document.getElementById(modalId);
+    if(!modal) return;
+    if(pushHistory) history.pushState({view: 'modal', modal: modalId}, '', hash);
+    if(modalStack[modalStack.length - 1] !== modalId) {
+        modalStack.push(modalId);
+        modalFocusStack.push(document.activeElement);
+    }
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    isModalOpen = modalStack.length > 0;
+    requestAnimationFrame(() => {
+        const focusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if(focusable) focusable.focus({preventScroll: true});
+    });
+}
+
+function hideTopModalLayer() {
+    const modalId = modalStack.pop();
+    if(!modalId) return false;
+    const modal = document.getElementById(modalId);
+    if(modal) {
+        modal.classList.add('hidden');
+        modal.setAttribute('aria-hidden', 'true');
+    }
+    if(modalId === 'detailModal') currentDetailId = "";
+    if(modalId === 'specialsModal') currentSpecialsReference = "";
+    if(modalId === 'imageModal') currentMenuReference = "";
+    const previousFocus = modalFocusStack.pop();
+    if(previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus({preventScroll: true});
+    isModalOpen = modalStack.length > 0;
+    return true;
+}
+
+function closeTopModal() {
+    if(modalStack.length) history.back();
+}
+
 function goHome(){
-    if(isModalOpen) { closeDetail(); closeModal(); closeSpecials(); closeEvents(); return; }
+    if(isModalOpen) { closeTopModal(); return; }
     if(history.state && history.state.view === 'app'){
         const sub = history.state.sub || "";
         if(sub.startsWith('dive:') || sub.startsWith('selfcare:') || history.state.mode === 'explore-list' || history.state.mode === 'dive-menu' || history.state.mode === 'selfcare-menu') { 
@@ -1161,7 +1416,7 @@ function goHome(){
 }
 
 window.onpopstate = function(event) { 
-    if(isModalOpen) { document.getElementById('detailModal').classList.add('hidden'); document.getElementById('imageModal').classList.add('hidden'); document.getElementById('specialsModal').classList.add('hidden'); document.getElementById('eventsModal').classList.add('hidden'); isModalOpen = false; return; }
+    if(modalStack.length) { hideTopModalLayer(); return; }
     if(event.state){
         currentMode = event.state.mode; 
         if(event.state.mode === 'explore') { document.getElementById('dive-menu-view').classList.add('hidden'); document.getElementById('dive-menu-view').classList.remove('flex'); document.getElementById('selfcare-menu-view').classList.add('hidden'); document.getElementById('selfcare-menu-view').classList.remove('flex'); document.getElementById('app-view').classList.add('hidden'); document.getElementById('app-view').classList.remove('flex'); document.getElementById('explore-menu-view').classList.remove('hidden'); document.getElementById('explore-menu-view').classList.add('flex'); }
@@ -1173,37 +1428,31 @@ window.onpopstate = function(event) {
 };
 
 function forceHomeView(){
+    while(modalStack.length) hideTopModalLayer();
     currentMode = 'home';
     ['app-view', 'explore-menu-view', 'nightlife-view', 'dive-menu-view', 'selfcare-menu-view'].forEach(id => { const el = document.getElementById(id); el.classList.add('hidden'); el.classList.remove('flex'); });
     document.getElementById('home-view').classList.remove('hidden'); document.getElementById('searchInput').value = "";
 }
 
-function findItemByName(name) {
-    let item = db.find(i => i.name === name);
-    if(item) return {...item, type: 'eat'};
-    item = drivers.find(i => i.name === name);
-    if(item) return {...item, type: 'ride'};
-    for(let cat in exploreData){
-        const val = exploreData[cat];
-        if(Array.isArray(val)){ item = val.find(i => i.name === name); if(item) return {...item, type: 'explore'}; } 
-        else if (typeof val === 'object') { for(let sub in val){ if(Array.isArray(val[sub])){ item = val[sub].find(i => i.name === name); if(item) return {...item, type: 'explore'}; } } }
-    }
-    return null;
+function findItemById(reference) {
+    if(directoryIndex.has(reference)) return directoryIndex.get(reference);
+    return [...directoryIndex.values()].find(item => item.name === reference) || null;
 }
 
-function openDetail(name) {
-    const item = findItemByName(name);
+function openDetail(reference, pushHistory = true) {
+    const item = findItemById(reference);
     if(!item) return;
-    isModalOpen = true; history.pushState({view: 'modal'}, '', '#detail');
+    currentDetailId = item.id;
+    if(pushHistory) showModalLayer('detailModal', '#detail');
     const t = translations[currentLang];
     const content = document.getElementById('detailContent');
     
     let statusHTML = '';
     let hoursText = item.hours ? (typeof item.hours === 'object' ? (item.hours[currentLang] || item.hours['en']) : item.hours) : '';
     
-    if(item.type === 'eat' || item.type === 'ride'){
-        const hEn = (typeof item.hours === 'object' ? item.hours['en'] : item.hours) || "";
-        let openLogic = item.name.includes("The Captain") ? false : checkOpenStatus(hEn);
+    if(item._directoryType === 'eat' || item._directoryType === 'ride'){
+        const hEn = item.openHours ? (typeof item.openHours === 'object' ? item.openHours.en : item.openHours) : ((typeof item.hours === 'object' ? item.hours.en : item.hours) || "");
+        const openLogic = checkOpenStatus(hEn);
         if(hEn && /\d/.test(hEn) && !item.name.includes("Cinema")){
              const color = openLogic ? 'text-green-600 bg-green-50' : 'text-red-500 bg-red-50';
              const text = openLogic ? t.statusOpen : t.statusClosed;
@@ -1220,19 +1469,22 @@ function openDetail(name) {
     const cleanNum = (item.whatsapp || item.contact || item.phone || "").replace(/[^0-9]/g, '');
     const isWa = item.whatsapp || (item.contact && !item.contact.includes('http') && cleanNum.length > 5);
     
-    if(item.type === 'ride'){
+    if(item._directoryType === 'ride'){
          const msgR = currentLang==='es' ? `Hola ${item.name}, te encontr\u00E9 en Utila Eats. \u00BFMe podr\u00EDas llevar?` : `Hi ${item.name}, I found you on Utila Eats. Can I get a ride?`;
          mainContactBtn = `<a href="https://wa.me/${cleanNum}?text=${encodeURIComponent(msgR)}" target="_blank" class="w-full bg-teal-600 text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-md text-lg hover:bg-teal-700 transition"><i class="fa-solid fa-motorcycle mr-2"></i> ${t.ride}</a>`;
     } else if (isWa) {
          let msg = "";
          if(currentLang === 'es'){msg=`\u00A1Hola! Te encontr\u00E9 en Utila Eats.`;} else {msg=`Hi! I found you on Utila Eats.`;}
-         mainContactBtn = `<a href="https://wa.me/${cleanNum}?text=${encodeURIComponent(msg)}" target="_blank" class="w-full bg-green-500 text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-md text-lg hover:opacity-90 transition"><i class="fa-brands fa-whatsapp mr-2"></i> Chat</a>`;
-    } else if (cleanNum.length > 5) {
-         mainContactBtn = `<a href="tel:+${cleanNum}" target="_blank" class="w-full bg-gray-600 text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-md text-lg hover:opacity-90 transition"><i class="fa-solid fa-phone mr-2"></i> Call</a>`;
+         mainContactBtn = `<a href="https://wa.me/${cleanNum}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener noreferrer" class="w-full bg-green-500 text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-md text-lg hover:opacity-90 transition"><i class="fa-brands fa-whatsapp mr-2"></i> ${t.chat}</a>`;
+    } else if (cleanNum.length > 5 && !(item.contact || '').includes('http')) {
+         mainContactBtn = `<a href="tel:+${cleanNum}" class="w-full bg-gray-600 text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-md text-lg hover:opacity-90 transition"><i class="fa-solid fa-phone mr-2"></i> ${t.call}</a>`;
     }
 
-    // 2. Social Row (Facebook / Instagram / Map)
+    // 2. Social Row (Website / Facebook / Instagram / Map)
     let socialBtns = '';
+    if(item.contact && item.contact.includes('http') && !item.contact.includes('maps')) {
+        socialBtns += `<a href="${item.contact}" target="_blank" rel="noopener noreferrer" aria-label="${t.website}" class="flex-1 bg-slate-700 text-white font-bold py-3 rounded-xl flex items-center justify-center shadow-sm text-sm hover:opacity-90 transition"><i class="fa-solid fa-globe mr-2 text-lg"></i> ${t.website}</a>`;
+    }
     if(item.facebook) {
         socialBtns += `<a href="${item.facebook}" target="_blank" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl flex items-center justify-center shadow-sm text-sm hover:opacity-90 transition"><i class="fa-brands fa-facebook-messenger mr-2 text-lg"></i> FB</a>`;
     }
@@ -1242,7 +1494,7 @@ function openDetail(name) {
         socialBtns += `<a href="${cleanIg}" target="_blank" class="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-xl flex items-center justify-center shadow-sm text-sm hover:opacity-90 transition"><i class="fa-brands fa-instagram mr-2 text-lg"></i> IG</a>`;
     }
     if(item.loc || item.location) {
-        socialBtns += `<a href="${item.loc || item.location}" target="_blank" class="flex-1 bg-blue-50 text-blue-600 border border-blue-200 font-bold py-3 rounded-xl flex items-center justify-center shadow-sm text-sm hover:bg-blue-100 transition"><i class="fa-solid fa-map-location-dot mr-2 text-lg"></i> Map</a>`;
+        socialBtns += `<a href="${item.loc || item.location}" target="_blank" class="flex-1 bg-blue-50 text-blue-600 border border-blue-200 font-bold py-3 rounded-xl flex items-center justify-center shadow-sm text-sm hover:bg-blue-100 transition"><i class="fa-solid fa-map-location-dot mr-2 text-lg"></i> ${t.map}</a>`;
     }
     
     if(socialBtns) {
@@ -1255,25 +1507,25 @@ function openDetail(name) {
     }
 
     // 4. Misc Buttons (Menu, Services)
-    const safeName = item.name.replace(/'/g, "\\'");
+    const safeId = item.id.replace(/'/g, "\\'");
     if(item.menuImages) {
-        miscBtns += `<button onclick="openMenu('${safeName}')" class="w-full bg-teal-50 text-teal-600 border border-teal-200 font-bold py-4 rounded-xl flex items-center justify-center shadow-sm text-lg hover:bg-teal-100 transition mt-2"><i class="fa-solid fa-book-open mr-2"></i> ${t.viewMenu}</button>`;
+        miscBtns += `<button onclick="openMenu('${safeId}')" class="w-full bg-teal-50 text-teal-600 border border-teal-200 font-bold py-4 rounded-xl flex items-center justify-center shadow-sm text-lg hover:bg-teal-100 transition mt-2"><i class="fa-solid fa-book-open mr-2"></i> ${t.viewMenu}</button>`;
     }
     if(item.flyer) {
          miscBtns += `<button onclick="openModal(['${item.flyer}'], '${t.viewServices}')" class="w-full bg-purple-50 text-purple-600 border border-purple-200 font-bold py-4 rounded-xl flex items-center justify-center shadow-sm text-lg hover:bg-purple-100 transition mt-2"><i class="fa-solid fa-hand-sparkles mr-2"></i> ${t.viewServices}</button>`;
     }
 
     const imgUrl = item.img || item.image || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80';
-    const imgClass = (item.type === 'explore' || item.imgMode === 'contain') ? 'object-contain bg-white p-2' : 'object-cover';
+    const imgClass = (item._directoryType === 'explore' || item.imgMode === 'contain') ? 'object-contain bg-white p-2' : 'object-cover';
 
     content.innerHTML = `
         <div class="h-64 w-full relative bg-gray-100">
-            <img src="${optimizeUrl(imgUrl)}" class="w-full h-full ${imgClass}">
+            <img src="${optimizeUrl(imgUrl)}" alt="${item.name}" decoding="async" onerror="handleImageError(this)" class="w-full h-full ${imgClass}">
             <button onclick="closeDetail()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center backdrop-blur-md"><i class="fa-solid fa-xmark text-xl"></i></button>
         </div>
         <div class="p-6">
             ${statusHTML}
-            <h2 class="text-3xl font-bold text-gray-900 mb-2 leading-tight">${item.name}</h2>
+            <h2 id="detail-title" class="text-3xl font-bold text-gray-900 mb-2 leading-tight">${item.name}</h2>
             ${item.tags ? `<div class="flex flex-wrap gap-2 mb-6">${item.tags.split(',').map(tag => `<span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-lg text-sm font-bold border border-gray-200">${currentLang==='es'?(tagMap[tag.trim()]||tag.trim()):tag.trim()}</span>`).join('')}</div>` : ''}
             
             ${item.desc ? `<p class="text-gray-600 italic mb-6 text-lg leading-relaxed border-l-4 border-teal-500 pl-4 bg-gray-50 py-2 pr-2 rounded-r-lg">${typeof item.desc === 'object' ? (item.desc[currentLang]||item.desc['en']) : item.desc}</p>` : ''}
@@ -1288,27 +1540,25 @@ function openDetail(name) {
         </div>
     `;
     
-    document.getElementById('detailModal').classList.remove('hidden');
+    secureExternalLinks(content);
 }
 
-function closeDetail(){ 
-    if(!document.getElementById('detailModal').classList.contains('hidden')){ history.back(); }
-}
+
+function closeDetail(){ if(!document.getElementById('detailModal').classList.contains('hidden')) closeTopModal(); }
 /* RENDERING ENGINES */
-function getButtonConfig(place){if(!place.contact && !place.whatsapp && !place.phone)return null;let type,url,color,icon,label;
-const cleanNum=(place.whatsapp||place.contact||place.phone||"").replace(/[^0-9]/g,'');
-const isWa = place.whatsapp || (place.contact && !place.contact.includes('http') && cleanNum.length > 5);
-
-if(isWa){
-    type='whatsapp';
-    let msg="";
-    if(currentLang === 'es'){if(place.menuImages){msg=`\u00A1Hola! Te encontr\u00E9 en Utila Eats.`}else{msg=`\u00A1Hola! Te encontr\u00E9 en Utila Eats.`}} 
-    else {if(place.menuImages){msg=`Hi! I found you on Utila Eats.`}else{msg=`Hi! I found you on Utila Eats.`}}
-    url=`https://wa.me/${cleanNum}?text=${encodeURIComponent(msg)}`;color='bg-green-500';icon='fa-brands fa-whatsapp';label='Chat';
-} else if (cleanNum.length > 5 && !place.contact?.includes('http')) {
-    type='phone'; url=`tel:+${cleanNum}`; color='bg-gray-600'; icon='fa-solid fa-phone'; label='Call';
-} else { return null; }
-return{url,color,icon,label,type}}
+function getButtonConfig(place){
+    if(!place.contact && !place.whatsapp && !place.phone) return null;
+    const t = translations[currentLang];
+    const cleanNum = (place.whatsapp || place.contact || place.phone || "").replace(/[^0-9]/g,'');
+    const contactIsUrl = Boolean(place.contact && place.contact.includes('http'));
+    const isWa = place.whatsapp || (!contactIsUrl && place.contact && cleanNum.length > 5);
+    if(isWa){
+        const msg = currentLang === 'es' ? `¡Hola! Te encontré en Utila Eats.` : `Hi! I found you on Utila Eats.`;
+        return {url:`https://wa.me/${cleanNum}?text=${encodeURIComponent(msg)}`, color:'bg-green-500', icon:'fa-brands fa-whatsapp', label:t.chat, type:'whatsapp'};
+    }
+    if(cleanNum.length > 5 && !contactIsUrl) return {url:`tel:+${cleanNum}`, color:'bg-gray-600', icon:'fa-solid fa-phone', label:t.call, type:'phone'};
+    return null;
+}
 
 function renderList(tag="All"){
     const t = translations[currentLang];
@@ -1329,7 +1579,7 @@ function renderList(tag="All"){
         if(allTags.has(deliveryTag)) allTags.delete(deliveryTag);
         
         const sortedTags=Array.from(allTags).filter(item => item !== "All").sort();
-        const allLabel = t.showAll.includes('Show') ? 'All' : 'Todos';
+        const allLabel = t.all;
         
         // PINNED FILTERS: All -> Open Now -> Delivery
         let filterHTML = `<button onclick="renderList('All')" class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition shadow-md ${activeTag==='All'?'bg-teal-600 text-white':'bg-teal-50 text-teal-800 border border-teal-200'}">${allLabel}</button>`;
@@ -1341,20 +1591,19 @@ function renderList(tag="All"){
         filterHTML += sortedTags.map(tg=>`<button onclick="renderList('${tg}')" class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition border shadow-sm ${activeTag===tg?'bg-teal-600 text-white border-teal-600':'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}">${tg}</button>`).join('');
         filterContainer.innerHTML = filterHTML;
         
-        container.innerHTML="";let count=0;
+        const cards=[];let count=0;
         db.forEach(place=>{
             let placeTags = place.tags ? place.tags.split(',').map(s=>s.trim()) : [];
             if(currentLang === 'es') placeTags = placeTags.map(pt => tagMap[pt] || pt);
             
             const matchTag = activeTag === "All" || activeTag === "OpenNow" || placeTags.includes(activeTag);
             const matchSearch = !searchVal || place.name.toLowerCase().includes(searchVal) || placeTags.some(pt => pt.toLowerCase().includes(searchVal));
-            const matchFav = !showOnlyFavorites || favorites.includes(place.name);
+            const matchFav = !showOnlyFavorites || favorites.includes(place.id);
             if(!matchTag || !matchSearch || !matchFav) return;
             
             const hoursForLogic = place.openHours ? (place.openHours['en'] || place.openHours) : (place.hours ? place.hours['en'] : "");
             let hasNumbers = hoursForLogic ? /\d/.test(hoursForLogic) : false;
             let isOpen = hasNumbers ? checkOpenStatus(hoursForLogic) : false;
-            if(place.name.includes("The Captain")){ hasNumbers = true; isOpen = false; }
             if(activeTag === 'OpenNow' && !isOpen) return;
 
             let statusBadgeHTML = '';
@@ -1368,7 +1617,7 @@ function renderList(tag="All"){
             const btnConfig=getButtonConfig(place);
             const coverImage=place.img?optimizeUrl(place.img, 400):getPlaceholder(place.tags || "");
             const coverImageClass = place.imgMode === 'contain' ? 'object-contain bg-white p-2' : 'object-cover';
-            const isFav=favorites.includes(place.name);
+            const isFav=favorites.includes(place.id);
             const tagsHTML = placeTags.map(tag=>`<span class="text-[10px] bg-teal-50 text-teal-800 px-1.5 py-0.5 rounded-md mr-1 mb-1 inline-block border border-teal-100">${tag}</span>`).join('');
             
             // --- BUTTONS ROW LOGIC (Refined for "In Person" and Clean Links) ---
@@ -1396,9 +1645,9 @@ function renderList(tag="All"){
                 ${secondaryBtns ? `<div class="flex gap-2">${secondaryBtns}</div>` : ''}
             </div>`;
 
-            let menuStatusHTML=''; const safeName = place.name.replace(/'/g, "\\'");
+            let menuStatusHTML=''; const safeId = place.id.replace(/'/g, "\\'");
             if(place.menuImages){
-                menuStatusHTML += `<button onclick="event.stopPropagation(); openMenu('${safeName}')" class="w-full bg-teal-50 hover:bg-teal-100 border-l-4 border-teal-500 p-2 mb-2 rounded-r-md flex items-center justify-between transition group shadow-sm"><div class="flex items-center"><i class="fa-solid fa-book-open text-teal-600 mr-2 text-xs"></i><span class="text-xs font-bold text-teal-800 uppercase tracking-wide">${t.viewMenu}</span></div><i class="fa-solid fa-chevron-right text-teal-400 text-xs group-hover:translate-x-1 transition-transform"></i></button>`;
+                menuStatusHTML += `<button onclick="event.stopPropagation(); openMenu('${safeId}')" class="w-full bg-teal-50 hover:bg-teal-100 border-l-4 border-teal-500 p-2 mb-2 rounded-r-md flex items-center justify-between transition group shadow-sm"><div class="flex items-center"><i class="fa-solid fa-book-open text-teal-600 mr-2 text-xs"></i><span class="text-xs font-bold text-teal-800 uppercase tracking-wide">${t.viewMenu}</span></div><i class="fa-solid fa-chevron-right text-teal-400 text-xs group-hover:translate-x-1 transition-transform"></i></button>`;
             } else if(place.customMenu){
                 let menuTxt = "";if(typeof place.customMenu === 'object'){menuTxt = place.customMenu[currentLang] || place.customMenu['en'];} else {menuTxt = currentLang === 'es' && place.customMenu.includes('Facebook') ? t.dailyMenu : place.customMenu;} 
                 menuStatusHTML += `<div class="bg-amber-50 border-l-2 border-amber-400 p-2 mb-2 rounded-r-md flex items-start"><i class="fa-solid fa-bullhorn text-amber-500 mt-0.5 mr-2 text-xs"></i><div><p class="text-[10px] font-bold text-amber-800 leading-tight">${menuTxt}</p></div></div>`;
@@ -1406,17 +1655,17 @@ function renderList(tag="All"){
                 menuStatusHTML += `<div class="bg-amber-50 border-l-2 border-amber-400 p-2 mb-2 rounded-r-md flex items-start"><i class="fa-solid fa-utensils text-amber-500 mt-0.5 mr-2 text-xs"></i><div><p class="text-[10px] font-bold text-amber-800 uppercase tracking-wide">${t.askMenu}</p></div></div>`;
             }
             if(place.specials || place.specialsImage){
-                menuStatusHTML += `<button onclick="event.stopPropagation(); openSpecials('${safeName}')" class="w-full bg-purple-50 hover:bg-purple-100 border-l-4 border-purple-500 p-2 mb-2 rounded-r-md flex items-center justify-between transition group shadow-sm"><div class="flex items-center"><i class="fa-solid fa-calendar-star text-purple-600 mr-2 text-xs"></i><span class="text-xs font-bold text-purple-800 uppercase tracking-wide">${t.specials}</span></div><i class="fa-solid fa-chevron-right text-purple-400 text-xs group-hover:translate-x-1 transition-transform"></i></button>`;
+                menuStatusHTML += `<button onclick="event.stopPropagation(); openSpecials('${safeId}')" class="w-full bg-purple-50 hover:bg-purple-100 border-l-4 border-purple-500 p-2 mb-2 rounded-r-md flex items-center justify-between transition group shadow-sm"><div class="flex items-center"><i class="fa-solid fa-calendar-star text-purple-600 mr-2 text-xs"></i><span class="text-xs font-bold text-purple-800 uppercase tracking-wide">${t.specials}</span></div><i class="fa-solid fa-chevron-right text-purple-400 text-xs group-hover:translate-x-1 transition-transform"></i></button>`;
             }
             
-            const safeNameFav = place.name.replace(/'/g, "\\'"); 
+            const safeIdFav = place.id.replace(/'/g, "\\'"); 
             const hoursTxt = place.hours ? (place.hours[currentLang] || place.hours['en']) : '';
             
-            const card=`<div onclick="openDetail('${safeNameFav}')" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative group transition hover:shadow-md cursor-pointer flex flex-col h-full">
+            const card=`<div onclick="openDetail('${safeIdFav}')" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative group transition hover:shadow-md cursor-pointer flex flex-col h-full">
             ${statusBadgeHTML}
-            <button onclick="toggleFavorite('${safeNameFav}', event)" class="heart-btn absolute top-2 right-2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 shadow-sm text-white hover:bg-black/40"><i class="${isFav?'fa-solid text-red-500':'fa-regular'} fa-heart text-lg drop-shadow-md"></i></button>
+            <button onclick="toggleFavorite('${safeIdFav}', event)" class="heart-btn absolute top-2 right-2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 shadow-sm text-white hover:bg-black/40"><i class="${isFav?'fa-solid text-red-500':'fa-regular'} fa-heart text-lg drop-shadow-md"></i></button>
             <div class="h-32 overflow-hidden relative shrink-0">
-                <img src="${coverImage}" class="w-full h-full ${coverImageClass} transition duration-500 group-hover:scale-105">
+                <img src="${coverImage}" alt="${place.name}" loading="lazy" decoding="async" onerror="handleImageError(this)" class="w-full h-full ${coverImageClass} transition duration-500 group-hover:scale-105">
                 <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div class="absolute inset-0 bg-black/0 hover:bg-black/10 transition flex items-center justify-center opacity-0 hover:opacity-100"><span class="text-white text-xs font-bold border border-white px-2 py-1 rounded-full backdrop-blur-md">${t.tapToView}</span></div>
                 <h3 class="absolute bottom-2 left-3 text-white font-bold text-sm leading-tight shadow-sm tracking-wide" style="text-shadow: 0 1px 2px rgba(0,0,0,0.5);">${place.name}</h3>
@@ -1427,7 +1676,9 @@ function renderList(tag="All"){
                 ${menuStatusHTML}
                 ${buttonContainer}
             </div></div>`;
-            container.innerHTML+=card;count++});
+            cards.push(card);count++});
+        container.innerHTML=cards.join('');
+        secureExternalLinks(container);
         
         const emptyState=document.getElementById('empty-state');const emptyMsg=document.getElementById('empty-msg');
         if(count===0){
@@ -1443,7 +1694,7 @@ function renderList(tag="All"){
         else clearBtn.classList.add('hidden');
 
         const fareMapUrl = 'https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765997572/Screenshot_20251217-125220_iw3gvp.png';
-        container.innerHTML=`<div class="col-span-full"><button onclick="openModal('${fareMapUrl}', '${t.fareList}')" class="mb-2 w-full bg-cyan-800 text-cyan-100 p-3 rounded-xl flex items-center justify-between shadow-md hover:bg-cyan-900 transition"><div class="flex items-center gap-3"><i class="fa-solid fa-map-marked-alt text-2xl"></i><div class="text-left"><p class="font-bold text-sm">${t.fareList}</p><p class="text-[10px] opacity-70">${t.fareSub}</p></div></div><i class="fa-solid fa-chevron-right opacity-50"></i></button></div>`;
+        const cards=[`<div class="col-span-full"><button onclick="openModal('${fareMapUrl}', '${t.fareList}')" class="mb-2 w-full bg-cyan-800 text-cyan-100 p-3 rounded-xl flex items-center justify-between shadow-md hover:bg-cyan-900 transition"><div class="flex items-center gap-3"><i class="fa-solid fa-map-marked-alt text-2xl"></i><div class="text-left"><p class="font-bold text-sm">${t.fareList}</p><p class="text-[10px] opacity-70">${t.fareSub}</p></div></div><i class="fa-solid fa-chevron-right opacity-50"></i></button></div>`];
         
         let driverList = drivers.filter(d => {
             if(searchVal&&!d.name.toLowerCase().includes(searchVal)&&(d.number? !d.number.includes(searchVal) : true)) return false;
@@ -1480,9 +1731,9 @@ function renderList(tag="All"){
                 statusHTML = `<div class="driver-status ${colorClass}"><div class="driver-dot ${dotClass}"></div>${statusText}</div>`;
             }
             
-            const safeName = d.name.replace(/'/g, "\\'");
+            const safeId = d.id.replace(/'/g, "\\'");
             // CYAN THEME FOR RIDE
-            const card=`<div onclick="openDetail('${safeName}')" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex items-center justify-between hover:shadow-md transition cursor-pointer">
+            const card=`<div onclick="openDetail('${safeId}')" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex items-center justify-between hover:shadow-md transition cursor-pointer">
             <div class="flex items-center gap-4 flex-1">
                 <div class="w-14 h-14 rounded-full bg-cyan-100 text-cyan-800 flex items-center justify-center text-xl font-bold border-2 border-cyan-200 shadow-sm shrink-0">${badgeContent}</div>
                 <div>
@@ -1492,8 +1743,10 @@ function renderList(tag="All"){
                 </div>
             </div>
             <div class="flex flex-col gap-2 w-28 shrink-0"><a href="${rideUrl}" target="_blank" onclick="event.stopPropagation()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-1.5 px-3 rounded-lg text-xs flex items-center justify-center shadow-sm"><i class="fa-solid fa-motorcycle mr-1"></i> ${t.ride}</a><a href="${delUrl}" target="_blank" onclick="event.stopPropagation()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1.5 px-3 rounded-lg text-xs flex items-center justify-center shadow-sm"><i class="fa-solid fa-box mr-1"></i> ${t.deliv}</a></div></div>`;
-            container.innerHTML+=card;count++;
+            cards.push(card);count++;
         });
+        container.innerHTML=cards.join('');
+        secureExternalLinks(container);
         const emptyState=document.getElementById('empty-state');if(count===0){emptyState.classList.remove('hidden');document.getElementById('empty-msg').innerText=t.emptyList}else{emptyState.classList.add('hidden')}
     }
 }
@@ -1501,7 +1754,7 @@ function renderList(tag="All"){
 function renderEmergencyBoard(){
     const t = translations[currentLang];
     const container = document.getElementById('emergency-list');
-    container.innerHTML = "";
+    const sections = [];
     const data = exploreData.emergency || [];
     data.forEach(item => {
         if(item.type === 'section'){
@@ -1518,12 +1771,14 @@ function renderEmergencyBoard(){
                     btns += `<a href="https://wa.me/${clean2}" target="_blank" class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition shadow-sm ml-2"><i class="fa-brands fa-whatsapp text-lg"></i></a>`;
                 }
                 if(contact.location){btns += `<a href="${contact.location}" target="_blank" class="w-10 h-10 rounded-full bg-blue-400 text-white flex items-center justify-center hover:bg-blue-500 transition shadow-sm ml-2"><i class="fa-solid fa-map-location-dot text-lg"></i></a>`;}
-                listItems += `<div class="flex items-center justify-between p-3 border-b border-gray-50 last:border-0"><div><p class="font-bold text-gray-800 text-sm leading-tight">${contact.name}</p><p class="text-[10px] text-gray-500 font-medium">${contact.desc}</p><p class="text-xs text-red-600 font-mono mt-0.5">${contact.phone}</p>${contact.phone2 ? `<p class="text-xs text-red-600 font-mono">${contact.phone2}</p>` : ''}</div><div class="flex gap-1 shrink-0">${btns}</div></div>`;
+                listItems += `<div class="flex items-center justify-between p-3 border-b border-gray-50 last:border-0"><div><p class="font-bold text-gray-800 text-sm leading-tight">${contact.name}</p><p class="text-[10px] text-gray-500 font-medium">${localizedValue(contact.desc, emergencyDescriptionSpanish)}</p><p class="text-xs text-red-600 font-mono mt-0.5">${contact.phone}</p>${contact.phone2 ? `<p class="text-xs text-red-600 font-mono">${contact.phone2}</p>` : ''}</div><div class="flex gap-1 shrink-0">${btns}</div></div>`;
             });
-            container.innerHTML += `<div class="bg-white rounded-2xl shadow-sm border border-red-50 overflow-hidden"><div class="bg-red-50/50 px-4 py-2 border-b border-red-100 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div><h3 class="font-bold text-red-800 text-xs uppercase tracking-wide">${secTitle}</h3></div><div>${listItems}</div></div>`;
+            sections.push(`<div class="bg-white rounded-2xl shadow-sm border border-red-50 overflow-hidden"><div class="bg-red-50/50 px-4 py-2 border-b border-red-100 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div><h3 class="font-bold text-red-800 text-xs uppercase tracking-wide">${secTitle}</h3></div><div>${listItems}</div></div>`);
         }
     });
-    container.innerHTML += `<div class="col-span-full text-center mt-4 opacity-60 text-xs font-bold text-red-800">${t.emergencyNotice}</div>`;
+    sections.push(`<div class="col-span-full text-center mt-4 opacity-60 text-xs font-bold text-red-800">${t.emergencyNotice}</div>`);
+    container.innerHTML = sections.join('');
+    secureExternalLinks(container);
 }
 
 function renderExploreGrid(){
@@ -1569,7 +1824,7 @@ function renderDiveGrid(){
         }
         if(c.img){
              return `<button onclick="goToApp('explore-list', 'dive:${c.id}')" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative group h-40 w-full hover:shadow-md transition">
-                <img src="${c.img}" class="w-full h-full object-contain p-2 group-hover:scale-105 transition duration-500">
+                <img src="${c.img}" alt="${c.title}" loading="lazy" decoding="async" onerror="handleImageError(this)" class="w-full h-full object-contain p-2 group-hover:scale-105 transition duration-500">
                 <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-2 pt-4">
                     <span class="text-white font-bold text-xs shadow-black drop-shadow-md">${c.title}</span>
                 </div>
@@ -1597,15 +1852,15 @@ function renderSelfCareGrid(){
 function renderExploreList(category){
     const container = document.getElementById('explore-list');
     const t = translations[currentLang];
-    container.innerHTML = "";
+    const cards = [];
     
     let items = [];
     if(category.includes(':')){
         const parts = category.split(':');
         const main = parts[0];
         const sub = parts[1];
-        if(exploreData[main] && exploreData[main][sub]){ items = exploreData[main][sub]; }
-    } else { items = exploreData[category]; }
+        if(exploreData[main] && exploreData[main][sub]){ items = [...exploreData[main][sub]]; }
+    } else { items = Array.isArray(exploreData[category]) ? [...exploreData[category]] : exploreData[category]; }
 
     if(!items) return;
     
@@ -1639,14 +1894,14 @@ function renderExploreList(category){
         if(item.location){buttonsHTML += `<a href="${item.location}" target="_blank" onclick="event.stopPropagation()" class="w-10 h-10 rounded-full bg-blue-400 text-white flex items-center justify-center shadow-md hover:scale-110 transition"><i class="fa-solid fa-map-location-dot text-lg"></i></a>`;}
         
         let galleryBtn = "";
-        const safeName = item.name.replace(/'/g, "\\'"); 
-        if(item.gallery){ galleryBtn = `<button onclick='event.stopPropagation(); openModal(${JSON.stringify(item.gallery)}, "${safeName}")' class="absolute top-2 right-2 bg-black/40 text-white text-xs px-2 py-1 rounded-md backdrop-blur-md hover:bg-black/60 transition z-10"><i class="fa-solid fa-images mr-1"></i> Gallery</button>`;}
+        const safeId = item.id.replace(/'/g, "\\'"); 
+        if(item.gallery){ galleryBtn = `<button onclick='event.stopPropagation(); openModal(${JSON.stringify(item.gallery)}, "${item.name}")' class="absolute top-2 right-2 bg-black/40 text-white text-xs px-2 py-1 rounded-md backdrop-blur-md hover:bg-black/60 transition z-10"><i class="fa-solid fa-images mr-1"></i> ${t.gallery}</button>`;}
         
         if(item.flyer){ buttonsHTML += `<button onclick="event.stopPropagation(); openModal(['${item.flyer}'], '${t.viewServices}')" class="w-10 h-10 rounded-full bg-purple-500 text-white flex items-center justify-center shadow-md hover:scale-110 transition"><i class="fa-solid fa-hand-sparkles"></i></button>`; }
 
         const isComingSoon = item.comingSoon === true;
         const opacityClass = isComingSoon ? 'opacity-60 grayscale cursor-not-allowed' : '';
-        const clickAction = isComingSoon ? '' : `onclick="openDetail('${safeName}')"`;
+        const clickAction = isComingSoon ? '' : `onclick="openDetail('${safeId}')"`;
         const tapOverlay = isComingSoon ? `<div class="absolute inset-0 flex items-center justify-center z-10"><span class="bg-gray-800 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">COMING SOON</span></div>` : `<div class="absolute inset-0 bg-black/0 hover:bg-black/10 transition flex items-center justify-center opacity-0 hover:opacity-100"><span class="text-white text-xs font-bold border border-white px-2 py-1 rounded-full backdrop-blur-md">${t.tapToView}</span></div>`;
         
         const isDiveOrSelfCare = category.startsWith('dive') || category.startsWith('selfcare') || item.imgMode === 'contain';
@@ -1654,7 +1909,7 @@ function renderExploreList(category){
 
         const card = `<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition relative group ${opacityClass}">
             <div ${clickAction} class="h-32 relative bg-gray-100 shrink-0 cursor-pointer">
-                <img src="${optimizeUrl(item.image, 400)}" class="w-full h-full ${imgFit}">
+                <img src="${optimizeUrl(item.image, 400)}" alt="${item.name}" loading="lazy" decoding="async" onerror="handleImageError(this)" class="w-full h-full ${imgFit}">
                 ${tapOverlay}
                 ${galleryBtn}
             </div>
@@ -1665,8 +1920,10 @@ function renderExploreList(category){
                 <div class="flex flex-wrap gap-2 mt-auto pt-1">${buttonsHTML}</div>
             </div>
         </div>`;
-        container.innerHTML += card;
+        cards.push(card);
     });
+    container.innerHTML = cards.join('');
+    secureExternalLinks(container);
 }
 
 function renderNightLifeGrid(){
@@ -1682,12 +1939,13 @@ function renderNightLifeGrid(){
 }
 
 /* SHARE & UTIL */
-let favorites=JSON.parse(localStorage.getItem('utilaEatsFavs'))||[]; let showOnlyFavorites=false; let activeTag="All";
+let favorites=(JSON.parse(localStorage.getItem('utilaEatsFavs'))||[]).map(value => directoryIndex.has(value) ? value : (db.find(place => place.name === value)?.id || value)); localStorage.setItem('utilaEatsFavs', JSON.stringify(favorites)); let showOnlyFavorites=false; let activeTag="All";
 let currentImages=[]; let currentImgIndex=0;
 const optimizeUrl = (url, width=800) => { if(!url || !url.includes('cloudinary.com')) return url; return url.replace('/upload/', `/upload/f_auto,q_auto,w_${width}/`); };
+function secureExternalLinks(root=document){ root.querySelectorAll('a[target="_blank"]').forEach(link => { link.rel = 'noopener noreferrer'; }); }
 function shareApp(){ const t = translations[currentLang]; if (navigator.share) { navigator.share({title: 'Utila Eats', text: t.shareMsg, url: window.location.href}).catch(console.error); } else { navigator.clipboard.writeText(window.location.href).then(() => { alert(t.shareFail); }); } }
 function donate(){const email="andrew.tolman21@gmail.com";let url=`https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=${email}&item_name=Support+Utila+Eats&currency_code=USD`;window.open(url,'_blank');}
-function toggleFavorite(name,event){if(event)event.stopPropagation(); if(favorites.includes(name)){favorites=favorites.filter(n=>n!==name)}else{favorites.push(name)} localStorage.setItem('utilaEatsFavs',JSON.stringify(favorites)); renderList(activeTag);}
+function toggleFavorite(id,event){if(event)event.stopPropagation(); if(favorites.includes(id)){favorites=favorites.filter(value=>value!==id)}else{favorites.push(id)} localStorage.setItem('utilaEatsFavs',JSON.stringify(favorites)); renderList(activeTag);}
 
 function toggleShowFavorites(){
     showOnlyFavorites=!showOnlyFavorites; 
@@ -1725,34 +1983,30 @@ function resetFilters(){
 function showInfo(){alert(currentLang==='en' ? 'Utila Eats is a directory connecting you directly to local businesses via WhatsApp. We do not handle payments or delivery.' : 'Utila Eats es un directorio que te conecta directamente con negocios locales v\u00EDa WhatsApp. No procesamos pagos ni env\u00EDos.');}
 
 /* MODAL LOGIC */
-function openMenu(name){ const place = db.find(p => p.name === name); if(place && place.menuImages){ const images = (typeof place.menuImages === 'object' && !Array.isArray(place.menuImages)) ? (place.menuImages[currentLang] || place.menuImages['en']) : place.menuImages; openModal(images, place.name); } }
-function openModal(images, title="Menu"){ 
-    isModalOpen = true; 
-    history.pushState({view: 'modal'}, '', '#image');
-    currentImages = Array.isArray(images) ? images : [images]; currentImgIndex = 0; document.getElementById('modalTitle').innerText = title; updateModalImage(); document.getElementById('imageModal').classList.remove('hidden'); 
+function openMenu(reference, pushHistory = true){ const place = findItemById(reference); if(place && place.menuImages){ currentMenuReference = place.id; const images = (typeof place.menuImages === 'object' && !Array.isArray(place.menuImages)) ? (place.menuImages[currentLang] || place.menuImages['en']) : place.menuImages; openModal(images, place.name, pushHistory, 'menu'); } }
+function openModal(images, title="Menu", pushHistory = true, source = "generic"){ 
+    if(source !== 'menu') currentMenuReference = "";
+    if(pushHistory) showModalLayer('imageModal', '#image');
+    currentImages = Array.isArray(images) ? images : [images]; currentImgIndex = 0; document.getElementById('modalTitle').innerText = title; document.getElementById('modalImage').alt = `${title} - ${translations[currentLang].menuTitle}`; updateModalImage(); 
 }
-function closeModal(){ 
-    if(!document.getElementById('imageModal').classList.contains('hidden')){ history.back(); }
-}
+function closeModal(){ if(!document.getElementById('imageModal').classList.contains('hidden')) closeTopModal(); }
 function updateModalImage(){ document.getElementById('loader').classList.remove('hidden'); document.getElementById('modalImage').src = optimizeUrl(currentImages[currentImgIndex], 800); const prev = document.getElementById('prevBtn'); const next = document.getElementById('nextBtn'); const t = translations[currentLang]; if(currentImages.length > 1){ prev.classList.remove('hidden'); next.classList.remove('hidden'); document.getElementById('modalFooter').innerText = `${t.page} ${currentImgIndex + 1} / ${currentImages.length}`; } else { prev.classList.add('hidden'); next.classList.add('hidden'); document.getElementById('modalFooter').innerText = t.swipe; } }
 function changeImage(dir){ currentImgIndex += dir; if(currentImgIndex < 0) currentImgIndex = currentImages.length - 1; if(currentImgIndex >= currentImages.length) currentImgIndex = 0; updateModalImage(); }
 
-function openSpecials(name){ 
-    const place = db.find(p => p.name === name); if(!place) return; const t = translations[currentLang]; 
+function openSpecials(reference, pushHistory = true){ 
+    const place = findItemById(reference); currentSpecialsReference = place ? place.id : ""; if(!place) return; const t = translations[currentLang]; 
     if(place.specialsImage){ openModal([place.specialsImage], t.specialsTitle); return; } 
     if(place.specials){ 
-        isModalOpen = true; history.pushState({view: 'modal'}, '', '#specials');
-        const container = document.getElementById('specialsContent'); container.innerHTML = ""; const dayMap = { "Monday": t.mon, "Tuesday": t.tue, "Wednesday": t.wed, "Thursday": t.thu, "Friday": t.fri, "Saturday": t.sat, "Sunday": t.sun }; const sorter = { "Monday": 1, "Tuesday": 2, "Wednesday": 3, "Thursday": 4, "Friday": 5, "Saturday": 6, "Sunday": 7 }; Object.keys(place.specials).sort((a,b) => sorter[a] - sorter[b]).forEach(day => { const displayDay = dayMap[day] || day; let content = place.specials[day]; if(typeof content === 'object' && content !== null){ content = content[currentLang] || content['en']; } container.innerHTML += `<div class="flex border-b border-gray-100 last:border-0 pb-2 last:pb-0 mb-2 last:mb-0"><span class="w-24 font-bold text-teal-600">${displayDay}</span><span class="flex-1 text-gray-700">${content}</span></div>`; }); document.getElementById('specialsTitle').innerText = t.specialsTitle; document.getElementById('specialsModal').classList.remove('hidden'); 
+        if(pushHistory) showModalLayer('specialsModal', '#specials');
+        const container = document.getElementById('specialsContent'); container.innerHTML = ""; const dayMap = { "Monday": t.mon, "Tuesday": t.tue, "Wednesday": t.wed, "Thursday": t.thu, "Friday": t.fri, "Saturday": t.sat, "Sunday": t.sun }; const sorter = { "Monday": 1, "Tuesday": 2, "Wednesday": 3, "Thursday": 4, "Friday": 5, "Saturday": 6, "Sunday": 7 }; Object.keys(place.specials).sort((a,b) => sorter[a] - sorter[b]).forEach(day => { const displayDay = dayMap[day] || day; let content = place.specials[day]; if(typeof content === 'object' && content !== null){ content = content[currentLang] || content['en']; } container.innerHTML += `<div class="flex border-b border-gray-100 last:border-0 pb-2 last:pb-0 mb-2 last:mb-0"><span class="w-24 font-bold text-teal-600">${displayDay}</span><span class="flex-1 text-gray-700">${content}</span></div>`; }); document.getElementById('specialsTitle').innerText = t.specialsTitle; 
     } 
 }
-function closeSpecials(){ 
-    if(!document.getElementById('specialsModal').classList.contains('hidden')){ history.back(); }
-}
+function closeSpecials(){ if(!document.getElementById('specialsModal').classList.contains('hidden')) closeTopModal(); }
 
-function openEvents(dayKey){ 
+function openEvents(dayKey, pushHistory = true){ 
     currentActiveDay = dayKey; 
-    isModalOpen = true; history.pushState({view: 'modal'}, '', '#events');
-    const t = translations[currentLang]; const dayKeyMap = { "Monday": "mon", "Tuesday": "tue", "Wednesday": "wed", "Thursday": "thu", "Friday": "fri", "Saturday": "sat", "Sunday": "sun" }; const shortKey = dayKeyMap[dayKey] || "mon"; const displayDay = t[shortKey]; const headerText = currentLang === 'es' ? `${t.nightPrefix}${displayDay}${t.nightSuffix}` : `${displayDay} ${t.nightSuffix}`; document.getElementById('eventsTitle').innerText = headerText; document.getElementById('eventsModal').classList.remove('hidden'); const container = document.getElementById('eventsContent'); container.innerHTML = ""; const dayEvents = nightLifeData[dayKey] || []; if(dayEvents.length === 0){ container.innerHTML = `<div class="text-center py-6 text-gray-400 italic"><i class="fa-solid fa-moon text-3xl mb-2 opacity-50"></i><p>${t.noEvents}</p></div>`; } 
+    if(pushHistory) showModalLayer('eventsModal', '#events');
+    const t = translations[currentLang]; const dayKeyMap = { "Monday": "mon", "Tuesday": "tue", "Wednesday": "wed", "Thursday": "thu", "Friday": "fri", "Saturday": "sat", "Sunday": "sun" }; const shortKey = dayKeyMap[dayKey] || "mon"; const displayDay = t[shortKey]; const headerText = currentLang === 'es' ? `${t.nightPrefix}${displayDay}${t.nightSuffix}` : `${displayDay} ${t.nightSuffix}`; document.getElementById('eventsTitle').innerText = headerText; const container = document.getElementById('eventsContent'); container.innerHTML = ""; const dayEvents = nightLifeData[dayKey] || []; if(dayEvents.length === 0){ container.innerHTML = `<div class="text-center py-6 text-gray-400 italic"><i class="fa-solid fa-moon text-3xl mb-2 opacity-50"></i><p>${t.noEvents}</p></div>`; } 
     else { 
         dayEvents.forEach(evt => { 
             let mapBtn = ""; 
@@ -1766,9 +2020,9 @@ function openEvents(dayKey){
 
             container.innerHTML += `<div class="bg-slate-900/50 p-3 rounded-xl border border-white/10 shadow-sm flex items-center justify-between hover:border-purple-500/50 transition">
                 <div>
-                    <h4 class="font-bold text-white leading-tight text-sm">${evt.what}</h4>
+                    <h4 class="font-bold text-white leading-tight text-sm">${localizedValue(evt.what, nightlifeSpanish)}</h4>
                     <p class="text-[10px] text-purple-400 font-bold mt-1 uppercase tracking-wide">@ ${evt.where}</p>
-                    <p class="text-[10px] text-gray-400 mt-0.5 font-mono"><i class="fa-regular fa-clock mr-1 text-cyan-500"></i>${evt.time}</p>
+                    <p class="text-[10px] text-gray-400 mt-0.5 font-mono"><i class="fa-regular fa-clock mr-1 text-cyan-500"></i>${localizedValue(evt.time, nightlifeTimeSpanish)}</p>
                 </div>
                 <div class="flex items-center">
                     ${scheduleBtn}
@@ -1778,12 +2032,34 @@ function openEvents(dayKey){
         }); 
     } 
 }
-function closeEvents(){ 
-    if(!document.getElementById('eventsModal').classList.contains('hidden')){ history.back(); }
-}
+function closeEvents(){ if(!document.getElementById('eventsModal').classList.contains('hidden')) closeTopModal(); }
+
+
+document.addEventListener('keydown', event => {
+    if(!modalStack.length) return;
+    if(event.key === 'Escape') {
+        event.preventDefault();
+        closeTopModal();
+        return;
+    }
+    if(event.key !== 'Tab') return;
+    const modal = document.getElementById(modalStack[modalStack.length - 1]);
+    if(!modal) return;
+    const focusable = [...modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+        .filter(element => !element.disabled && element.offsetParent !== null);
+    if(!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if(event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if(!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+});
 
 // INIT
-document.getElementById('searchInput').addEventListener('keyup',()=>renderList(activeTag));
+let searchTimer;
+document.getElementById('searchInput').addEventListener('input',()=>{ clearTimeout(searchTimer); searchTimer=setTimeout(()=>renderList(activeTag),120); });
+document.getElementById('modalImage').addEventListener('error', function(){ handleImageError(this); });
+validateDirectoryData();
+secureExternalLinks();
 updateUIText(); 
 renderList("All");
 </script>
