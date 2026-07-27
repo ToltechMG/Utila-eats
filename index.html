@@ -524,6 +524,20 @@ menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766000944/IMG-
 {name:"Bando Beach",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908893/Screenshot_20251216-110725_gnlrwc.png",contact:"+504 9315-0239",hours:{en:"Thu-Mon 10am - 10pm",es:"Jue-Lun 10am - 10pm"},loc:"https://maps.app.goo.gl/6Bneu2PmV1pcdJGS8",tags:"Ocean-View, Beach Bar, Burgers, Tacos, Chicken, Seafood",menu:"DAILY", facebook: "https://www.facebook.com/share/17KPGndULh/", instagram: "https://www.instagram.com/bando_beach",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766153528/received_1548479379733929_tft3wh.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766122397/Screenshot_20251218-174018_a2c3nc.png"],
 specialsImage: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766153526/received_33456352650644753_qzcso0.jpg"},
+    {
+        name: "Big John's Burgers",
+        hours: { en: "Mon & Sat 5pm - 9pm", es: "Lun y S\u00E1b 5pm - 9pm" },
+        openHours: { en: "Mon 5pm - 9pm, Sat 5pm - 9pm", es: "Lun 5pm - 9pm, S\u00E1b 5pm - 9pm" },
+        tags: "Burgers, Delivery",
+        instagram: "https://www.instagram.com/bigjohnburgers",
+        loc: "https://maps.app.goo.gl/JejEe74mB6zwfcVe8",
+        img: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1785164180/IMG-20260720-WA0006_ome1ts.jpg",
+        imgMode: "contain",
+        menuImages: [
+            "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1785164180/Screenshot_20260727-085546_bksx4u.png", 
+            "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1785164180/Screenshot_20260727-085530_sxxsa2.png"
+        ]
+    },
 {name:"Blue Bayou Bar",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765910778/Screenshot_20251216-124525_lodwec.png",contact:"", facebook: "https://www.facebook.com/share/186usNPwGP/",hours:{en:"Daily 2pm - 8pm",es:"Diario 2pm - 8pm"},loc:"https://maps.app.goo.gl/QRAepLAxskWCJNgJ9",tags:"Ocean-View, Beach Bar",menu:"DAILY",
 customMenu: {en: "See Facebook for weekly menu", es: "Ver Facebook para el men\u00FA semanal"},
 specials: {"Tuesday": {en: "Made from scratch Sandwiches", es: "S\u00E1ndwiches hechos en casa"}}},
@@ -1264,7 +1278,7 @@ function openDetail(name) {
             
             ${item.desc ? `<p class="text-gray-600 italic mb-6 text-lg leading-relaxed border-l-4 border-teal-500 pl-4 bg-gray-50 py-2 pr-2 rounded-r-lg">${typeof item.desc === 'object' ? (item.desc[currentLang]||item.desc['en']) : item.desc}</p>` : ''}
             
-            ${hoursText ? `<div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 mb-6"><h4 class="font-bold text-blue-400 text-xs uppercase tracking-wider mb-2"><i class="fa-regular fa-clock mr-1"></i> Hours</h4><p class="text-xl font-bold text-slate-700 leading-snug">${hoursText}</p></div>` : ''}
+            ${hoursText ? `<div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 mb-6"><h4 class="font-bold text-blue-400 text-xs uppercase tracking-wider mb-2"><i class="fa-regular fa-clock mr-1"></i> ${t.schedule}</h4><p class="text-xl font-bold text-slate-700 leading-snug">${hoursText}</p></div>` : ''}
             
             <div class="flex flex-col mt-4">
                 ${mainContactBtn}
@@ -1353,6 +1367,7 @@ function renderList(tag="All"){
             
             const btnConfig=getButtonConfig(place);
             const coverImage=place.img?optimizeUrl(place.img, 400):getPlaceholder(place.tags || "");
+            const coverImageClass = place.imgMode === 'contain' ? 'object-contain bg-white p-2' : 'object-cover';
             const isFav=favorites.includes(place.name);
             const tagsHTML = placeTags.map(tag=>`<span class="text-[10px] bg-teal-50 text-teal-800 px-1.5 py-0.5 rounded-md mr-1 mb-1 inline-block border border-teal-100">${tag}</span>`).join('');
             
@@ -1401,7 +1416,7 @@ function renderList(tag="All"){
             ${statusBadgeHTML}
             <button onclick="toggleFavorite('${safeNameFav}', event)" class="heart-btn absolute top-2 right-2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 shadow-sm text-white hover:bg-black/40"><i class="${isFav?'fa-solid text-red-500':'fa-regular'} fa-heart text-lg drop-shadow-md"></i></button>
             <div class="h-32 overflow-hidden relative shrink-0">
-                <img src="${coverImage}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                <img src="${coverImage}" class="w-full h-full ${coverImageClass} transition duration-500 group-hover:scale-105">
                 <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div class="absolute inset-0 bg-black/0 hover:bg-black/10 transition flex items-center justify-center opacity-0 hover:opacity-100"><span class="text-white text-xs font-bold border border-white px-2 py-1 rounded-full backdrop-blur-md">${t.tapToView}</span></div>
                 <h3 class="absolute bottom-2 left-3 text-white font-bold text-sm leading-tight shadow-sm tracking-wide" style="text-shadow: 0 1px 2px rgba(0,0,0,0.5);">${place.name}</h3>
