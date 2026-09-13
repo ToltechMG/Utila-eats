@@ -141,7 +141,7 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
     <div class="px-6 grid grid-cols-2 md:grid-cols-4 gap-4 -mt-14 w-full max-w-5xl mx-auto">
         <button onclick="goToApp('eat')" class="grid-btn bg-white aspect-square md:aspect-auto md:h-40 rounded-2xl shadow-lg flex flex-col items-center justify-center gap-3 p-4 border border-cyan-50 text-cyan-800 hover:bg-cyan-50">
             <div class="w-14 h-14 rounded-full bg-cyan-100 flex items-center justify-center text-2xl shadow-inner text-cyan-600"><i class="fa-solid fa-burger"></i></div>
-            <span id="btn-restaurants" class="font-bold text-sm tracking-wide">Restaurants and Bars</span>
+            <span id="btn-restaurants" class="font-bold text-sm tracking-wide">Restaurants &amp; Bars</span>
         </button>
         <button onclick="goToApp('ride')" class="grid-btn bg-white aspect-square md:aspect-auto md:h-40 rounded-2xl shadow-lg flex flex-col items-center justify-center gap-3 p-4 border border-cyan-50 text-cyan-800 hover:bg-cyan-50">
             <div class="w-14 h-14 rounded-full bg-cyan-100 flex items-center justify-center text-2xl shadow-inner text-cyan-600"><i class="fa-solid fa-motorcycle"></i></div>
@@ -160,9 +160,9 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
     <section class="w-full max-w-5xl mx-auto px-6 mt-8 mb-4" aria-labelledby="support-utila-title">
         <div id="support-utila-title" class="grad-explore text-white text-center font-bold tracking-wide rounded-2xl py-3 px-4 shadow-md">Support Utila</div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
-            <a href="https://www.gofundme.com/f/save-the-swamper-cleaning-nesting-sites-project-on-utila" target="_blank" rel="noopener noreferrer" class="bg-white border border-green-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-paw"></i></div>
-                <span id="home-swamper-label" class="font-bold text-sm text-slate-700 leading-tight">Save the Swamper!</span>
+            <a href="https://www.gofundme.com/f/help-utila-island-cleanups-keep-going-though-the-end-of-2026" target="_blank" rel="noopener noreferrer" class="bg-white border border-green-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-broom"></i></div>
+                <span id="home-cleanups-label" class="font-bold text-sm text-slate-700 leading-tight">Utila Island Cleanups</span>
             </a>
             <a href="https://www.gofundme.com/f/help-jaspers-rescue-expand-for-more-animals" target="_blank" rel="noopener noreferrer" class="bg-white border border-green-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-dog"></i></div>
@@ -172,9 +172,9 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
                 <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-leaf"></i></div>
                 <span id="home-kanahau-label" class="font-bold text-sm text-slate-700 leading-tight">Kanahau Museum and Wildlife</span>
             </a>
-            <a href="https://www.gofundme.com/f/help-utila-island-cleanups-keep-going-though-the-end-of-2026" target="_blank" rel="noopener noreferrer" class="bg-white border border-green-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-broom"></i></div>
-                <span id="home-cleanups-label" class="font-bold text-sm text-slate-700 leading-tight">Utila Island Cleanups</span>
+            <a href="https://www.gofundme.com/f/save-the-swamper-cleaning-nesting-sites-project-on-utila" target="_blank" rel="noopener noreferrer" class="bg-white border border-green-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-paw"></i></div>
+                <span id="home-swamper-label" class="font-bold text-sm text-slate-700 leading-tight">Save the Swamper!</span>
             </a>
         </div>
     </section>
@@ -415,7 +415,7 @@ const translations = {
         subtitle: "The island's directory",
         prompt: "What would you like to do?",
         emergencyBtn: "EMERGENCY SERVICES",
-        restaurants: "Restaurants and Bars",
+        restaurants: "Restaurants & Bars",
         delivery: "Delivery/Rides",
         explore: "Explore Utila",
         nightlife: "Night Life",
@@ -1144,7 +1144,7 @@ function getPlaceFilterTags(place) {
 }
 
 /* --- DATA NORMALIZATION & SAFETY --- */
-const APP_VERSION = "2026.09.13-empanikas-cleanups-restaurants-bars";
+const APP_VERSION = "2026.09.13-empanikas-cleanups-restaurants-bars-r2";
 const SITE_LAST_UPDATED = "2026-09-13";
 const UTILA_TIME_ZONE = "America/Tegucigalpa";
 const directoryIndex = new Map();
