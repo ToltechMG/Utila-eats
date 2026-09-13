@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google" content="notranslate">
 <title>Utila Eats</title>
-<meta name="description" content="Utila Eats is a bilingual directory for restaurants, transportation, activities, services, and nightlife on Utila, Honduras.">
+<meta name="description" content="Utila Eats is a bilingual directory for restaurants, bars, transportation, activities, services, and nightlife on Utila, Honduras.">
 <meta name="theme-color" content="#0d9488">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -141,7 +141,7 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
     <div class="px-6 grid grid-cols-2 md:grid-cols-4 gap-4 -mt-14 w-full max-w-5xl mx-auto">
         <button onclick="goToApp('eat')" class="grid-btn bg-white aspect-square md:aspect-auto md:h-40 rounded-2xl shadow-lg flex flex-col items-center justify-center gap-3 p-4 border border-cyan-50 text-cyan-800 hover:bg-cyan-50">
             <div class="w-14 h-14 rounded-full bg-cyan-100 flex items-center justify-center text-2xl shadow-inner text-cyan-600"><i class="fa-solid fa-burger"></i></div>
-            <span id="btn-restaurants" class="font-bold text-sm tracking-wide">Restaurants</span>
+            <span id="btn-restaurants" class="font-bold text-sm tracking-wide">Restaurants and Bars</span>
         </button>
         <button onclick="goToApp('ride')" class="grid-btn bg-white aspect-square md:aspect-auto md:h-40 rounded-2xl shadow-lg flex flex-col items-center justify-center gap-3 p-4 border border-cyan-50 text-cyan-800 hover:bg-cyan-50">
             <div class="w-14 h-14 rounded-full bg-cyan-100 flex items-center justify-center text-2xl shadow-inner text-cyan-600"><i class="fa-solid fa-motorcycle"></i></div>
@@ -159,7 +159,7 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
     
     <section class="w-full max-w-5xl mx-auto px-6 mt-8 mb-4" aria-labelledby="support-utila-title">
         <div id="support-utila-title" class="grad-explore text-white text-center font-bold tracking-wide rounded-2xl py-3 px-4 shadow-md">Support Utila</div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
             <a href="https://www.gofundme.com/f/save-the-swamper-cleaning-nesting-sites-project-on-utila" target="_blank" rel="noopener noreferrer" class="bg-white border border-green-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-paw"></i></div>
                 <span id="home-swamper-label" class="font-bold text-sm text-slate-700 leading-tight">Save the Swamper!</span>
@@ -172,12 +172,16 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
                 <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-leaf"></i></div>
                 <span id="home-kanahau-label" class="font-bold text-sm text-slate-700 leading-tight">Kanahau Museum and Wildlife</span>
             </a>
+            <a href="https://www.gofundme.com/f/help-utila-island-cleanups-keep-going-though-the-end-of-2026" target="_blank" rel="noopener noreferrer" class="bg-white border border-green-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-broom"></i></div>
+                <span id="home-cleanups-label" class="font-bold text-sm text-slate-700 leading-tight">Utila Island Cleanups</span>
+            </a>
         </div>
     </section>
 
     <div class="mt-auto p-6 text-center text-xs text-gray-400">
         <p>&copy; 2026 Utila Eats</p>
-        <p id="last-updated" class="mt-1 opacity-60 text-[10px]">Last Updated September 1, 2026</p>
+        <p id="last-updated" class="mt-1 opacity-60 text-[10px]">Last Updated September 13, 2026</p>
     </div>
 </div>
 
@@ -276,7 +280,7 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
                 <div id="search-container" class="w-full flex items-stretch gap-2">
                     <div class="relative flex-1 min-w-0">
                         <form id="search-form" onsubmit="submitSearch(event)" class="relative" role="search">
-                            <input type="text" id="searchInput" placeholder="Search restaurants or menu items..." autocomplete="off" aria-autocomplete="list" aria-controls="search-suggestions" aria-expanded="false" class="w-full pl-3 pr-20 py-2.5 rounded-xl text-gray-700 bg-white/95 focus:outline-none focus:ring-2 focus:ring-teal-300 shadow-inner text-sm transition-all">
+                            <input type="text" id="searchInput" placeholder="Search restaurants, bars or menu items..." autocomplete="off" aria-autocomplete="list" aria-controls="search-suggestions" aria-expanded="false" class="w-full pl-3 pr-20 py-2.5 rounded-xl text-gray-700 bg-white/95 focus:outline-none focus:ring-2 focus:ring-teal-300 shadow-inner text-sm transition-all">
                             <button id="clearSearchBtn" type="button" onclick="clearSearch()" aria-label="Clear search" class="hidden absolute right-11 top-1/2 -translate-y-1/2 w-8 h-8 text-gray-400 hover:text-red-500 transition flex items-center justify-center">
                                 <i class="fa-solid fa-circle-xmark"></i>
                             </button>
@@ -411,7 +415,7 @@ const translations = {
         subtitle: "The island's directory",
         prompt: "What would you like to do?",
         emergencyBtn: "EMERGENCY SERVICES",
-        restaurants: "Restaurants",
+        restaurants: "Restaurants and Bars",
         delivery: "Delivery/Rides",
         explore: "Explore Utila",
         nightlife: "Night Life",
@@ -421,7 +425,7 @@ const translations = {
         filterDelivery: "Delivery",
         donate: "Like this app? Buy me a baleada!",
         suggest: "Suggestion Box",
-        searchPlaceholder: "Search restaurants or menu items...",
+        searchPlaceholder: "Search restaurants, bars or menu items...",
         emptyFav: "You haven't saved any favorites yet!",
         emptySearch: "No results found.",
         emptyList: "No places found.",
@@ -522,6 +526,7 @@ const translations = {
         applyFilters: "Apply",
         activeFiltersSummary: "active filters",
         supportUtila: "Support Utila",
+        supportCleanups: "Utila Island Cleanups",
         supportKanahau: "Kanahau Museum and Wildlife",
         seeWeeklyEvents: "See Weekly Events",
         happyHour: "Happy Hour",
@@ -532,7 +537,7 @@ const translations = {
         subtitle: "El directorio de la isla",
         prompt: "\u00BFQu\u00E9 te gustar\u00EDa hacer?",
         emergencyBtn: "SERVICIOS DE EMERGENCIA",
-        restaurants: "Restaurantes",
+        restaurants: "Restaurantes y Bares",
         delivery: "Env\u00EDos/Transporte",
         explore: "Explorar Utila",
         nightlife: "Vida Nocturna",
@@ -542,7 +547,7 @@ const translations = {
         filterDelivery: "A Domicilio",
         donate: "\u00BFTe gusta la app? \u00A1Inv\u00EDtame una baleada!",
         suggest: "Buz\u00F3n de Sugerencias",
-        searchPlaceholder: "Buscar restaurantes o platos...",
+        searchPlaceholder: "Buscar restaurantes, bares o platos...",
         emptyFav: "\u00A1No has guardado favoritos a\u00FAn!",
         emptySearch: "No se encontraron resultados.",
         emptyList: "No se encontraron lugares.",
@@ -643,6 +648,7 @@ const translations = {
         applyFilters: "Aplicar",
         activeFiltersSummary: "filtros activos",
         supportUtila: "Apoya Utila",
+        supportCleanups: "Utila Island Cleanups",
         supportKanahau: "Museo y Vida Silvestre Kanahau",
         seeWeeklyEvents: "Ver eventos semanales",
         happyHour: "Hora Feliz",
@@ -722,6 +728,8 @@ menuImages: {en: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804106
 {name:"El Castillo",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908876/Screenshot_20251216-113445_kqvxm4.png",contact:"+504 3361-3491",hours:{en:"Fri-Sat 1pm - 7:30pm",es:"Vie-S\u00E1b 1pm - 7:30pm"},loc:"https://maps.app.goo.gl/nD9iTgWrCADvdJ927",tags:"",menu:"DAILY", facebook: "https://www.facebook.com/share/18CbAxwdGS/", instagram: "https://www.instagram.com/elcastilloresturante"},
 {name:"El Parcero",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908866/Screenshot_20251216-115240_qajvaf.png",contact:"+504 3323 0686",hours:{en:"Wed-Mon 11am - 9pm",es:"Mi\u00E9-Lun 11am - 9pm"},loc:"https://maps.app.goo.gl/MKuL7yEeXjZRWxUY9",tags:"Burgers, Chicken, Seafood, Pasta, Colombian",menu:"ASK", facebook: "https://www.facebook.com/share/1D3nSbrPBt/", instagram: "https://www.instagram.com/el_parcero1104"},
 {name:"Elsa's Kitchen",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908913/Screenshot_20251216-113606_ifsvuq.png",contact:"+504 9698-1051",hours:{en:"Wed-Mon 11am - 9:30pm",es:"Mi\u00E9-Lun 11am - 9:30pm"},loc:"https://maps.app.goo.gl/P4o9gY7TQWgJmQeE6",tags:"Pizza, Burgers, Chicken, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/1a2TrPJFeu/"},
+{name:"Empanikas",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260211-WA0022_din6oc.jpg",whatsapp:"+505 8423-6867",hours:{en:"Place an order on WhatsApp!",es:"Haz tu pedido en WhatsApp!"},loc:"",tags:"Pastelitos, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/1AzNTTDzkL/",
+menuImages: {en: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260211-WA0022_din6oc.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087365/IMG-20260211-WA0023_z0f7ir.jpg"], es: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087364/IMG-20260211-WA0021_rhfk62.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087365/IMG-20260211-WA0023_z0f7ir.jpg"]}},
 {name:"Eva's Cafe",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765910475/Screenshot_20251216-124034_i25kww.png",contact:"+504 8913-0044",hours:{en:"Daily 6:30am - 2pm, Daily 4:30pm - 9pm",es:"Diario 6:30am - 2pm, Diario 4:30pm - 9pm"}, openHours:{en: "Daily 6:30am - 9pm"}, loc:"https://maps.app.goo.gl/h5RM7eqRoiqLPfE97",tags:"Pizza, Burgers, Chicken, Pasta, BBQ, Cafe, Breakfast, Delivery",menu:"DAILY", facebook: "https://www.facebook.com/share/17sju5B1FF/", instagram: "https://www.instagram.com/evascafeatmangoinn",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073765/IMG-20251217-WA0015_zykikt.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073766/IMG-20251217-WA0016_d1pvaa.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073765/IMG-20251217-WA0017_x3kfc8.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073766/IMG-20251217-WA0018_czgu5e.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073767/IMG-20251217-WA0019_wjp41z.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0020_qllkfz.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073767/IMG-20251217-WA0021_pcb8be.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073772/IMG-20251217-WA0022_fstsj0.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0023_s7muce.jpg"]},
 {name:"G's Bistro",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765994200/Screenshot_20251217-115545_awcbis.png",contact:"+504 3192-7488",hours:{en:"Thu-Tue 8am - 8pm",es:"Jue-Mar 8am - 8pm"},loc:"https://maps.app.goo.gl/Yssuf666bpoAaFpb6",tags:"Cafe, Breakfast",menu:"ASK", instagram: "https://www.instagram.com/gsbistro_utila"},
@@ -1136,8 +1144,8 @@ function getPlaceFilterTags(place) {
 }
 
 /* --- DATA NORMALIZATION & SAFETY --- */
-const APP_VERSION = "2026.09.01-bars-support-business-updates";
-const SITE_LAST_UPDATED = "2026-09-01";
+const APP_VERSION = "2026.09.13-empanikas-cleanups-restaurants-bars";
+const SITE_LAST_UPDATED = "2026-09-13";
 const UTILA_TIME_ZONE = "America/Tegucigalpa";
 const directoryIndex = new Map();
 
@@ -2005,6 +2013,7 @@ function updateUIText(){
         'home-swamper-label': t.saveSwamper,
         'home-jasper-label': t.supportJasper,
         'home-kanahau-label': t.supportKanahau,
+        'home-cleanups-label': t.supportCleanups,
         'btn-daily-activities': t.dailyActivities,
         'btn-close-detail': t.close
     };
