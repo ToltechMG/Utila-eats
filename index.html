@@ -11,7 +11,36 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-body{font-family:'Poppins',sans-serif;background-color:#f0fdfa;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none;}
+body{font-family:'Poppins',sans-serif;background-color:var(--page-background, #808b96);-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none;}
+/* Medium, low-saturation backgrounds reduce glare while keeping page colors distinct. */
+body, body[data-page-theme="home"] { --page-background: #808b96; }
+body[data-page-theme="eat"] { --page-background: #788c85; }
+body[data-page-theme="ride"] { --page-background: #7e8fa1; }
+body[data-page-theme="explore"],
+body[data-page-theme="eco"] { --page-background: #838f7c; }
+body[data-page-theme="arts"] { --page-background: #8d8198; }
+body[data-page-theme="selfcare"] { --page-background: #98858d; }
+body[data-page-theme="tours"] { --page-background: #7f8f9b; }
+body[data-page-theme="dive"] { --page-background: #799497; }
+body[data-page-theme="fitness"] { --page-background: #978d7d; }
+body[data-page-theme="emergency"] { --page-background: #948e86; }
+body[data-page-theme="nightlife"] { --page-background: #0f172a; }
+
+/* Apply the current page color to both its content and the surrounding canvas. */
+#home-view, #app-view, #explore-menu-view, #dive-menu-view, #selfcare-menu-view {
+    background-color: var(--page-background, #808b96);
+}
+/* Maintain contrast for labels and notices that sit directly on the background. */
+#home-view .page-footer, #last-updated, #donate-label,
+#empty-state, #empty-msg, #btn-show-all, #empty-state > i,
+#search-results-view > div:first-child p,
+#search-results-view > section > div:first-child h3,
+#search-results-view > section > div:first-child h3 i,
+#emergency-list > .emergency-notice {
+    color: #111827;
+    opacity: 1;
+}
+
 .hide-scrollbar::-webkit-scrollbar{display:none}
 .hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
 
@@ -120,7 +149,7 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
 }
 </style>
 </head>
-<body class="notranslate pb-40 transition-colors duration-500">
+<body class="notranslate pb-40 transition-colors duration-500" data-page-theme="home">
 
 <div id="home-view" class="min-h-screen flex flex-col relative z-10">
     <div class="grad-home text-white rounded-b-[40px] shadow-xl pb-10 pt-8 px-6 mb-6">
@@ -186,7 +215,7 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
         </div>
     </section>
 
-    <div class="mt-auto p-6 text-center text-xs text-gray-400">
+    <div class="page-footer mt-auto p-6 text-center text-xs text-gray-400">
         <p>&copy; 2026 Utila Eats</p>
         <p id="last-updated" class="mt-1 opacity-60 text-[10px]">Last Updated September 16, 2026</p>
     </div>
@@ -214,7 +243,7 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
     <div class="p-6 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-5xl mx-auto" id="explore-grid"></div>
 </div>
 
-<div id="dive-menu-view" class="hidden min-h-screen flex-col bg-blue-50">
+<div id="dive-menu-view" class="hidden min-h-screen flex-col">
     <div class="grad-dive text-white shadow-md sticky top-0 z-40 pb-4 pt-4">
         <div class="px-4 flex items-center justify-between mb-2 w-full max-w-5xl mx-auto">
             <div class="flex items-center gap-4">
@@ -231,7 +260,7 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
     <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-5xl mx-auto" id="dive-grid"></div>
 </div>
 
-<div id="selfcare-menu-view" class="hidden min-h-screen flex-col bg-pink-50">
+<div id="selfcare-menu-view" class="hidden min-h-screen flex-col">
     <div class="grad-selfcare text-white shadow-md sticky top-0 z-40 pb-4 pt-4">
         <div class="px-4 flex items-center justify-between mb-2 w-full max-w-5xl mx-auto">
             <div class="flex items-center gap-4">
@@ -806,6 +835,7 @@ specialsImage: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766153526/re
 {name:"Bambú Bar",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1788279193/Capture_oughaz.png",contact:"",hours:{en:"Daily 12pm - 12am",es:"Diario 12pm - 12am"},happyHour:{en:"5pm - 8pm",es:"5pm - 8pm"},loc:"https://maps.app.goo.gl/EtLpzdtWWM229DNX6",tags:"Bar Only",instagram:"https://www.instagram.com/bambu_utila/",weeklyEvents:true},
     {
         name: "Big John's Burgers",
+        vacation: true,
         hours: { en: "Mon & Sat 5pm - 9pm", es: "Lun y S\u00E1b 5pm - 9pm" },
         openHours: { en: "Mon 5pm - 9pm, Sat 5pm - 9pm", es: "Lun 5pm - 9pm, S\u00E1b 5pm - 9pm" },
         tags: "Burgers, Delivery",
@@ -825,7 +855,7 @@ specials: {"Tuesday": {en: "Made from scratch Sandwiches", es: "S\u00E1ndwiches 
 {name:"Carlotha's Place",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908884/Screenshot_20251216-111519_zxxl7d.png",contact:"",hours:{en:"Daily 9am - 8pm",es:"Diario 9am - 8pm"},loc:"https://maps.app.goo.gl/mDD2ApsSGcRyyvRr6",tags:"",menu:"DAILY"},
 {name:"Che Pancho",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908876/Screenshot_20251216-111359_b8bj3l.png",contact:"+504 3367-8892",hours:{en:"Mon-Wed 5pm - 10pm, Fri-Sat 5pm - 10pm",es:"Lun-Mi\u00E9 5pm - 10pm, Vie-S\u00E1b 5pm - 10pm"},loc:"https://maps.app.goo.gl/NeEuHZUvqUcMPdDY9",tags:"Argentinian, Chicken, Pasta, Seafood",menu:"ASK", facebook: "https://www.facebook.com/share/1P8FqAi9Xc/", instagram: "https://www.instagram.com/chepanchoutila",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0027_on8zya.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0028_yjouzt.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073780/IMG-20251217-WA0029_nhtljw.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073780/IMG-20251217-WA0030_hvgcfz.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073774/IMG-20251217-WA0031_vyemz6.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073781/IMG-20251217-WA0033_d2bidz.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073780/IMG-20251217-WA0034_zllhpy.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073783/IMG-20251217-WA0032_ukr6nl.jpg"]},
-{name: "Chloe's Breads",img: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766210094/Screenshot_20251219-235336_j1hdb0.png",contact: "", instagram: "https://www.instagram.com/chloesbreads",hours: {en: "Place an order on Instagram", es: "Haz tu pedido en Instagram"},loc: null,tags: "Baked Goods, Sweets & Treats",menu: "DAILY",vacation:true, facebook: "https://www.facebook.com/share/17mugaCziU/",
+{name: "Chloe's Breads",img: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766210094/Screenshot_20251219-235336_j1hdb0.png",contact: "", instagram: "https://www.instagram.com/chloesbreads",hours: {en: "Place an order on Instagram", es: "Haz tu pedido en Instagram"},loc: null,tags: "Baked Goods, Sweets & Treats",menu: "DAILY", facebook: "https://www.facebook.com/share/17mugaCziU/",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766210092/Screenshot_20251219-235305_bdirhz.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766210293/Screenshot_20251219-235751_gbynis.png"]},
 {name:"Daisy's Cafe",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908915/Screenshot_20251216-113048_zwbjr4.png",contact:"", facebook: "https://www.facebook.com/share/17ZE4VZ77j/",hours:{en:"Fri-Wed 12pm - 6pm",es:"Vie-Mi\u00E9 12pm - 6pm"},loc:"https://maps.app.goo.gl/uGJASf3EW9pHEzyEA",tags:"Ocean-View, Mediterranean, Pizza, Cafe, Delivery",menu:"ASK", customMenu: {en: "Check social media pages for daily/weekly specials menu!", es: "\u00A1Revisa las redes sociales para el men\u00FA de especiales!"}, instagram: "https://www.instagram.com/daisycafeutila"},
 {name:"The Dive - South Shore",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908878/Screenshot_20251216-113135_ormptm.png",contact:"+1 813-625-1648",hours:{en:"Mon-Wed 11am - 5pm",es:"Lun-Mi\u00E9 11am - 5pm"},loc:"https://maps.app.goo.gl/V4C16bBcUXmhWWn18",tags:"Ocean-View, Burgers, Chicken, Seafood, Beach Bar",menu:"ASK", facebook: "https://www.facebook.com/share/1Cgz4jeqqC/", instagram: "https://www.instagram.com/the_dive_bar_utila"},
@@ -1449,8 +1479,8 @@ function getPlaceFilterTags(place) {
 }
 
 /* --- DATA NORMALIZATION & SAFETY --- */
-const APP_VERSION = "2026.09.16-uniform-business-images";
-const SITE_LAST_UPDATED = "2026-09-16";
+const APP_VERSION = "2026.09.25-darker-page-colors";
+const SITE_LAST_UPDATED = "2026-09-25";
 const UTILA_TIME_ZONE = "America/Tegucigalpa";
 const directoryIndex = new Map();
 
@@ -2404,6 +2434,20 @@ function updateUIText(){
     if(searchInp) searchInp.setAttribute('aria-label', t.searchPlaceholder);
 }
 
+function updatePageBackground(mode, subCategory = '') {
+    const pageThemes = {
+        home: 'home', eat: 'eat', ride: 'ride', explore: 'explore',
+        'dive-menu': 'dive', 'selfcare-menu': 'selfcare', nightlife: 'nightlife'
+    };
+    const categoryThemes = {
+        eco: 'eco', arts: 'arts', tours: 'tours', gym: 'fitness',
+        emergency: 'emergency', dive: 'dive', selfcare: 'selfcare'
+    };
+    document.body.dataset.pageTheme = mode === 'explore-list'
+        ? (categoryThemes[subCategory.split(':')[0]] || 'explore')
+        : (pageThemes[mode] || 'home');
+}
+
 function updateAppHeaderColor(colorClass) {
     const header = document.getElementById('app-header');
     header.classList.remove('grad-eat', 'grad-ride', 'grad-explore', 'grad-dive', 'grad-selfcare', 'grad-night');
@@ -2486,6 +2530,7 @@ function goToApp(mode, subCategory = '', pushHistory = true, ui = null) {
         while(modalStack.length) hideTopModalLayer();
         currentMode = mode;
         activeExploreCategory = mode === 'explore-list' ? subCategory : '';
+        updatePageBackground(mode, subCategory);
         APP_VIEW_IDS.forEach(id => {
             const view = document.getElementById(id);
             view.classList.add('hidden'); view.classList.remove('flex');
@@ -2954,7 +2999,7 @@ function renderEmergencyBoard(){
             sections.push(`<div class="bg-white rounded-2xl shadow-sm border border-red-50 overflow-hidden"><div class="bg-red-50/50 px-4 py-2 border-b border-red-100 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div><h3 class="font-bold text-red-800 text-xs uppercase tracking-wide">${secTitle}</h3></div><div>${listItems}</div></div>`);
         }
     });
-    sections.push(`<div class="col-span-full text-center mt-4 opacity-60 text-xs font-bold text-red-800">${t.emergencyNotice}</div>`);
+    sections.push(`<div class="emergency-notice col-span-full text-center mt-4 opacity-60 text-xs font-bold text-red-800">${t.emergencyNotice}</div>`);
     container.innerHTML = sections.join('');
     secureExternalLinks(container);
 }
@@ -2968,8 +3013,7 @@ function renderExploreGrid(){
         {id: 'selfcare-menu', icon: 'fa-spa', title: t.catSelfCare, color: 'text-pink-500', bg: 'bg-pink-50', active: true, nested: true},
         {id: 'tours', icon: 'fa-ship', title: t.catTours, color: 'text-blue-500', bg: 'bg-blue-50', active: true, nested: false},
         {id: 'dive-menu', icon: 'fa-mask-ventilator', title: t.catDive, color: 'text-cyan-600', bg: 'bg-cyan-50', active: true, nested: true}, 
-        {id: 'gym', icon: 'fa-dumbbell', title: t.catFitness, color: 'text-orange-500', bg: 'bg-orange-50', active: true, nested: false},
-        {id: 'rentals', icon: 'fa-key', title: t.catRentals, color: 'text-purple-500', bg: 'bg-purple-50', active: false, nested: false}
+        {id: 'gym', icon: 'fa-dumbbell', title: t.catFitness, color: 'text-orange-500', bg: 'bg-orange-50', active: true, nested: false}
     ];
     grid.innerHTML = cats.map(c => {
         if(c.active){
