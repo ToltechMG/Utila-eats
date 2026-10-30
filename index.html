@@ -54,6 +54,7 @@ body[data-page-theme="nightlife"] { --page-background: #0f172a; }
 .business-media--category { aspect-ratio: auto; height: 160px; }
 .business-card-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 40px; padding: 4px 8px; flex-shrink: 0; }
 .business-card-toolbar .status-badge { position: static; max-width: calc(100% - 40px); }
+.business-card-toolbar [data-live-status] { display: contents; }
 .business-card-title { min-height: 2.5em; }
 
 /* COLOR SCHEMES */
@@ -218,7 +219,7 @@ html.modal-locked, body.modal-locked { overflow: hidden !important; overscroll-b
 
     <div class="page-footer mt-auto p-6 text-center text-xs text-gray-400">
         <p>&copy; 2026 Utila Eats</p>
-        <p id="last-updated" class="mt-1 opacity-60 text-[10px]">Last Updated October 6, 2026</p>
+        <p id="last-updated" class="mt-1 opacity-60 text-[10px]">Last Updated October 30, 2026</p>
     </div>
 </div>
 
@@ -838,6 +839,18 @@ menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766000944/IMG-
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766153528/received_1548479379733929_tft3wh.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766122397/Screenshot_20251218-174018_a2c3nc.png"],
 specialsImage: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766153526/received_33456352650644753_qzcso0.jpg"},
 {name:"Bambú Bar",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1788279193/Capture_oughaz.png",contact:"",hours:{en:"Daily 12pm - 12am",es:"Diario 12pm - 12am"},happyHour:{en:"5pm - 8pm",es:"5pm - 8pm"},loc:"https://maps.app.goo.gl/EtLpzdtWWM229DNX6",tags:"Bar Only",instagram:"https://www.instagram.com/bambu_utila/",weeklyEvents:true},
+{
+  "name": "Bayou House Lounge Bar",
+  "phone": "+504 9606-7695",
+  "img": "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1793376976/Capture_pjv4eq.png",
+  "hours": {
+    "en": "Daily 2pm - 9pm",
+    "es": "Todos los días 2pm - 9pm"
+  },
+  "loc": "https://maps.app.goo.gl/pCxjZB1qCXmG3fB17",
+  "facebook": "https://www.facebook.com/share/1BnnMNJGyK/",
+  "tags": "Bar Only"
+},
     {
         name: "Big John's Burgers",
         vacation: true,
@@ -865,7 +878,7 @@ menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766210092/Scre
 {name:"Daisy's Cafe",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908915/Screenshot_20251216-113048_zwbjr4.png",contact:"", facebook: "https://www.facebook.com/share/17ZE4VZ77j/",hours:{en:"Fri-Wed 12pm - 6pm",es:"Vie-Mi\u00E9 12pm - 6pm"},loc:"https://maps.app.goo.gl/uGJASf3EW9pHEzyEA",tags:"Ocean-View, Mediterranean, Pizza, Cafe, Delivery",menu:"ASK", customMenu: {en: "Check social media pages for daily/weekly specials menu!", es: "\u00A1Revisa las redes sociales para el men\u00FA de especiales!"}, instagram: "https://www.instagram.com/daisycafeutila"},
 {name:"The Dive - South Shore",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908878/Screenshot_20251216-113135_ormptm.png",contact:"+1 813-625-1648",hours:{en:"Mon-Wed 11am - 5pm",es:"Lun-Mi\u00E9 11am - 5pm"},loc:"https://maps.app.goo.gl/V4C16bBcUXmhWWn18",tags:"Ocean-View, Burgers, Chicken, Seafood, Beach Bar",menu:"ASK", facebook: "https://www.facebook.com/share/1Cgz4jeqqC/", instagram: "https://www.instagram.com/the_dive_bar_utila"},
 {name:"Driftwood Bar & Lounge",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908909/Screenshot_20251216-113227_fafbi5.png",contact:"+504 9575-6383",hours:{en:"Thu-Tue 7am - 9pm",es:"Jue-Mar 7am - 9pm"},loc:"https://maps.app.goo.gl/o2G4VK8v2hnnEPck6",tags:"Seafood, Breakfast",menu:"ASK", facebook: "https://www.facebook.com/share/1297582522/", instagram: "https://www.instagram.com/driftwoodutila"},
-{name:"Edo's Place",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908901/Screenshot_20251216-113351_jyymjw.png",contact:"+504 8774-7980",hours:{en:"Thu-Tue 11am - 8:45pm",es:"Jue-Mar 11am - 8:45pm"},loc:"https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9",tags:"Ocean-View, Burgers, Chicken, Seafood, Wings, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/1Bgds1hYHN/", instagram: "https://www.instagram.com/edosplaceutila",
+{name:"Edo's Place",openHours:{"en": "Fri-Tue 11am - 8:45pm, Fri 7pm - 4am", "es": "Vie-Mar 11am - 8:45pm, Vie 7pm - 4am"},hoursNote:{"en": "* Friday Night Party: wings available until 4am Saturday morning.", "es": "* Fiesta del viernes: alitas disponibles hasta las 4am del sábado."},weeklyEvents:true,img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908901/Screenshot_20251216-113351_jyymjw.png",contact:"+504 8774-7980",hours:{en:"Fri-Tue 11am - 8:45pm. Closed Wednesdays and Thursdays.",es:"Vie-Mar 11am - 8:45pm. Cerrado los miércoles y jueves."},loc:"https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9",tags:"Ocean-View, Burgers, Chicken, Seafood, Wings, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/1Bgds1hYHN/", instagram: "https://www.instagram.com/edosplaceutila",
 menuImages: {en: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804106/Screenshot_20260130-141050_wyufqu.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804104/Screenshot_20260130-141132_jsyg2x.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804108/Screenshot_20260130-141147_t3a9oy.png"], es: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804111/Screenshot_20260130-141331_p8yfwk.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804111/Screenshot_20260130-141348_m0ftzv.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769804113/Screenshot_20260130-141402_bglmyp.png"]}},
 {name:"El Castillo",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908876/Screenshot_20251216-113445_kqvxm4.png",contact:"+504 3361-3491",hours:{en:"Fri-Sat 1pm - 7:30pm",es:"Vie-S\u00E1b 1pm - 7:30pm"},loc:"https://maps.app.goo.gl/nD9iTgWrCADvdJ927",tags:"",menu:"DAILY", facebook: "https://www.facebook.com/share/18CbAxwdGS/", instagram: "https://www.instagram.com/elcastilloresturante"},
 {name:"El Parcero",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1790635423/WhatsApp_Image_2026-09-28_at_12.49.09_PM_yj5nod.jpg",whatsapp:"+504 9940-4547",hours:{en:"Wed-Mon 11am - 10pm (Closed Tuesdays)",es:"Mié-Lun 11am - 10pm (Cerrado los martes)"},loc:"https://maps.app.goo.gl/jDFTvNRwqQW1JkYy9",tags:"Burgers, Chicken, Seafood, Pasta, Colombian",menu:"ASK", instagram: "https://www.instagram.com/elparce1104/",
@@ -873,13 +886,13 @@ menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1790635425/MENU
 {name:"Elsa's Kitchen",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908913/Screenshot_20251216-113606_ifsvuq.png",contact:"+504 9698-1051",hours:{en:"Wed-Mon 11am - 9:30pm",es:"Mi\u00E9-Lun 11am - 9:30pm"},loc:"https://maps.app.goo.gl/P4o9gY7TQWgJmQeE6",tags:"Pizza, Burgers, Chicken, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/1a2TrPJFeu/"},
 {name:"Empanikas",img:EMPANIKAS_BIRRIA_MENU,whatsapp:"+505 8423-6867",hours:{en:"Place an order on WhatsApp!",es:"Haz tu pedido en WhatsApp!"},loc:"",tags:"Pastelitos, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/1AzNTTDzkL/",
 menuImages: {en: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260211-WA0022_din6oc.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087365/IMG-20260211-WA0023_z0f7ir.jpg", EMPANIKAS_BIRRIA_MENU, "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1790465633/WhatsApp_Image_2026-09-26_at_1.20.10_PM_odzgmj.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1790465633/WhatsApp_Image_2026-09-26_at_1.20.11_PM_jcwqhg.jpg"], es: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087364/IMG-20260211-WA0021_rhfk62.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087365/IMG-20260211-WA0023_z0f7ir.jpg", EMPANIKAS_BIRRIA_MENU, "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1790465633/WhatsApp_Image_2026-09-26_at_1.20.10_PM_odzgmj.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1790465633/WhatsApp_Image_2026-09-26_at_1.20.11_PM_jcwqhg.jpg"]}},
-{name:"Eva's Cafe",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765910475/Screenshot_20251216-124034_i25kww.png",contact:"+504 8913-0044",hours:{en:"Daily 6:30am - 2pm, Daily 4:30pm - 9pm",es:"Diario 6:30am - 2pm, Diario 4:30pm - 9pm"}, openHours:{en: "Daily 6:30am - 9pm"}, loc:"https://maps.app.goo.gl/h5RM7eqRoiqLPfE97",tags:"Pizza, Burgers, Chicken, Pasta, BBQ, Cafe, Breakfast, Delivery",menu:"DAILY", facebook: "https://www.facebook.com/share/17sju5B1FF/", instagram: "https://www.instagram.com/evascafeatmangoinn",
+{name:"Eva's Cafe",serviceHours:[{"key": "kitchen", "label": {"en": "Kitchen", "es": "Cocina"}, "hours": {"en": "Daily: 6:30am - 2pm & 4:30pm - 9pm", "es": "Todos los días: 6:30am - 2pm y 4:30pm - 9pm"}, "openHours": "Daily 6:30am - 2pm, Daily 4:30pm - 9pm"}, {"key": "bar", "label": {"en": "Bar", "es": "Bar"}, "hours": {"en": "Daily: 6:30am - 9pm\nOpen during the afternoon kitchen break.", "es": "Todos los días: 6:30am - 9pm\nAbierto durante el descanso de la cocina por la tarde."}, "openHours": "Daily 6:30am - 9pm"}],img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765910475/Screenshot_20251216-124034_i25kww.png",contact:"+504 8913-0044",hours:{en:"Daily 6:30am - 2pm, Daily 4:30pm - 9pm",es:"Diario 6:30am - 2pm, Diario 4:30pm - 9pm"}, openHours:{en:"Daily 6:30am - 9pm",es:"Diario 6:30am - 9pm"}, loc:"https://maps.app.goo.gl/h5RM7eqRoiqLPfE97",tags:"Pizza, Burgers, Chicken, Pasta, BBQ, Cafe, Breakfast, Delivery",menu:"DAILY", facebook: "https://www.facebook.com/share/17sju5B1FF/", instagram: "https://www.instagram.com/evascafeatmangoinn",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073765/IMG-20251217-WA0015_zykikt.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073766/IMG-20251217-WA0016_d1pvaa.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073765/IMG-20251217-WA0017_x3kfc8.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073766/IMG-20251217-WA0018_czgu5e.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073767/IMG-20251217-WA0019_wjp41z.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0020_qllkfz.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073767/IMG-20251217-WA0021_pcb8be.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073772/IMG-20251217-WA0022_fstsj0.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073773/IMG-20251217-WA0023_s7muce.jpg"]},
 {name:"G's Bistro",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765994200/Screenshot_20251217-115545_awcbis.png",contact:"+504 3192-7488",hours:{en:"Thu-Tue 8am - 8pm",es:"Jue-Mar 8am - 8pm"},loc:"https://maps.app.goo.gl/Yssuf666bpoAaFpb6",tags:"Cafe, Breakfast",menu:"ASK", instagram: "https://www.instagram.com/gsbistro_utila"},
 {name:"Gaga's Grab'N'Go",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908901/Screenshot_20251216-113839_qbgsua.png",contact:"+504 3211-3317",hours:{en:"Mon-Sat 9am - 10pm",es:"Lun-S\u00E1b 9am - 10pm"},loc:"https://maps.app.goo.gl/F8nwdADJFCGEZu9UA",tags:"Chicken, Burgers, Baleadas, Breakfast, Delivery",menu:"ASK", customMenu: {en: "Check social media pages for daily/weekly specials menu!", es: "\u00A1Revisa las redes sociales para el men\u00FA de especiales!"}, facebook: "https://www.facebook.com/share/1BDZEuQbMZ/", instagram: "https://www.instagram.com/gagas_grabngo"},
 {name:"The Hacienda Cantina - South Shore",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766093976/Screenshot_20251218-153843_lumtbd.png",contact:"", facebook: "https://www.facebook.com/share/17emgGEKFj/",hours:{en:"Tue-Sat 12pm - 8pm",es:"Mar-S\u00E1b 12pm - 8pm"},loc:"https://maps.app.goo.gl/AmH1agPbHhQryFUy7",tags:"Mexican, Ocean-View",menu:"ASK", instagram: "https://www.instagram.com/the_hacienda_utila",
 menuImages:["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766093460/Messenger_creation_C3C5BBA5-B557-4A24-BF8A-95AE3EF9F4A4_ssnm6d.jpg"]},
-{name:"Holy Guacamole",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908873/Screenshot_20251216-114004_vjg6e0.png",contact:"+504 3260-5721",hours:{en:"Thu-Tue 7:30am - 2pm, Thu-Tue 5:30pm - 10pm",es:"Jue-Mar 7:30am - 2pm, Jue-Mar 5:30pm - 10pm"},loc:"https://maps.app.goo.gl/gXmhHgwMhfbthrJm6",tags:"Mexican, Breakfast",menu:"DAILY", facebook: "https://www.facebook.com/share/17wNVdeWRN/", instagram: "https://www.instagram.com/holyguacamoleutila",
+{name:"Holy Guacamole",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908873/Screenshot_20251216-114004_vjg6e0.png",contact:"+504 3260-5721",hours:{en:"Thu-Tue 7:30am - 2pm, Thu-Tue 5:30pm - 10pm",es:"Jue-Mar 7:30am - 2pm, Jue-Mar 5:30pm - 10pm"},loc:"https://maps.app.goo.gl/gXmhHgwMhfbthrJm6",tags:"Mexican, Breakfast, Delivery",menu:"DAILY", facebook: "https://www.facebook.com/share/17wNVdeWRN/", instagram: "https://www.instagram.com/holyguacamoleutila",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996595/HOLYG_page_02_a2dft2.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996606/HOLYG_page_03_u7bsnj.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996614/HOLYG_page_04_ubo3pq.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996599/HOLYG_page_05_tlfs56.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996607/HOLYG_page_06_qbbwrp.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996603/HOLYG_page_07_lvlv8i.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996608/HOLYG_page_08_wzf6ea.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996610/HOLYG_page_09_dghvjd.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996611/HOLYG_page_10_xnqjcb.png","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996616/HOLYG_page_11_fa8ram.png"]},
 {name:"Huffy's",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908905/Screenshot_20251216-114033_sfcuzn.png",contact:"+504 9581-7096",hours:{en:"Tue-Sun 12pm - 9pm",es:"Mar-Dom 12pm - 9pm"},loc:"https://maps.app.goo.gl/DYGgAh8svtrSGAJ99",tags:"Ocean-View, Beach Bar, Bar Only",facebook: "https://www.facebook.com/share/19VcvkmD7m/", instagram: "https://www.instagram.com/huffyutila"},
 {name:"Josie's Cafe",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073786/IMG-20251217-WA0037_n8jq1u.jpg",contact:"+504 9905-8183",hours:{en:"Mon-Sat 6:15am - 2pm",es:"Lun-S\u00E1b 6:15am - 2pm"},loc:"https://maps.app.goo.gl/Z32Vvx3psceyrGwZ8",tags:"Breakfast, Brunch, Ocean-View, Cafe, Sweets & Treats",menu:"DAILY", customMenu: {en: "Check social media pages for daily/weekly specials menu!", es: "\u00A1Revisa las redes sociales para el men\u00FA de especiales!"}, instagram: "https://www.instagram.com/josiescafeutila"},
@@ -893,7 +906,7 @@ menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1769803716/IMG-
 {name:"Merlin's Wok",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908891/Screenshot_20251216-114854_lx3oqs.png",contact:"+504 8932 6636",hours:{en:"Thu-Sat 5pm - 10pm",es:"Jue-S\u00E1b 5pm - 10pm"},loc:"https://maps.app.goo.gl/TxN793Q7JLr5W5y26",tags:"Chinese",menu:"ASK",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073774/IMG-20251217-WA0024_e1pbfl.jpg"]},
 {name:"Mermaids",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908917/Screenshot_20251216-114922_c8x1gl.png",contact:"+504 9728 2623",hours:{en:"Sun-Fri 8am - 9pm",es:"Dom-Vie 8am - 9pm"},loc:"https://maps.app.goo.gl/raXbojGHtqbg1WXm9",tags:"Pizza, Chicken, Fusion, Grocery, Breakfast, Delivery",menu:"DAILY"},
-{name:"Mister Buddha",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908889/Screenshot_20251216-114954_oxbzjt.png",contact:"+504 8874 8153",hours:{en:"Fri-Mon 4:30pm - 10pm, Tue 4:30pm - 12am",es:"Vie-Lun 4:30pm - 10pm, Mar 4:30pm - 12am"},loc:"https://maps.app.goo.gl/cX1LJ3VAQEXE4fB26",tags:"Sushi, Ramen, Fusion, Ocean-View, Steakhouse, Steak, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/18BHzaU46p/", instagram: "https://www.instagram.com/mrbuddhautila",
+{name:"Mister Buddha",vacation:true,vacationUntil:"2026-11-06",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908889/Screenshot_20251216-114954_oxbzjt.png",contact:"+504 8874 8153",hours:{en:"Fri-Mon 4:30pm - 10pm, Tue 4:30pm - 12am",es:"Vie-Lun 4:30pm - 10pm, Mar 4:30pm - 12am"},loc:"https://maps.app.goo.gl/cX1LJ3VAQEXE4fB26",tags:"Sushi, Ramen, Fusion, Ocean-View, Steakhouse, Steak, Delivery",menu:"ASK", facebook: "https://www.facebook.com/share/18BHzaU46p/", instagram: "https://www.instagram.com/mrbuddhautila",
 menuImages: {en: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087364/IMG-20260209-WA0016_lxcgdu.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087375/IMG-20260209-WA0017_m2rcb2.jpg"], es: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087375/IMG-20260209-WA0019_p3gqpl.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087374/IMG-20260209-WA0018_qix7bo.jpg"]},
 specialsImage: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770059376/Screenshot_20260201-144347_r7ggqg.png"},
 {name:"Muelle Grill",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771686747/Screenshot_20260221-091026_jxbx2m.png",contact:"",whatsapp:"+504 3272-5797",hours:{en:"Mon-Fri 8:30am - 1:30pm, Mon-Fri 5:30pm - 9:30pm, Sat-Sun 6:30am - 2pm, Sat-Sun 5:30pm - 10pm",es:"Lun-Vie 8:30am - 1:30pm, Lun-Vie 5:30pm - 9:30pm, S\u00E1b-Dom 6:30am - 2pm, S\u00E1b-Dom 5:30pm - 10pm"},loc:"https://maps.app.goo.gl/ETcvPtPT6QG5iv5V9",tags:"Chicken, Wings, Burgers, Burritos, Baleadas",menu:"ASK", facebook: "https://www.facebook.com/share/1Fggw64gtY/",
@@ -916,7 +929,7 @@ menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765996613/Nept
 {name:"Odyssey Mexican Grill",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908885/Screenshot_20251216-115203_lg6sy7.png",contact:"+1 806 451 7580",hours:{en:"Thu-Tue 7am - 9pm",es:"Jue-Mar 7am - 9pm"},loc:"https://maps.app.goo.gl/trYMeTWUHKi4GMQb7",tags:"Mexican, Ocean-View, Breakfast",menu:"ASK", facebook: "https://www.facebook.com/share/1MRLd6eB1m/", instagram: "https://www.instagram.com/theodysseymexicangrill",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260212-WA0022_uvjxzx.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260212-WA0020_pals5o.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260212-WA0019_lq9qvs.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771087363/IMG-20260212-WA0023_lipfzr.jpg"]},
 {name:"The Pelican",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908911/Screenshot_20251216-115311_e1ofu4.png",contact:"+504 3375 4298",hours:{en:"Mon-Thu 11am - 1pm, Mon-Thu 5:30pm - 8:30pm",es:"Lun-Jue 11am - 1pm, Lun-Jue 5:30pm - 8:30pm"},loc:"https://maps.app.goo.gl/hW5ZRmvddZ1GPjSPA",tags:"Thai, Fusion",menu:"DAILY", customMenu: {en: "Text for Daily Specials", es: "Texto para especiales del d\u00EDa"}, facebook: "https://www.facebook.com/share/17praCVPDm/", instagram: "https://www.instagram.com/the_pelican_utila_bayisland"},
-{name:"Pink Flamingo",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908912/Screenshot_20251216-115357_rnccwa.png",contact:"",hours:{en:"Fri-Tue 8am - 2pm",es:"Vie-Mar 8am - 2pm"},loc:"https://maps.app.goo.gl/aoPGEEP79W2XzVDj8",tags:"Breakfast, Ocean-View, Vegan, Cafe",menu:"DAILY", instagram: "https://www.instagram.com/pinkflamingoutila",
+{name:"Pink Flamingo",vacation:true,vacationUntil:"2026-11-06",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908912/Screenshot_20251216-115357_rnccwa.png",contact:"",hours:{en:"Fri-Tue 8am - 2pm",es:"Vie-Mar 8am - 2pm"},loc:"https://maps.app.goo.gl/aoPGEEP79W2XzVDj8",tags:"Breakfast, Ocean-View, Vegan, Cafe",menu:"DAILY", instagram: "https://www.instagram.com/pinkflamingoutila",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770066755/PXL_20260131_194835948_w3v2ql.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770066757/PXL_20260131_194848499_lz30uk.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770066755/PXL_20260131_194910249_rux2wm.jpg", "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770066753/PXL_20260131_194901950_sdgphm.jpg"]},
 {name:"Pizza Nut",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908914/Screenshot_20251216-111006_efg4ry.png",contact:"+504 9969 6360",hours:{en:"Daily 5pm - 9pm",es:"Diario 5pm - 9pm"},loc:"https://maps.app.goo.gl/sTk2xmFicD7yGdH86",tags:"Pizza",menu:"ASK", 
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765995749/PXL_20251216_224529048.MP_jckz1f.jpg"]},
@@ -927,8 +940,25 @@ menuImages:["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766068116/Scree
 specials: {"Saturday": {en: "Game Night 6pm", es: "Noche de juegos 6pm"}, "Sunday": {en: "Werewolf (Twice a month)", es: "Hombre Lobo (Dos veces al mes)"}}},
 {name:"RJ's Bar & Grill",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1770059641/received_2039573543272611_ux2ong.jpg",contact:"+504 3216 4216",hours:{en:"Wed 5:30pm - 10pm, Fri 5:30pm - 10pm, Sun 5:30pm - 10pm",es:"Mi\u00E9 5:30pm - 10pm, Vie 5:30pm - 10pm, Dom 5:30pm - 10pm"},loc:"https://maps.app.goo.gl/dohhvzvYnhTEHrZt6",tags:"BBQ, Seafood, Chicken, Burgers, Steak, Delivery",menu:"ASK", instagram: "https://www.instagram.com/rjs_utila", facebook: "https://www.facebook.com/share/17YK1YoMpS/"},
 {name:"Rio Coco Beans Café",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1771686747/Screenshot_20260221-084913_qu4irl.png",contact:"",hours:{en:"Mon-Sat 7am - 2pm",es:"Lun-S\u00E1b 7am - 2pm"},loc:"https://maps.app.goo.gl/endvzFVB5zubMwJ3A",tags:"Cafe, Breakfast, Baked Goods, Sweets & Treats",menu:"ASK", instagram: "https://www.instagram.com/riococobeansutila"},
+{
+  "name": "The Roadhouse",
+  "phone": "+504 8963-1096",
+  "img": "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1793376250/Screenshot_20261030-100134_zkfrky.png",
+  "hours": {
+    "en": "Mon-Fri: 2pm - 10pm\nSat: 2pm - 2am (Sunday morning)\nSun: Closed",
+    "es": "Lun-Vie: 2pm - 10pm\nSáb: 2pm - 2am (madrugada del domingo)\nDom: Cerrado"
+  },
+  "openHours": {
+    "en": "Mon-Fri 2pm - 10pm, Sat 2pm - 2am",
+    "es": "Lun-Vie 2pm - 10pm, Sáb 2pm - 2am"
+  },
+  "loc": "https://maps.app.goo.gl/UFUw6zKqLP27hH5e9",
+  "instagram": "https://www.instagram.com/roadhouseutila/",
+  "facebook": "https://www.facebook.com/share/1H332FwnN7/",
+  "tags": "Bar Only"
+},
 {name:"Safety Stop at Utila Dive Centre",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908878/Screenshot_20251216-115710_j0aygj.png",contact:"",hours:{en:"Daily 7am - 7pm",es:"Diario 7am - 7pm"},loc:"https://maps.app.goo.gl/6dE42NAw6Wn8Y4q46",tags:"Ocean-View, Chicken, Burgers, Pastelitos",menu:"DAILY"},
-{name:"Skidz Sports Bar",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1788276863/Capture_tuekf8.png",contact:"",hours:{en:"Daily 12pm - 12am",es:"Diario 12pm - 12am"},loc:"https://maps.app.goo.gl/sCgQgZAcAQgKr9y2A",tags:"Bar Only",weeklyEvents:true,instagram:"https://www.instagram.com/skidzsportsbar/"},
+{name:"Skidz Sports Bar",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1788276863/Capture_tuekf8.png",contact:"",hours:{en:"Tue-Sun 2pm - 12am (Closed Mondays)",es:"Mar-Dom 2pm - 12am (Cerrado los lunes)"},loc:"https://maps.app.goo.gl/sCgQgZAcAQgKr9y2A",tags:"Bar Only",weeklyEvents:true,instagram:"https://www.instagram.com/skidzsportsbar/"},
 {name:"Shell del Mar",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765909000/Screenshot_20251216-115812_wew8lm.png",contact:"+504 8951 2618",hours:{en:"Daily 7am - 9pm",es:"Diario 7am - 9pm"},loc:"https://maps.app.goo.gl/HCYGrfeyBigSyLZC9",tags:"Ocean-View, Seafood, Burgers, Chicken, Pasta, Breakfast",menu:"ASK",
 menuImages: ["https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073786/IMG-20251217-WA0048_q2fbye.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073786/IMG-20251217-WA0049_fjwngh.jpg","https://res.cloudinary.com/ddmkjgxt5/image/upload/v1766073788/IMG-20251217-WA0050_x6cpkz.jpg"]},
 {name:"The Tea Garden",img:"https://res.cloudinary.com/ddmkjgxt5/image/upload/v1765908883/Screenshot_20251216-115845_heldz8.png",contact:"+504 9839-7692",hours:{en:"Sun-Mon 6pm - 10pm",es:"Dom-Lun 6pm - 10pm"},loc:"https://maps.app.goo.gl/BoBuhU4c8Rkt9J9C8",tags:"Tea, Curry",menu:"DAILY", facebook: "https://www.facebook.com/share/175wRuLjZT/", instagram: "https://www.instagram.com/the_tea_garden_utila"},
@@ -1369,6 +1399,7 @@ const nightLifeData = {
     ],
     "Wednesday": [
         { what: "Sunset @ The Pub", where: "The Pub", time: "4:20 PM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        {"what": {"en": "Pool & Margarita Night", "es": "Noche de billar y margaritas"}, "where": "Skidz Sports Bar", "time": "7:00 PM", "venueId": "eat:skidz-sports-bar", "location": "https://maps.app.goo.gl/sCgQgZAcAQgKr9y2A"},
         { what: "Movie Night", where: "Bambú Bar", time: "8:00 PM", location: "https://maps.app.goo.gl/EtLpzdtWWM229DNX6" },
         { what: "PADI Instructor Graduation", where: "Treetanic", time: "9:00 PM - 2:00 AM", location: "https://maps.app.goo.gl/jW6VVYNqyWh8CDp86", scheduleImg: "https://res.cloudinary.com/ddmkjgxt5/image/upload/v1768588289/Screenshot_20260116-122739_tzathn.png" },
         { what: "Beer Pong Tournament", where: "La Cueva", time: "9:00 PM", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" }
@@ -1380,8 +1411,10 @@ const nightLifeData = {
     ],
     "Friday": [
         { what: "Sunset @ The Pub", where: "The Pub", time: "4:20 PM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
+        {"what": {"en": "Fish Fry", "es": "Noche de pescado frito"}, "where": "Skidz Sports Bar", "time": "6:00 PM", "venueId": "eat:skidz-sports-bar", "location": "https://maps.app.goo.gl/sCgQgZAcAQgKr9y2A"},
+        {"what": {"en": "Ed's Crab Racing", "es": "Carreras de cangrejos de Ed"}, "where": "Skidz Sports Bar", "time": "6:00 PM", "venueId": "eat:skidz-sports-bar", "location": "https://maps.app.goo.gl/sCgQgZAcAQgKr9y2A"},
         { what: "Pizza and Documentary Night", where: "Underwater Vision", time: "6:30 PM", location: "https://maps.app.goo.gl/rFeK8Pgcy5CQJgeDA" },
-        { what: "Beer Pong & Friday Night Party", where: "Edo's Place", time: "7:00 PM - 4:00 AM", location: "https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9" },
+        { what: "Beer Pong & Friday Night Party", where: "Edo's Place", time: "7:00 PM - 4:00 AM", venueId:"eat:edo-s-place", note:{en:"Wings available until 4am Saturday morning.",es:"Alitas disponibles hasta las 4am del sábado."}, location: "https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9" },
         { what: "Funky Friday", where: "La Cueva", time: "Night", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" },
         { what: "Open Mic", where: "The Pub", time: "Open til 2am", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" }
     ],
@@ -1398,6 +1431,7 @@ const nightLifeData = {
         { what: "Sunset @ The Pub", where: "The Pub", time: "4:20 PM", location: "https://maps.app.goo.gl/ypykCdtFaezim7Ch7" },
         { what: "Hog Fry", where: "Edo's Place", time: "12:00 PM", location: "https://maps.app.goo.gl/gawFEi6ev1Jgo1ar9" },
         { what: "Kids Pool Day", where: "The Point", time: "Day", location: "https://maps.app.goo.gl/amoYT5WJabLWHFpV6" },
+        {"what": {"en": "Pool League Night", "es": "Noche de liga de billar"}, "where": "Skidz Sports Bar", "time": "7:00 PM", "venueId": "eat:skidz-sports-bar", "location": "https://maps.app.goo.gl/sCgQgZAcAQgKr9y2A"},
         { what: "Nintendo Switch Tournament (games vary weekly)", where: "Bambú Bar", time: "8:00 PM", location: "https://maps.app.goo.gl/EtLpzdtWWM229DNX6" },
         { what: "Rock n Roll Sunday", where: "La Cueva", time: "Night", location: "https://maps.app.goo.gl/u8v8zxofyccLrQ6K6" }
     ]
@@ -1496,8 +1530,8 @@ function getPlaceFilterTags(place) {
 }
 
 /* --- DATA NORMALIZATION & SAFETY --- */
-const APP_VERSION = "2026.10.06-laundry-parcero-menu-tuktuks";
-const SITE_LAST_UPDATED = "2026-10-06";
+const APP_VERSION = "2026.10.30-hours-bars-events";
+const SITE_LAST_UPDATED = "2026-10-30";
 const UTILA_TIME_ZONE = "America/Tegucigalpa";
 const directoryIndex = new Map();
 
@@ -1794,13 +1828,14 @@ let deliveryFilter = false;
 let searchSubmitted = false;
 let submittedSearchQuery = "";
 let selectedMenuItemId = "";
+let lastRenderedAvailability = "";
 
 function renderServiceHours(place, compact = false, date = new Date()) {
     const t = translations[currentLang];
     return (place.serviceHours || []).map(service => {
         const isOpen = !place.vacation && checkOpenStatus(service.openHours, date);
         return `<div class="${compact ? 'mb-3 last:mb-0' : 'py-3 first:pt-0 last:pb-0'}" data-service="${escapeHtml(service.key)}">
-            <div class="flex flex-wrap items-center justify-between gap-1 mb-1"><span class="font-bold ${compact ? 'text-xs' : 'text-base'} text-slate-700">${escapeHtml(localizedValue(service.label))}</span><span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${isOpen ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}">${isOpen ? t.statusOpen : t.statusClosed}</span></div>
+            <div class="flex flex-wrap items-center justify-between gap-1 mb-1"><span class="font-bold ${compact ? 'text-xs' : 'text-base'} text-slate-700">${escapeHtml(localizedValue(service.label))}</span><span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${isOpen ? 'bg-green-600 text-white animate-pulse' : 'bg-gray-100 text-gray-600'}">${isOpen ? t.statusOpen : t.statusClosed}</span></div>
             <p class="${compact ? 'text-[10px]' : 'text-sm'} text-slate-600 leading-relaxed whitespace-pre-line">${escapeHtml(localizedValue(service.hours))}</p>
         </div>`;
     }).join('');
@@ -1811,13 +1846,84 @@ function renderMenuNotice(place) {
     return `<div class="bg-amber-50 border-l-2 border-amber-400 p-2 mb-2 rounded-r-md flex items-start"><i class="fa-solid fa-bullhorn text-amber-500 mt-0.5 mr-2 text-xs" aria-hidden="true"></i><p class="text-[11px] font-medium text-amber-800 leading-relaxed">${escapeHtml(localizedValue(place.customMenu))}</p></div>`;
 }
 
-function getPlaceOperationalState(place) {
+function getPlaceOperationalState(place, date = new Date()) {
     const canonicalTags = getPlaceFilterTags(place);
     const hoursForLogic = place.openHours ? (place.openHours.en || place.openHours) : (place.hours ? place.hours.en : '');
     if(place.vacation || place.cateringOnly) return {canonicalTags, hoursForLogic, hasNumbers:false, isOpen:false};
     const hasNumbers = Boolean(hoursForLogic && /\d/.test(hoursForLogic));
-    const isOpen = hasNumbers ? checkOpenStatus(hoursForLogic) : false;
+    const isOpen = hasNumbers ? checkOpenStatus(hoursForLogic, date) : false;
     return {canonicalTags, hoursForLogic, hasNumbers, isOpen};
+}
+
+function vacationLabel(place) {
+    if(!place.vacationUntil) return translations[currentLang].vacation;
+    const date = new Date(`${place.vacationUntil}T12:00:00Z`);
+    const formatted = new Intl.DateTimeFormat(currentLang === 'es' ? 'es-HN' : 'en-US', {month:'long', day:'numeric', timeZone:'UTC'}).format(date);
+    return currentLang === 'es' ? `De vacaciones hasta el ${formatted}` : `On vacation until ${formatted}`;
+}
+
+function renderVacationNotice(place) {
+    if(!place.vacation || !place.vacationUntil) return '';
+    return `<p class="text-xs font-bold text-red-700 bg-red-50 border border-red-200 rounded-lg p-2 mb-3">${escapeHtml(vacationLabel(place))}</p>`;
+}
+
+function renderHoursNote(place, compact = false) {
+    if(!place.hoursNote) return '';
+    return `<p class="${compact ? 'text-xs p-2 mb-3' : 'text-sm p-4 mb-6'} font-bold text-amber-900 bg-amber-50 border border-amber-300 rounded-xl leading-relaxed" data-hours-note>${escapeHtml(localizedValue(place.hoursNote))}</p>`;
+}
+
+function renderStatusContent(place, variant, date = new Date()) {
+    const t = translations[currentLang];
+    if(variant === 'detail' && place.vacation) return `<div class="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold text-red-700 bg-red-50 mb-3 border border-red-300"><i class="fa-solid fa-plane-departure shrink-0"></i><span>${escapeHtml(vacationLabel(place))}</span></div>`;
+    if(variant === 'detail' && place.cateringOnly) return `<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold text-amber-700 bg-amber-50 mb-3 border border-amber-300"><i class="fa-solid fa-utensils"></i>${t.cateringOnly}</div>`;
+    if(place.serviceHours) return '';
+    const {hasNumbers, isOpen} = getPlaceOperationalState(place, date);
+    if(!hasNumbers) return '';
+    if(variant === 'detail') {
+        if(!['eat','ride'].includes(place._directoryType) && place._directoryCategory !== 'laundry') return '';
+        if(place.name.includes('Cinema')) return '';
+        return `<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold ${isOpen ? 'text-green-600 bg-green-50' : 'text-red-500 bg-red-50'} mb-3 border border-current"><div class="w-2 h-2 rounded-full bg-current ${isOpen ? 'animate-pulse' : ''}"></div>${isOpen ? t.statusOpen : t.statusClosed}</div>`;
+    }
+    return `<div class="status-badge ${isOpen ? 'bg-green-600 animate-pulse' : 'bg-gray-600'}">${isOpen ? '<i class="fa-solid fa-circle text-[6px] text-white/80" aria-hidden="true"></i> ' : ''}${isOpen ? t.statusOpen : t.statusClosed}</div>`;
+}
+
+function renderLiveStatus(place, variant) {
+    return `<div data-live-status="${escapeHtml(place.id)}" data-status-variant="${variant}">${renderStatusContent(place, variant)}</div>`;
+}
+
+function restaurantAvailabilitySignature(date = new Date()) {
+    return db.map(place => Number(getPlaceOperationalState(place, date).isOpen)).join('');
+}
+
+function refreshLiveHours() {
+    if(document.hidden) return;
+    const date = new Date();
+    if(currentMode === 'eat' && openNowFilter) {
+        const availability = restaurantAvailabilitySignature(date);
+        if(availability !== lastRenderedAvailability) {
+            const focused = document.activeElement;
+            const focusAction = focused?.getAttribute('onclick');
+            const inFilters = Boolean(focused?.closest('#filterModal'));
+            renderList();
+            if(inFilters && focusAction) {
+                [...document.querySelectorAll('#filterModal [onclick]')]
+                    .find(button => button.getAttribute('onclick') === focusAction)?.focus({preventScroll:true});
+            }
+            if(!document.getElementById('search-suggestions').classList.contains('hidden')) renderSearchSuggestions();
+        }
+    }
+    document.querySelectorAll('[data-live-status]').forEach(region => {
+        const place = findItemById(region.dataset.liveStatus);
+        if(!place) return;
+        const html = renderStatusContent(place, region.dataset.statusVariant, date);
+        if(region.innerHTML !== html) region.innerHTML = html;
+    });
+    document.querySelectorAll('[data-live-services]').forEach(region => {
+        const place = findItemById(region.dataset.liveServices);
+        if(!place) return;
+        const html = renderServiceHours(place, region.dataset.compact === 'true', date);
+        if(region.innerHTML !== html) region.innerHTML = html;
+    });
 }
 
 function placePassesActiveFilters(place) {
@@ -2730,22 +2836,8 @@ function openDetail(reference, pushHistory = true) {
     const t = translations[currentLang];
     const content = document.getElementById('detailContent');
     
-    let statusHTML = '';
-    let hoursText = item.hours ? (typeof item.hours === 'object' ? (item.hours[currentLang] || item.hours['en']) : item.hours) : '';
-    
-    if(item.vacation){
-        statusHTML = `<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold text-red-700 bg-red-50 mb-3 border border-red-300"><i class="fa-solid fa-plane-departure"></i>${t.vacation}</div>`;
-    } else if(item.cateringOnly){
-        statusHTML = `<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold text-amber-700 bg-amber-50 mb-3 border border-amber-300"><i class="fa-solid fa-utensils"></i>${t.cateringOnly}</div>`;
-    } else if(!item.serviceHours && (item._directoryType === 'eat' || item._directoryType === 'ride' || item._directoryCategory === 'laundry')){
-        const hEn = item.openHours ? (typeof item.openHours === 'object' ? item.openHours.en : item.openHours) : ((typeof item.hours === 'object' ? item.hours.en : item.hours) || "");
-        const openLogic = checkOpenStatus(hEn);
-        if(hEn && /\d/.test(hEn) && !item.name.includes("Cinema")){
-             const color = openLogic ? 'text-green-600 bg-green-50' : 'text-red-500 bg-red-50';
-             const text = openLogic ? t.statusOpen : t.statusClosed;
-             statusHTML = `<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold ${color} mb-3 border border-current"><div class="w-2 h-2 rounded-full bg-current animate-pulse"></div>${text}</div>`;
-        }
-    }
+    const statusHTML = renderLiveStatus(item, 'detail');
+    const hoursText = localizedValue(item.hours);
 
     // BUTTON BUILDER LOGIC (Detail View)
     let mainContactBtn = '';
@@ -2829,8 +2921,9 @@ function openDetail(reference, pushHistory = true) {
             
             ${item.desc ? `<p class="text-gray-600 italic mb-6 text-lg leading-relaxed border-l-4 border-teal-500 pl-4 bg-gray-50 py-2 pr-2 rounded-r-lg">${typeof item.desc === 'object' ? (item.desc[currentLang]||item.desc['en']) : item.desc}</p>` : ''}
             ${menuMatchesHTML}
-            ${item.serviceHours ? `<div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 mb-6 divide-y divide-blue-100">${renderServiceHours(item)}</div>` : hoursText ? `<div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 mb-6"><h4 class="font-bold text-blue-400 text-xs uppercase tracking-wider mb-2"><i class="fa-regular fa-clock mr-1"></i> ${t.schedule}</h4><p class="text-xl font-bold text-slate-700 leading-snug">${hoursText}</p>${item.happyHour ? `<p class="mt-3 text-sm font-bold text-amber-700"><i class="fa-solid fa-martini-glass-citrus mr-1.5"></i>${t.happyHour}: ${typeof item.happyHour === 'object' ? (item.happyHour[currentLang] || item.happyHour.en) : item.happyHour}</p>` : ''}</div>` : ''}
+            ${item.serviceHours ? `<div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 mb-6 divide-y divide-blue-100" data-live-services="${item.id}" data-compact="false">${renderServiceHours(item)}</div>` : hoursText ? `<div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 mb-6"><h4 class="font-bold text-blue-400 text-xs uppercase tracking-wider mb-2"><i class="fa-regular fa-clock mr-1"></i> ${t.schedule}</h4><p class="text-xl font-bold text-slate-700 leading-snug whitespace-pre-line">${hoursText}</p>${item.happyHour ? `<p class="mt-3 text-sm font-bold text-amber-700"><i class="fa-solid fa-martini-glass-citrus mr-1.5"></i>${t.happyHour}: ${typeof item.happyHour === 'object' ? (item.happyHour[currentLang] || item.happyHour.en) : item.happyHour}</p>` : ''}</div>` : ''}
             
+            ${renderHoursNote(item)}
             <div class="flex flex-col mt-4">
                 ${mainContactBtn}
                 ${socialRow}
@@ -2865,6 +2958,7 @@ function renderList(){
     const getPlaceholder=(tags)=>{const t=tags.toLowerCase();if(t.includes('pizza'))return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';if(t.includes('burger'))return 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80';if(t.includes('cafe')||t.includes('coffee'))return 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80';return 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80';};
 
     if(currentMode==="eat"){
+        lastRenderedAvailability = restaurantAvailabilitySignature();
         renderRestaurantFilters();
         if(searchSubmitted) {
             renderSearchResults();
@@ -2883,13 +2977,7 @@ function renderList(){
         });
 
         const cards = results.map(({place, displayTags, hasNumbers, isOpen}) => {
-            let statusBadgeHTML = '';
-            if(hasNumbers && !place.serviceHours){
-                const badgeClass = isOpen ? 'bg-green-600 animate-pulse' : 'bg-gray-600';
-                const badgeText = isOpen ? t.statusOpen : t.statusClosed;
-                const badgeIcon = isOpen ? '<i class="fa-solid fa-circle text-[6px] text-white/80"></i>' : '';
-                statusBadgeHTML = `<div class="status-badge ${badgeClass}">${badgeIcon} ${badgeText}</div>`;
-            }
+            const statusBadgeHTML = renderLiveStatus(place, 'card');
             const btnConfig = getButtonConfig(place);
             const coverImage = place.img || getPlaceholder(place.tags || '');
             const isFav = favorites.includes(place.id);
@@ -2917,7 +3005,7 @@ function renderList(){
                     <button onclick="toggleFavorite('${safeId}', event)" aria-label="${t.favorite}" class="heart-btn ml-auto bg-gray-100 text-gray-600 hover:bg-gray-200 w-8 h-8 shrink-0 flex items-center justify-center rounded-full border border-white/20 shadow-sm"><i class="${isFav?'fa-solid text-red-500':'fa-regular'} fa-heart text-lg"></i></button>
                 </div>
                 <div class="relative shrink-0">${renderBusinessImage(coverImage, place.name)}${vacationRibbonHTML}</div>
-                <div class="p-3 flex flex-col flex-1"><h3 class="business-card-title text-gray-900 font-bold text-sm leading-tight mb-3">${place.name}</h3>${place.serviceHours ? `<div class="mb-3">${renderServiceHours(place, true)}</div>` : hoursTxt ? `<div class="flex items-start mb-2 text-[10px] text-gray-500"><i class="fa-regular fa-clock mt-0.5 mr-1.5 text-teal-500"></i><span class="leading-tight line-clamp-2">${hoursTxt}</span></div>` : ''}${place.happyHour ? `<div class="flex items-start mb-2 text-[10px] text-amber-700 font-semibold"><i class="fa-solid fa-martini-glass-citrus mt-0.5 mr-1.5"></i><span>${t.happyHour}: ${typeof place.happyHour === 'object' ? (place.happyHour[currentLang] || place.happyHour.en) : place.happyHour}</span></div>` : ''}<div class="mb-3 flex flex-wrap h-12 overflow-hidden">${tagsHTML}</div>${menuStatusHTML}${buttonContainer}</div>
+                <div class="p-3 flex flex-col flex-1"><h3 class="business-card-title text-gray-900 font-bold text-sm leading-tight mb-3">${place.name}</h3>${renderVacationNotice(place)}${renderHoursNote(place, true)}${place.serviceHours ? `<div class="mb-3" data-live-services="${place.id}" data-compact="true">${renderServiceHours(place, true)}</div>` : hoursTxt ? `<div class="flex items-start mb-2 text-[10px] text-gray-500"><i class="fa-regular fa-clock mt-0.5 mr-1.5 text-teal-500"></i><span class="leading-tight line-clamp-2">${hoursTxt}</span></div>` : ''}${place.happyHour ? `<div class="flex items-start mb-2 text-[10px] text-amber-700 font-semibold"><i class="fa-solid fa-martini-glass-citrus mt-0.5 mr-1.5"></i><span>${t.happyHour}: ${typeof place.happyHour === 'object' ? (place.happyHour[currentLang] || place.happyHour.en) : place.happyHour}</span></div>` : ''}<div class="mb-3 flex flex-wrap h-12 overflow-hidden">${tagsHTML}</div>${menuStatusHTML}${buttonContainer}</div>
             </div>`;
         });
         container.innerHTML = cards.join('');
@@ -3143,16 +3231,8 @@ function renderExploreList(category){
         const tapOverlay = isComingSoon ? `<div class="absolute inset-0 flex items-center justify-center z-10"><span class="bg-gray-800 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">COMING SOON</span></div>` : `<div class="absolute inset-0 bg-black/0 hover:bg-black/10 transition flex items-center justify-center opacity-0 hover:opacity-100"><span class="text-white text-xs font-bold border border-white px-2 py-1 rounded-full backdrop-blur-md">${t.tapToView}</span></div>`;
         
 
-        let statusToolbar = '';
-        if(category === 'laundry' && !isComingSoon){
-            const {hasNumbers, isOpen} = getPlaceOperationalState(item);
-            if(hasNumbers){
-                const badgeClass = isOpen ? 'bg-green-600 animate-pulse' : 'bg-gray-600';
-                const badgeText = isOpen ? t.statusOpen : t.statusClosed;
-                const badgeIcon = isOpen ? '<i class="fa-solid fa-circle text-[6px] text-white/80" aria-hidden="true"></i>' : '';
-                statusToolbar = `<div class="business-card-toolbar"><div class="status-badge ${badgeClass}" role="status">${badgeIcon} ${badgeText}</div></div>`;
-            }
-        }
+        const statusToolbar = category === 'laundry' && !isComingSoon
+            ? `<div class="business-card-toolbar">${renderLiveStatus(item, 'card')}</div>` : '';
 
         const card = `<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition relative group ${opacityClass}">
             ${statusToolbar}
@@ -3405,6 +3485,7 @@ function openEvents(dayKey, pushHistory = true){
                     <h4 class="font-bold text-white leading-tight text-sm">${localizedValue(evt.what, nightlifeSpanish)}</h4>
                     ${evt.venueId && findItemById(evt.venueId) ? `<button type="button" onclick="openDetail('${evt.venueId}')" class="text-[10px] text-purple-300 font-bold mt-1 uppercase tracking-wide underline decoration-purple-500 underline-offset-2 hover:text-white">@ ${escapeHtml(evt.where)}</button>` : `<p class="text-[10px] text-purple-400 font-bold mt-1 uppercase tracking-wide">@ ${escapeHtml(evt.where)}</p>`}
                     <p class="text-[10px] text-gray-400 mt-0.5 font-mono"><i class="fa-regular fa-clock mr-1 text-cyan-500"></i>${localizedValue(evt.time, nightlifeTimeSpanish)}</p>
+                    ${evt.note ? `<p class="text-xs text-amber-300 font-semibold mt-2">* ${escapeHtml(localizedValue(evt.note))}</p>` : ''}
                 </div>
                 <div class="flex items-center">
                     ${scheduleBtn}
@@ -3413,6 +3494,7 @@ function openEvents(dayKey, pushHistory = true){
             </div>`; 
         }); 
     } 
+    secureExternalLinks(container);
 }
 function closeEvents(){ if(!document.getElementById('eventsModal').classList.contains('hidden')) closeTopModal(); }
 
@@ -3474,6 +3556,11 @@ updateUIText();
 renderRestaurantFilters();
 updateFloatingActionsVisibility();
 initializeNavigation();
+// Recheck using Utila time when a tab returns and while it remains open.
+window.addEventListener('focus', refreshLiveHours);
+window.addEventListener('pageshow', refreshLiveHours);
+document.addEventListener('visibilitychange', () => { if(!document.hidden) refreshLiveHours(); });
+setInterval(refreshLiveHours, 60000);
 </script>
 </body>
 </html>
